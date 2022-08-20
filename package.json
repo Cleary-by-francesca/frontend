@@ -6,6 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
+    "commit": "cz",
     "preview": "vite preview"
   },
   "dependencies": {
@@ -15,9 +16,15 @@
     "react-router-dom": "^6.3.0"
   },
   "devDependencies": {
+    "@iconify/json": "^1.1.447",
+    "@svgr/core": "^5.5.0",
     "@types/react": "^18.0.17",
     "@types/react-dom": "^18.0.6",
     "@vitejs/plugin-react": "^2.0.1",
+    "commitizen": "^4.2.5",
+    "sass": "^1.54.4",
+    "unplugin-auto-import": "^0.11.1",
+    "unplugin-icons": "^0.14.8",
     "vite": "^3.0.7"
   }
 }

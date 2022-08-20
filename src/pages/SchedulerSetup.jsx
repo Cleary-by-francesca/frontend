@@ -1,7 +1,9 @@
 import React from 'react'
 
-export const SchedulerSetup = () => {
-  return (
-    <div>SchedulerSetup</div>
-  )
+const SchedulerSetup = () => {
+    return (
+        <div>SchedulerSetup</div>
+    )
 }
+
+export default SchedulerSetup

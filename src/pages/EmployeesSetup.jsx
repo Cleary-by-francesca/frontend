@@ -1,7 +1,9 @@
 import React from 'react'
 
-export const EmployeesSetup = () => {
-  return (
-    <div>EmployeesSetup</div>
-  )
+const EmployeesSetup = () => {
+    return (
+        <div>EmployeesSetup</div>
+    )
 }
+
+export default EmployeesSetup;
