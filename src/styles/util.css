@@ -1,0 +1,73 @@
+.w-full {
+    width: 100%;
+}
+
+.h-full {
+    height: 100%;
+}
+
+.w-fit {
+    width: auto;
+}
+
+.h-fit {
+    height: auto;
+}
+
+.flex-row {
+    display: flex;
+    flex-direction: row;
+}
+
+.flex-col {
+    display: flex;
+    flex-direction: column;
+}
+
+.justify-center {
+    justify-content: center;
+}
+
+.align-center {
+    align-items: center;
+}
+
+.justify-between {
+    justify-content: space-between;
+}
+
+.font-light {
+    font-weight: 300;
+}
+
+.font-medium {
+    font-weight: 400;
+}
+
+.font-semibold {
+    font-weight: 500;
+}
+
+.font-bold {
+    font-weight: bold;
+}
+
+.whitespace-nowrap {
+    white-space: nowrap;
+}
+
+.flex-1 {
+    flex: 1;
+}
+
+.relative {
+    position: relative;
+}
+
+.absolute {
+    position: absolute;
+}
+
+.overflow-y-hidden {
+    overflow-y: hidden;
+}

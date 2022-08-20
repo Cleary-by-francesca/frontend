@@ -6,8 +6,8 @@ function App() {
 
 
     return (
-        <div className="App">
-          {routes}
+        <div id="App">
+            {routes}
         </div>
     )
 }

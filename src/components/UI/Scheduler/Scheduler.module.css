@@ -1,0 +1,40 @@
+.boxBorder {
+    border: 1px #E8E8E8 solid;
+}
+
+.schedulerMain {
+    /*filter: drop-shadow(8px 8px 40px rgba(189, 189, 189, 0.25));*/
+    box-shadow: 8px 8px 20px rgba(189, 189, 189, 0.25);
+    table-layout: fixed;
+    border-collapse: separate;
+    border-spacing: 0;
+}
+
+
+.schedulerMain thead {
+    z-index: 100;
+    position: sticky;
+    top: 0;
+    background-color: #ffffff;
+    border: 1px #E8E8E8 solid;
+}
+
+
+.schedulerWrapper {
+    max-height: 628px;
+    overflow-y: scroll;
+}
+
+.schedulerWrapper::-webkit-scrollbar-thumb {
+    background: #afafaf;
+    border-radius: 60px;
+}
+
+.schedulerWrapper::-webkit-scrollbar-track {
+    border-radius: 20px;
+}
+
+.schedulerWrapper::-webkit-scrollbar {
+    width: 3px;
+    background-color: transparent;
+}

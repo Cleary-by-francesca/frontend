@@ -1,9 +1,9 @@
 import Home from "./pages/Home";
 
-let routes = [
+const routes = [
   {
     index: true,
-    element: <Home />,
+    element: <Home/>,
   },
 ];
 
