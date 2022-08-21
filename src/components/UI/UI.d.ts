@@ -1,4 +1,4 @@
-import {ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, HTMLAttributes, ReactNode} from "react";
+import { ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, HTMLAttributes, ReactNode } from "react";
 
 interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
 	backgroundColor?: CSSProperties["backgroundColor"]
@@ -79,6 +79,18 @@ interface CardProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HT
 	hasBorder?: boolean
 	borderColor?: CSSProperties['borderColor']
 	borderWidth?: CSSProperties['borderWidth']
+}
+
+export interface TextFieldProps extends DetailedHTMLProps<HTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+	height?: CSSProperties['height']
+	width?: CSSProperties['width']
+	rounded?: number
+	hasIndicator?: boolean
+	hasBorder?: boolean
+	borderColor?: CSSProperties['borderColor']
+	borderWidth?: CSSProperties['borderWidth']
+	inputType?: string
+	placeholder?: string
 }
 
 interface MainProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

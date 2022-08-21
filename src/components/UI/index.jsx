@@ -13,3 +13,4 @@ export {default as Drawer} from './Drawer/Drawer.jsx'
 export {default as Scheduler} from './Scheduler/Scheduler.jsx'
 export {default as Profile} from './Profile.jsx'
 export {default as Navigation} from './Navigation/Navigation.jsx'
+export {default as TextField} from './TextField/TextField.jsx';
