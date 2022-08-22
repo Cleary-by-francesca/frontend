@@ -54,6 +54,7 @@ type TypographyProps<Variant extends TypographyVariantOptions> = TypographyVaria
 	variant: Variant
 	color?: CSSProperties['color']
 	size?: number
+	fontWeight?: CSSProperties['fontWeight']
 }
 
 interface IconProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
@@ -94,7 +95,6 @@ export interface TextFieldProps extends DetailedHTMLProps<HTMLAttributes<HTMLInp
 }
 
 interface MainProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-
 }
 
 
@@ -115,4 +115,22 @@ interface ProfileProps extends Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElem
 	rating: number
 	ratingScale?: number
 	indicatorColor?: CSSProperties['borderColor']
+}
+
+type SchedulerDateData = ({ date: string } & Record<string, any>)
+
+type SchedulerData = ({
+	dates: SchedulerDateData[]
+} & Record<string, any>)
+
+export interface SchedulerProps {
+	startDate?: string
+	data: SchedulerData[]
+	tdContentComp: (data: SchedulerDateData) => ReactNode
+	profileComp: (data: any) => ReactNode
+}
+
+
+export interface TextFieldProps extends DetailedHTMLProps<HTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+
 }

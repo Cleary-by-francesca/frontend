@@ -11,7 +11,7 @@ const Card = (props) => {
               children, className, hasIndicator, hasShadow, hasBorder, borderColor, borderWidth, indicatorColor,
               indicatorPosition, rounded,
               height, width, ...restProps
-          } = props;
+          } = props
 
     /** @type {CSSProperties} */
     const borderStyle = hasBorder ? {borderColor, borderWidth, borderStyle: 'solid'} : {}

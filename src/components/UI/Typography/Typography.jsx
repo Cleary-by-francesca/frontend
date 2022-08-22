@@ -1,5 +1,37 @@
 import cssStyle from './Typography.module.css';
 
+/** @type {{[key: TypographyVariantOptions]: CSSProperties['fontSize']}} */
+const sizeForVariant = {
+    h1:        96,
+    h2:        60,
+    h3:        46,
+    h4:        34,
+    h5:        24,
+    h6:        20,
+    subtitle1: 18,
+    subtitle2: 14,
+    body1:     16,
+    body2:     14,
+    caption:   14,
+    button:    14,
+}
+
+/** @type {{[key: TypographyVariantOptions]: CSSProperties['fontWeight']}} */
+const fontWeightForVariant = {
+    h1:        400,
+    h2:        600,
+    h3:        600,
+    h4:        600,
+    h5:        600,
+    h6:        600,
+    subtitle1: 600,
+    subtitle2: 500,
+    body1:     400,
+    body2:     400,
+    caption:   400,
+    button:    500,
+}
+
 /**
  *
  * @param props {TypographyProps}
@@ -7,16 +39,14 @@ import cssStyle from './Typography.module.css';
  * @constructor
  */
 const Typography = (props) => {
-    const {children, className, color, variant, style, size, ...restProps} = props;
+    const {children, className, color, fontWeight, variant, style, size, ...restProps} = props;
 
-    /**
-     *
-     * @type {CSSProperties}
-     */
+    /** @type {CSSProperties} */
     const typographyStyle = {
         ...style,
         color,
-        fontSize: size,
+        fontWeight: fontWeight || fontWeightForVariant[variant],
+        fontSize:   size || sizeForVariant[variant],
     }
 
     /** @type {TypographyVariant<typeof variant>} */
@@ -39,7 +69,9 @@ const Typography = (props) => {
 }
 
 Typography.defaultProps = {
-    className: ''
+    className:  '',
+    fontWeight: undefined,
+    size:       undefined
 }
 
 export default Typography

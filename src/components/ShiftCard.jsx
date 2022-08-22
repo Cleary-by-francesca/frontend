@@ -7,7 +7,7 @@ import {Card, Typography} from "./UI/index.jsx";
  * @constructor
  */
 const ShiftCard = (props) => {
-    const {positionColor, time, employeePosition} = props
+    const {positionColor, time, employeePosition, shift} = props
 
     return (
         <Card
@@ -19,15 +19,15 @@ const ShiftCard = (props) => {
             hasIndicator
             hasBorder
             indicatorColor={positionColor}>
-            <Typography className="whitespace-nowrap font-bold pb-4" size={13}
+            <Typography className="whitespace-nowrap font-bold pb-4"
                         variant={'subtitle2'}
                         color={'#2C2C2C'}>
                 {time}
             </Typography>
-            <Typography className="whitespace-nowrap font-bold" size={13}
+            <Typography className="whitespace-nowrap font-bold"
                         variant={'subtitle2'}
                         color={'#2C2C2C'}>
-                {employeePosition} - {'Morning'}
+                {employeePosition} - {shift}
             </Typography>
         </Card>
     )
