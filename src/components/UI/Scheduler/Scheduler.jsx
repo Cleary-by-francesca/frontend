@@ -1,5 +1,5 @@
-import {Row, Typography} from "./..";
-import style from './Scheduler.module.css';
+import {Row, Typography} from "./.."
+import style from './Scheduler.module.css'
 
 const dates = [
     {label: 'Mon 9/11'},
@@ -23,7 +23,7 @@ const Scheduler = (props) => {
                     {dates.map(({label}, index) => (
                         <th className={style.boxBorder} key={index}>
                             <Typography
-                                className="pt-20 pb-30"
+                                className="py-24"
                                 color={'#6F6F6F'}
                                 size={24}
                                 variant="h5">
@@ -36,12 +36,15 @@ const Scheduler = (props) => {
                 <tbody>
                 {data.map((data, index) => (
                     <tr key={index}>
-                        <td style={{width: 200}} className={style.boxBorder}>
+                        <td style={{
+                            width: 200,
+                        }} className={style.boxBorder}>
                             {profileComp(data)}
                         </td>
 
                         {data.dates.map(({date, ...restData}, index) => (
-                            <td className={style.boxBorder} key={index}>
+                            <td
+                                className={style.boxBorder} key={index}>
                                 {tdContentComp({...restData, date})}
                             </td>
                         ))}

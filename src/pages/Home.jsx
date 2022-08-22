@@ -10,6 +10,7 @@ import {
     Row,
     SideBar,
     Typography,
+    TextField,
     Scheduler,
     Col,
     Profile,
@@ -36,7 +37,7 @@ const shiftsTemplates = [
     {time: '9:00 - 13:00', position: 'Manager'},
 ]
 
-const employees = [
+let employeesData = [
     {
         name:     'Suzanna Vatik',
         rating:   '19.5',
@@ -169,6 +170,13 @@ const colorForPosition = {
 
 const Home = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
+    const [employees, setEmployees]       = useState(employeesData);
+
+
+    const handleSearchEmployees = (event) => {
+        const filter = employeesData.filter(e => e.name.toLowerCase().includes(event.target.value.toLowerCase()))
+        setEmployees(filter)
+    }
 
 
     return (
@@ -266,7 +274,20 @@ const Home = () => {
                     </Typography>
                 </Card>
 
-                <Row className="pt-86 ml-60 mr-80 pb-30 overflow-y-hidden">
+                <Row className="mt-36 mb-16 ml-60">
+                    <TextField
+                        type="search"
+                        beforeIcon={<IconRiSearchLine/>}
+                        placeholder='Search Employees'
+                        onChange={handleSearchEmployees}
+                        beforeIconSize={20}
+                        height={38}
+                        width={270}>
+                    </TextField>
+
+                </Row>
+
+                <Row className="ml-60 mr-80 pb-30 overflow-y-hidden">
                     <Scheduler
                         data={employees}
                         tdContentComp={(data) => (data && data.time && data.position) ? (

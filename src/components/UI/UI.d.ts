@@ -22,7 +22,7 @@ interface AppBarProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, 
 
 }
 
-interface AvatarProps extends DetailedHTMLProps<HTMLAttributes<HTMLImageElement>, HTMLImageElement> {
+export interface AvatarProps extends DetailedHTMLProps<HTMLAttributes<HTMLImageElement>, HTMLImageElement> {
 	src: string
 	alt?: string
 	size: number
@@ -57,7 +57,7 @@ type TypographyProps<Variant extends TypographyVariantOptions> = TypographyVaria
 }
 
 interface IconProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-	size?: number
+	size?: CSSProperties['fontSize']
 	color?: CSSProperties['color']
 	height?: CSSProperties['height']
 	width?: CSSProperties['width']
@@ -76,6 +76,18 @@ interface CardProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HT
 	hasIndicator?: boolean
 	indicatorColor: CSSProperties['borderColor']
 	indicatorPosition: 'left' | 'right'
+	hasBorder?: boolean
+	borderColor?: CSSProperties['borderColor']
+	borderWidth?: CSSProperties['borderWidth']
+}
+
+export interface TextFieldProps extends DetailedHTMLProps<HTMLAttributes<HTMLInputElement>, HTMLInputElement> {
+	height?: CSSProperties['height']
+	width?: CSSProperties['width']
+	beforeIcon?: ReactNode
+	beforeIconSize?: CSSProperties['fontSize']
+	beforeIconColor?: CSSProperties['color']
+	rounded?: CSSProperties['borderRadius']
 	hasBorder?: boolean
 	borderColor?: CSSProperties['borderColor']
 	borderWidth?: CSSProperties['borderWidth']

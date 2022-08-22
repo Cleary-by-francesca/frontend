@@ -18,7 +18,7 @@ const Card = (props) => {
 
     /** @type {Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, 'children'>} */
     const cardProps = {
-        className: `${style.card} ${hasShadow ? style.cardBorderRadius : ''} ${style.cardShadow} ${className}`,
+        className: `${style.card} ${hasShadow ? style.cardShadow : ''} ${className}`,
         style:     {
             ...(hasIndicator ? {} : borderStyle),
             borderRadius: rounded,
@@ -32,7 +32,7 @@ const Card = (props) => {
         className: indicatorPosition === 'left' ? style.cardLeftIndicator : style.cardRightIndicator,
         style:     {
             backgroundColor: indicatorColor,
-            minWidth:           12,
+            minWidth:        12,
         }
     }
 

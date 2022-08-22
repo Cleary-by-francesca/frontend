@@ -1,5 +1,5 @@
-import cssStyle from './Drawer.module.css';
-import {Icon, Typography} from "../index.jsx";
+import cssStyle from './Drawer.module.css'
+import {Icon, Typography} from "../index.jsx"
 
 /**
  *
@@ -11,7 +11,7 @@ const Drawer = (props) => {
     const {
               children, position, labelContent, onLabelClick, labelColor, top, height, className, isOpen, style,
               ...restProps
-          } = props;
+          } = props
 
     /** @type {CSSProperties}*/
     const positionStyle = position === 'left' ? {left: 0} : {right: 0}
@@ -21,6 +21,7 @@ const Drawer = (props) => {
 
     return (
         <div className={`relative ${isOpen ? cssStyle.drawerWrapperOpen : cssStyle.drawerWrapperClosed}`}>
+
             <div
                 {...restProps}
                 className={`${cssStyle.drawer} ${className}`}
@@ -30,8 +31,10 @@ const Drawer = (props) => {
                     height,
                     top
                 }}>
+
                 {children}
             </div>
+
             <button
                 onClick={onLabelClick}
                 className={`px-10 align-center justify-between ${cssStyle.drawerLabel}`}
@@ -49,14 +52,15 @@ const Drawer = (props) => {
                     <IconMdiChevronDown/>
                 </Icon>
             </button>
+
         </div>
     )
 }
 
 Drawer.defaultProps = {
-    className: '',
-    top: 200,
-    height: 600,
+    className:  '',
+    top:        200,
+    height:     600,
     position:   'left',
     labelColor: '#6F6F6F'
 }
