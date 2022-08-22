@@ -1,4 +1,5 @@
 import {ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, HTMLAttributes, ReactNode} from "react";
+import {HTMLMotionProps} from "framer-motion";
 
 interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
 	backgroundColor?: CSSProperties["backgroundColor"]
@@ -68,7 +69,7 @@ interface SideBarProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>,
 
 }
 
-interface CardProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+interface CardProps extends HTMLMotionProps<"div"> {
 	height?: CSSProperties['height']
 	width?: CSSProperties['width']
 	backgroundColor?: CSSProperties['backgroundColor']
@@ -133,4 +134,22 @@ export interface SchedulerProps {
 
 export interface TextFieldProps extends DetailedHTMLProps<HTMLAttributes<HTMLInputElement>, HTMLInputElement> {
 
+}
+
+
+interface ModalWrapperProps {
+	centered?: boolean
+}
+
+interface ModalProps extends HTMLMotionProps<"div"> {
+	height?: `${number}px` | `${number}%`
+	width?: `${number}px` | `${number}%`
+	onBackdropClick?: () => void
+	centered?: boolean
+}
+
+interface BackdropProps extends HTMLMotionProps<"div"> {
+	dark?: boolean,
+	active: boolean
+	animationTime?: number
 }

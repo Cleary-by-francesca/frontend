@@ -71,3 +71,7 @@
 .overflow-y-hidden {
     overflow-y: hidden;
 }
+
+.fixed {
+    position: fixed;
+}

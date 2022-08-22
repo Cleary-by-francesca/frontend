@@ -14,9 +14,9 @@ import {
     Profile,
     Button,
     Navigation,
-    TextField
+    TextField, Dialog
 } from "../components/UI"
-import {useState} from "react";
+import {useEffect, useState} from "react";
 import ShiftCard from "../components/ShiftCard.jsx";
 import {useEmployeesContext} from "../context/EmployeesContext.jsx";
 import Logo from "../components/Logo.jsx";
@@ -40,19 +40,26 @@ const colorForPosition = {
 }
 
 const Home = () => {
+    const [isDialogOpen, setIsDialogOpen]           = useState(false)
     const {employees}                               = useEmployeesContext()
     const [isDrawerOpen, setIsDrawerOpen]           = useState(false)
     const [startDate]                               = useState(new Date().toISOString())
     const [filteredEmployees, setFilteredEmployees] = useState(employees)
 
 
-    const handleSearchEmployees = (event) => {
-        const filtered = employees.filter(e => e.name.toLowerCase().includes(event.target.value.toLowerCase()))
+    const handleSearchEmployees = (searchValue) => {
+        const filtered = employees.filter(employee => employee.name.toLowerCase().includes(searchValue.toLowerCase()))
         setFilteredEmployees(filtered);
     }
 
     return (
         <div className="h-full">
+            {isDialogOpen && (
+                    <Dialog centered>
+
+                    </Dialog>
+                )}
+
             <AppBar className="justify-between">
                 <Row>
                     <Logo/>
@@ -151,7 +158,7 @@ const Home = () => {
                         type="search"
                         beforeIcon={<IconRiSearchLine/>}
                         placeholder='Search Employees'
-                        onChange={handleSearchEmployees}
+                        onChange={(event) => handleSearchEmployees(event.target.value)}
                         beforeIconSize={20}
                         height={38}
                         width={270}>
