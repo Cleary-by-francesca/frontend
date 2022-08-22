@@ -1,4 +1,5 @@
-import style from './Card.module.css'
+import cssStyle from './Card.module.css'
+import {motion} from "framer-motion";
 
 /**
  *
@@ -8,7 +9,10 @@ import style from './Card.module.css'
  */
 const Card = (props) => {
     const {
-              children, className, hasIndicator, hasShadow, hasBorder, borderColor, borderWidth, indicatorColor,
+              children, className, hasIndicator,
+              backgroundColor,
+              style,
+              hasShadow, hasBorder, borderColor, borderWidth, indicatorColor,
               indicatorPosition, rounded,
               height, width, ...restProps
           } = props
@@ -16,20 +20,22 @@ const Card = (props) => {
     /** @type {CSSProperties} */
     const borderStyle = hasBorder ? {borderColor, borderWidth, borderStyle: 'solid'} : {}
 
-    /** @type {Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, 'children'>} */
+    /** @type {Omit<HTMLMotionProps<"div">, 'children'>} */
     const cardProps = {
-        className: `${style.card} ${hasShadow ? style.cardShadow : ''} ${className}`,
+        className: `${cssStyle.card} ${hasShadow ? cssStyle.cardShadow : ''} ${className}`,
         style:     {
             ...(hasIndicator ? {} : borderStyle),
             borderRadius: rounded,
+            backgroundColor,
             height,
-            width
+            width,
+            ...style
         },
     }
 
     /** @type {Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, 'children'>} */
     const indicatorProps = {
-        className: indicatorPosition === 'left' ? style.cardLeftIndicator : style.cardRightIndicator,
+        className: indicatorPosition === 'left' ? cssStyle.cardLeftIndicator : cssStyle.cardRightIndicator,
         style:     {
             backgroundColor: indicatorColor,
             minWidth:        12,
@@ -38,27 +44,28 @@ const Card = (props) => {
 
     if (!hasIndicator) {
         return (
-            <div
+            <motion.div
                 {...restProps}
                 {...cardProps}>
                 {children}
-            </div>
+            </motion.div>
         )
     }
 
     return (
         <div
-            className={`${style.cardWithIndicatorWrapper} ${hasShadow ? style.cardShadow : ''}`}
+            className={`${cssStyle.cardWithIndicatorWrapper} ${hasShadow ? cssStyle.cardShadow : ''}`}
             style={{
                 borderRadius: rounded,
-                ...borderStyle
+                ...borderStyle,
+                ...style,
             }}>
             <div {...indicatorProps}/>
-            <div
+            <motion.div
                 {...restProps}
                 {...cardProps}>
                 {children}
-            </div>
+            </motion.div>
         </div>
     )
 }
@@ -74,6 +81,7 @@ Card.defaultProps = {
     hasBorder:         false,
     borderColor:       '#A0A0A0',
     borderWidth:       1,
+    backgroundColor:   '#ffffff',
     indicatorPosition: 'left'
 }
 
