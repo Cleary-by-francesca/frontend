@@ -9,14 +9,17 @@ import Icon from '../Icon/Icon';
  */
 
 const TextField = (props) => {
-    const { style, children, className, beforeIcon, beforeIconSize, beforeIconColor, rounded, height, width, hasBorder, borderColor, borderWidth, ...restProps } = props;
-    /** @type {CSSProperties} */
-    const borderStyle = hasBorder ? { borderColor, borderWidth, borderStyle: 'solid' } : {}
+    const {
+              style, children, className, beforeIcon, beforeIconSize, beforeIconColor, rounded, height, width,
+              hasBorder, borderColor, borderWidth, ...restProps
+          }           = props;
+    /** @type {CSSProperties | {}} */
+    const borderStyle = hasBorder ? {borderColor, borderWidth, borderStyle: 'solid'} : {}
 
     return (
         <>
             {beforeIcon && (
-                <div className="relative" >
+                <div className="relative">
                     <Icon
                         color={beforeIconColor}
                         height={height}
@@ -29,22 +32,22 @@ const TextField = (props) => {
             )}
             <input
                 className={`${beforeIcon ? 'pl-44' : ''} pr-14 ${className}`}
-                style={{ borderRadius: rounded, height, width, ...borderStyle, ...style }}
+                style={{...borderStyle, borderRadius: rounded, height, width}}
                 {...restProps} />
         </>
     )
 }
 
 TextField.defaultProps = {
-    className: '',
-    height: 40,
-    width: 'auto',
-    rounded: 5,
-    hasBorder: true,
-    borderColor: '#A0A0A0',
+    className:       '',
+    height:          40,
+    width:           'auto',
+    rounded:         5,
+    hasBorder:       true,
+    borderColor:     '#A0A0A0',
     beforeIconColor: '#6F6F6F',
-    beforeIconSize: 24,
-    borderWidth: 1,
+    beforeIconSize:  24,
+    borderWidth:     1,
 }
 
 export default TextField

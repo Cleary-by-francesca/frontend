@@ -1,5 +1,6 @@
 import style from './Avatar.module.css';
 
+
 /**
  *
  * @param props {AvatarProps}

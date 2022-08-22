@@ -1,4 +1,4 @@
-import { ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, HTMLAttributes, ReactNode } from "react";
+import {ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, HTMLAttributes, ReactNode} from "react";
 
 interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
 	backgroundColor?: CSSProperties["backgroundColor"]
@@ -22,7 +22,7 @@ interface AppBarProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, 
 
 }
 
-interface AvatarProps extends DetailedHTMLProps<HTMLAttributes<HTMLImageElement>, HTMLImageElement> {
+export interface AvatarProps extends DetailedHTMLProps<HTMLAttributes<HTMLImageElement>, HTMLImageElement> {
 	src: string
 	alt?: string
 	size: number
@@ -57,7 +57,7 @@ type TypographyProps<Variant extends TypographyVariantOptions> = TypographyVaria
 }
 
 interface IconProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-	size?: number
+	size?: CSSProperties['fontSize']
 	color?: CSSProperties['color']
 	height?: CSSProperties['height']
 	width?: CSSProperties['width']
@@ -84,13 +84,13 @@ interface CardProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HT
 export interface TextFieldProps extends DetailedHTMLProps<HTMLAttributes<HTMLInputElement>, HTMLInputElement> {
 	height?: CSSProperties['height']
 	width?: CSSProperties['width']
-	rounded?: number
-	hasIndicator?: boolean
+	beforeIcon?: ReactNode
+	beforeIconSize?: CSSProperties['fontSize']
+	beforeIconColor?: CSSProperties['color']
+	rounded?: CSSProperties['borderRadius']
 	hasBorder?: boolean
 	borderColor?: CSSProperties['borderColor']
 	borderWidth?: CSSProperties['borderWidth']
-	inputType?: string
-	placeholder?: string
 }
 
 interface MainProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

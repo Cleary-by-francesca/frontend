@@ -17,7 +17,7 @@ import {
     Button,
     Navigation
 } from "../components/UI"
-import { useState, useEffect } from "react";
+import {useState} from "react";
 import ShiftCard from "../components/ShiftCard.jsx";
 import avatar1 from "../assets/avatar1.png"
 import avatar2 from "../assets/avatar3.png";
@@ -30,152 +30,152 @@ import avatar8 from "../assets/avatar8.png";
 import avatar9 from "../assets/avatar9.png";
 
 const shiftsTemplates = [
-    { time: '9:00 - 11:00', position: 'Chef' },
-    { time: '9:00 - 15:00', position: 'Host' },
-    { time: '9:00 - 16:00', position: 'Waiter' },
-    { time: '16:00 - 21:00', position: 'Bartender' },
-    { time: '9:00 - 13:00', position: 'Manager' },
+    {time: '9:00 - 11:00', position: 'Chef'},
+    {time: '9:00 - 15:00', position: 'Host'},
+    {time: '9:00 - 16:00', position: 'Waiter'},
+    {time: '16:00 - 21:00', position: 'Bartender'},
+    {time: '9:00 - 13:00', position: 'Manager'},
 ]
 
 let employeesData = [
     {
-        name: 'Suzanna Vatik',
-        rating: '19.5',
+        name:     'Suzanna Vatik',
+        rating:   '19.5',
         position: 'Waiter',
-        image: avatar2,
-        dates: [
-            { date: 'Mon 9/11' },
-            { date: 'Mon 10/11' },
-            { date: 'Mon 11/11' },
-            { date: 'Mon 12/11' },
-            { date: 'Mon 13/11' },
-            { date: 'Mon 14/11' },
-            { date: 'Mon 15/11' },
+        image:    avatar2,
+        dates:    [
+            {date: 'Mon 9/11'},
+            {date: 'Mon 10/11'},
+            {date: 'Mon 11/11'},
+            {date: 'Mon 12/11'},
+            {date: 'Mon 13/11'},
+            {date: 'Mon 14/11'},
+            {date: 'Mon 15/11'},
         ]
     },
     {
-        name: 'Ross Geller',
-        rating: '19.5',
+        name:     'Ross Geller',
+        rating:   '19.5',
         position: 'Chef',
-        image: avatar3,
-        dates: [
-            { date: 'Mon 9/11' },
-            { date: 'Mon 10/11' },
-            { date: 'Mon 11/11', time: '9:00 - 11:00', position: 'Chef' },
-            { date: 'Mon 12/11' },
-            { date: 'Mon 13/11', time: '9:00 - 11:00', position: 'Chef' },
-            { date: 'Mon 14/11' },
-            { date: 'Mon 15/11' },
+        image:    avatar3,
+        dates:    [
+            {date: 'Mon 9/11'},
+            {date: 'Mon 10/11'},
+            {date: 'Mon 11/11', time: '9:00 - 11:00', position: 'Chef'},
+            {date: 'Mon 12/11'},
+            {date: 'Mon 13/11', time: '9:00 - 11:00', position: 'Chef'},
+            {date: 'Mon 14/11'},
+            {date: 'Mon 15/11'},
         ],
     },
     {
-        name: 'Suffi Gussee',
-        rating: '19.5',
+        name:     'Suffi Gussee',
+        rating:   '19.5',
         position: 'Bartender',
-        image: avatar4,
-        dates: [
-            { date: 'Mon 9/11' },
-            { date: 'Mon 10/11' },
-            { date: 'Mon 11/11' },
-            { date: 'Mon 12/11', time: '16:00 - 21:00', position: 'Bartender' },
-            { date: 'Mon 13/11' },
-            { date: 'Mon 14/11' },
-            { date: 'Mon 15/11' },
+        image:    avatar4,
+        dates:    [
+            {date: 'Mon 9/11'},
+            {date: 'Mon 10/11'},
+            {date: 'Mon 11/11'},
+            {date: 'Mon 12/11', time: '16:00 - 21:00', position: 'Bartender'},
+            {date: 'Mon 13/11'},
+            {date: 'Mon 14/11'},
+            {date: 'Mon 15/11'},
         ]
     },
     {
-        name: 'Luna Arenna',
-        rating: '19.5',
+        name:     'Luna Arenna',
+        rating:   '19.5',
         position: 'Host',
-        image: avatar5,
-        dates: [
-            { date: 'Mon 9/11' },
-            { date: 'Mon 10/11', time: '9:00 - 15:00', position: 'Host' },
-            { date: 'Mon 11/11' },
-            { date: 'Mon 12/11' },
-            { date: 'Mon 13/11', time: '9:00 - 15:00', position: 'Host' },
-            { date: 'Mon 14/11' },
-            { date: 'Mon 15/11' },
+        image:    avatar5,
+        dates:    [
+            {date: 'Mon 9/11'},
+            {date: 'Mon 10/11', time: '9:00 - 15:00', position: 'Host'},
+            {date: 'Mon 11/11'},
+            {date: 'Mon 12/11'},
+            {date: 'Mon 13/11', time: '9:00 - 15:00', position: 'Host'},
+            {date: 'Mon 14/11'},
+            {date: 'Mon 15/11'},
         ]
     },
     {
-        name: 'Skyler Kaufman',
-        rating: '19.5',
+        name:     'Skyler Kaufman',
+        rating:   '19.5',
         position: 'Bartender',
-        image: avatar6,
-        dates: [
-            { date: 'Mon 9/11' },
-            { date: 'Mon 10/11' },
-            { date: 'Mon 11/11', time: '16:00 - 21:00', position: 'Bartender' },
-            { date: 'Mon 12/11' },
-            { date: 'Mon 13/11' },
-            { date: 'Mon 14/11' },
-            { date: 'Mon 15/11' },
+        image:    avatar6,
+        dates:    [
+            {date: 'Mon 9/11'},
+            {date: 'Mon 10/11'},
+            {date: 'Mon 11/11', time: '16:00 - 21:00', position: 'Bartender'},
+            {date: 'Mon 12/11'},
+            {date: 'Mon 13/11'},
+            {date: 'Mon 14/11'},
+            {date: 'Mon 15/11'},
         ]
     },
     {
-        name: 'Soi Rio',
-        rating: '19.5',
+        name:     'Soi Rio',
+        rating:   '19.5',
         position: 'Waiter',
-        image: avatar7,
-        dates: [
-            { date: 'Mon 9/11' },
-            { date: 'Mon 10/11' },
-            { date: 'Mon 11/11' },
-            { date: 'Mon 12/11' },
-            { date: 'Mon 13/11' },
-            { date: 'Mon 14/11' },
-            { date: 'Mon 15/11' },
+        image:    avatar7,
+        dates:    [
+            {date: 'Mon 9/11'},
+            {date: 'Mon 10/11'},
+            {date: 'Mon 11/11'},
+            {date: 'Mon 12/11'},
+            {date: 'Mon 13/11'},
+            {date: 'Mon 14/11'},
+            {date: 'Mon 15/11'},
         ]
     },
     {
-        name: 'Sofia Ashtamker',
-        rating: '19.5',
+        name:     'Sofia Ashtamker',
+        rating:   '19.5',
         position: 'Waiter',
-        image: avatar8,
-        dates: [
-            { date: 'Mon 9/11' },
-            { date: 'Mon 10/11', time: '9:00 - 16:00', position: 'Waiter' },
-            { date: 'Mon 11/11' },
-            { date: 'Mon 12/11', time: '9:00 - 16:00', position: 'Waiter' },
-            { date: 'Mon 13/11' },
-            { date: 'Mon 14/11', time: '9:00 - 16:00', position: 'Waiter' },
-            { date: 'Mon 15/11' },
+        image:    avatar8,
+        dates:    [
+            {date: 'Mon 9/11'},
+            {date: 'Mon 10/11', time: '9:00 - 16:00', position: 'Waiter'},
+            {date: 'Mon 11/11'},
+            {date: 'Mon 12/11', time: '9:00 - 16:00', position: 'Waiter'},
+            {date: 'Mon 13/11'},
+            {date: 'Mon 14/11', time: '9:00 - 16:00', position: 'Waiter'},
+            {date: 'Mon 15/11'},
         ]
     },
     {
-        name: 'Fred Vereceloni',
-        rating: '19.5',
+        name:     'Fred Vereceloni',
+        rating:   '19.5',
         position: 'Waiter',
-        image: avatar9,
-        dates: [
-            { date: 'Mon 9/11' },
-            { date: 'Mon 10/11' },
-            { date: 'Mon 11/11', time: '9:00 - 16:00', position: 'Waiter' },
-            { date: 'Mon 12/11', time: '9:00 - 16:00', position: 'Waiter' },
-            { date: 'Mon 13/11', time: '9:00 - 16:00', position: 'Waiter' },
-            { date: 'Mon 14/11' },
-            { date: 'Mon 15/11' },
+        image:    avatar9,
+        dates:    [
+            {date: 'Mon 9/11'},
+            {date: 'Mon 10/11'},
+            {date: 'Mon 11/11', time: '9:00 - 16:00', position: 'Waiter'},
+            {date: 'Mon 12/11', time: '9:00 - 16:00', position: 'Waiter'},
+            {date: 'Mon 13/11', time: '9:00 - 16:00', position: 'Waiter'},
+            {date: 'Mon 14/11'},
+            {date: 'Mon 15/11'},
         ]
     }
 ]
 
 const colorForPosition = {
-    'Chef': '#EEF33D',
-    'Waiter': '#1CB2B2',
+    'Chef':      '#EEF33D',
+    'Waiter':    '#1CB2B2',
     'Bartender': '#FFC6FF',
-    'Host': '#998FD7',
-    'Manager': '#9BF6FF'
+    'Host':      '#998FD7',
+    'Manager':   '#9BF6FF'
 }
 
 const Home = () => {
     const [isDrawerOpen, setIsDrawerOpen] = useState(false);
-    const [employees, setEmployees] = useState(employeesData);
+    const [employees, setEmployees]       = useState(employeesData);
 
 
     const handleSearchEmployees = (event) => {
         const filter = employeesData.filter(e => e.name.toLowerCase().includes(event.target.value.toLowerCase()))
-        setEmployees(filter);
+        setEmployees(filter)
     }
 
 
@@ -186,11 +186,11 @@ const Home = () => {
                     <Typography variant={'h3'} className={style.title}>
                         Fixed
                     </Typography>
-                    <Divider color={'#A0A0A0'} opacity={0.8} />
+                    <Divider color={'#A0A0A0'} opacity={0.8}/>
 
                     <Row className="pl-40">
                         <Icon color="#E8E8E8" size={18}>
-                            <IconMdiBellOutline />
+                            <IconMdiBellOutline/>
                         </Icon>
                     </Row>
                 </Row>
@@ -198,13 +198,13 @@ const Home = () => {
                 <Row
                     className="pr-36 align-center">
                     <Icon className="pr-34" size={20} color="#E8E8E8">
-                        <IconIcOutlineSettings />
+                        <IconIcOutlineSettings/>
                     </Icon>
 
                     <Avatar
                         src={avatar1}
                         borderColor={'#E8E8E8'}
-                        size={38} />
+                        size={38}/>
 
                     <Typography
                         className="font-medium pl-10 pr-8"
@@ -217,7 +217,7 @@ const Home = () => {
                     <Icon
                         color="#E8E8E8"
                         size={12}>
-                        <IconIonChevronDown />
+                        <IconIonChevronDown/>
                     </Icon>
                 </Row>
             </AppBar>
@@ -229,14 +229,14 @@ const Home = () => {
                     height={48}
                     width={48}>
                     <Icon size={16} color="#2C2C2C">
-                        <IconIonChevronRight />
+                        <IconIonChevronRight/>
                     </Icon>
                 </Button>
 
                 <Divider
                     opacity={0.3}
                     color={'#E8E8E8'}
-                    horizontal />
+                    horizontal/>
 
                 <Navigation>
 
@@ -250,13 +250,13 @@ const Home = () => {
                 height={630}
                 onLabelClick={() => setIsDrawerOpen(!isDrawerOpen)}
                 isOpen={isDrawerOpen}>
-                {shiftsTemplates.map(({ position, time }, index) => (
-                    <Col className="ml-18 mr-10 mt-22" style={{ height: 56 }} key={index}>
+                {shiftsTemplates.map(({position, time}, index) => (
+                    <Col className="ml-18 mr-10 mt-22" style={{height: 56}} key={index}>
                         <ShiftCard
                             positionColor={colorForPosition[position]}
                             employeePosition={position}
                             time={time}
-                            key={index} />
+                            key={index}/>
                     </Col>
                 ))}
             </Drawer>
@@ -274,13 +274,14 @@ const Home = () => {
                     </Typography>
                 </Card>
 
-                <Row className="mt-48 mb-18 ml-60">
-
+                <Row className="mt-36 mb-16 ml-60">
                     <TextField
                         type="search"
-                        beforeIcon={<IconRiSearchLine />}
+                        beforeIcon={<IconRiSearchLine/>}
                         placeholder='Search Employees'
                         onChange={handleSearchEmployees}
+                        beforeIconSize={20}
+                        height={38}
                         width={270}>
                     </TextField>
 
@@ -294,16 +295,16 @@ const Home = () => {
                                 <ShiftCard
                                     positionColor={colorForPosition[data.position]}
                                     time={data.time}
-                                    employeePosition={data.position} />
+                                    employeePosition={data.position}/>
                             </Col>
                         ) : <></>}
-                        profileComp={({ name, rating, image, position }) => (
+                        profileComp={({name, rating, image, position}) => (
                             <Profile
-                                {...{ name, rating, image }}
+                                {...{name, rating, image}}
                                 ratingScale={20}
                                 indicatorColor={colorForPosition[position]}
-                                className="px-32 py-20" />
-                        )} />
+                                className="px-32 py-20"/>
+                        )}/>
                 </Row>
             </Main>
         </div>
