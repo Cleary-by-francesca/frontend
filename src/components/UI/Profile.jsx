@@ -18,10 +18,10 @@ const Profile = (props) => {
                 borderColor={indicatorColor}
                 size={32}/>
             <Col className="pl-12">
-                <Typography size={14} className="font-bold whitespace-nowrap" variant={'subtitle2'}>
+                <Typography className="font-bold whitespace-nowrap" variant={'subtitle2'}>
                     {name}
                 </Typography>
-                <Typography size={14} variant={'body2'}>
+                <Typography variant={'body2'}>
                     {rating} / {ratingScale}
                 </Typography>
             </Col>

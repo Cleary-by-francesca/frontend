@@ -17,7 +17,7 @@ const Drawer = (props) => {
     const positionStyle = position === 'left' ? {left: 0} : {right: 0}
 
     /** @type {CSSProperties}*/
-    const labelPositionStyle = position === 'left' ? {left: 136} : {right: 136}
+    const labelPositionStyle = position === 'left' ? {left: 156} : {right: 156}
 
     return (
         <div className={`relative ${isOpen ? cssStyle.drawerWrapperOpen : cssStyle.drawerWrapperClosed}`}>
@@ -43,7 +43,7 @@ const Drawer = (props) => {
                     color:    labelColor,
                     fontSize: 14,
                 }}>
-                <Typography variant={'subtitle1'}>
+                <Typography variant={'subtitle2'}>
                     {labelContent}
                 </Typography>
                 <Icon
