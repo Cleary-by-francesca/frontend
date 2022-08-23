@@ -2,13 +2,12 @@ import {ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, HTMLAttributes, 
 import {HTMLMotionProps} from "framer-motion";
 
 interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
-	backgroundColor?: CSSProperties["backgroundColor"]
 	rounded?: CSSProperties["borderRadius"]
 	size?: CSSProperties["fontSize"]
 	width?: CSSProperties["width"]
 	height?: CSSProperties["height"]
-	color?: CSSProperties["color"]
 	borderColor?: CSSProperties["borderColor"]
+	variant?: "primary"
 	outlined?: boolean
 }
 
@@ -39,7 +38,7 @@ interface HRProps extends DetailedHTMLProps<HTMLAttributes<HTMLHRElement>, HTMLH
 	opacity?: CSSProperties['opacity']
 }
 
-type TypographyParagraphTypes = | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'caption' | 'button'
+type TypographyParagraphTypes = | 'subtitle1' | 'subtitle2' | 'body1' | 'body2' | 'caption' | 'button' | 'button1'
 
 type TypographyVariantOptions =
 	'h1' | 'h2' | 'h3' | 'h4' | 'h5' | 'h6' | TypographyParagraphTypes
@@ -55,6 +54,8 @@ type TypographyProps<Variant extends TypographyVariantOptions> = TypographyVaria
 	variant: Variant
 	color?: CSSProperties['color']
 	size?: number
+	lineHeight?: CSSProperties['lineHeight']
+	fontFamily?: CSSProperties['fontFamily']
 	fontWeight?: CSSProperties['fontWeight']
 }
 
@@ -136,10 +137,6 @@ export interface TextFieldProps extends DetailedHTMLProps<HTMLAttributes<HTMLInp
 
 }
 
-
-interface ModalWrapperProps {
-	centered?: boolean
-}
 
 interface ModalProps extends HTMLMotionProps<"div"> {
 	height?: `${number}px` | `${number}%`

@@ -1,4 +1,4 @@
-import styles from './TextField.module.css';
+import cssStyle from './TextField.module.css';
 import Icon from '../Icon/Icon';
 
 /**
@@ -12,40 +12,39 @@ const TextField = (props) => {
     const {
               style, children, className, beforeIcon, beforeIconSize, beforeIconColor, rounded, height, width,
               hasBorder, borderColor, borderWidth, ...restProps
-          }           = props;
+          } = props;
+
+
     /** @type {CSSProperties | {}} */
     const borderStyle = hasBorder ? {borderColor, borderWidth, borderStyle: 'solid'} : {}
 
     return (
-        <>
+        <div
+            className={`flex-row ${className}`}
+            style={{...borderStyle, borderRadius: rounded, height, width}}>
             {beforeIcon && (
-                <div className="relative">
-                    <Icon
-                        color={beforeIconColor}
-                        height={height}
-                        width={beforeIconSize}
-                        size={beforeIconSize}
-                        className={`mx-8 absolute align-center flex-row`}>
-                        {beforeIcon}
-                    </Icon>
-                </div>
+                <Icon
+                    color={beforeIconColor}
+                    height={height - (borderWidth * 2)}
+                    width={beforeIconSize}
+                    size={beforeIconSize}
+                    className={`mx-8 align-center flex-row`}>
+                    {beforeIcon}
+                </Icon>
             )}
-            <input
-                className={`${beforeIcon ? 'pl-44' : ''} pr-14 ${className}`}
-                style={{...borderStyle, borderRadius: rounded, height, width}}
-                {...restProps} />
-        </>
+            <input className={cssStyle.textFieldInput} {...restProps} />
+        </div>
     )
 }
 
 TextField.defaultProps = {
     className:       '',
-    height:          40,
     width:           'auto',
+    height:          40,
     rounded:         5,
     hasBorder:       true,
-    borderColor:     '#A0A0A0',
-    beforeIconColor: '#6F6F6F',
+    borderColor:     '#6F6F6F',
+    beforeIconColor: '#515151',
     beforeIconSize:  24,
     borderWidth:     1,
 }
