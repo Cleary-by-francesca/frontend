@@ -1,0 +1,27 @@
+.button {
+    border: none;
+    outline: none;
+    cursor: pointer;
+}
+
+.disabledButton {
+    border: 1px solid #A0A0A0;
+    background-color: transparent;
+    cursor: default;
+}
+
+.disabledButton * {
+    color: #BEBEBE !important;
+}
+
+.primary {
+    background-color: #53326C;
+}
+
+.primary:hover {
+    background-color: #643d80;
+}
+
+.primary:active {
+    background-color: #784c98;
+}

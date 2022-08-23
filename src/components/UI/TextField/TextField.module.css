@@ -1,5 +1,4 @@
-/* .center {
-    top: 67%;
-    left: 50%;
-    transform: translate(300%, -50%);
-} */
+.textFieldInput {
+    border: none;
+    outline: none;
+}

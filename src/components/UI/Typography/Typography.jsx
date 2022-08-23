@@ -14,6 +14,7 @@ const sizeForVariant = {
     body2:     14,
     caption:   14,
     button:    14,
+    button1:   14,
 }
 
 /** @type {{[key: TypographyVariantOptions]: CSSProperties['fontWeight']}} */
@@ -30,6 +31,7 @@ const fontWeightForVariant = {
     body2:     400,
     caption:   400,
     button:    500,
+    button1:   500,
 }
 
 /**
@@ -39,12 +41,14 @@ const fontWeightForVariant = {
  * @constructor
  */
 const Typography = (props) => {
-    const {children, className, color, fontWeight, variant, style, size, ...restProps} = props;
+    const {children, className, color, lineHeight, fontWeight, fontFamily, variant, style, size, ...restProps} = props;
 
     /** @type {CSSProperties} */
     const typographyStyle = {
         ...style,
         color,
+        fontFamily,
+        lineHeight,
         fontWeight: fontWeight || fontWeightForVariant[variant],
         fontSize:   size || sizeForVariant[variant],
     }
@@ -66,10 +70,13 @@ const Typography = (props) => {
     if (variant === 'body2') return <p {...restProps} {...typographyProps} style={typographyStyle}>{children}</p>
     if (variant === 'caption') return <p {...restProps} {...typographyProps} style={typographyStyle}>{children}</p>
     if (variant === 'button') return <p {...restProps} {...typographyProps} style={typographyStyle}>{children}</p>
+    if (variant === 'button1') return <p {...restProps} {...typographyProps} style={typographyStyle}>{children}</p>
 }
 
 Typography.defaultProps = {
     className:  '',
+    fontFamily: '',
+    lineHeight: '',
     fontWeight: undefined,
     size:       undefined
 }

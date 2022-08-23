@@ -55,10 +55,10 @@ const Home = () => {
     return (
         <div className="h-full">
             {isDialogOpen && (
-                    <Dialog centered>
+                <Dialog centered>
 
-                    </Dialog>
-                )}
+                </Dialog>
+            )}
 
             <AppBar className="justify-between">
                 <Row>
@@ -99,16 +99,6 @@ const Home = () => {
             </AppBar>
 
             <SideBar>
-                <Button
-                    className="m-4"
-                    backgroundColor={'#D9D9D9'}
-                    height={48}
-                    width={48}>
-                    <Icon size={16} color="#2C2C2C">
-                        <IconIonChevronRight/>
-                    </Icon>
-                </Button>
-
                 <Divider
                     opacity={0.3}
                     color={'#E8E8E8'}
@@ -153,17 +143,23 @@ const Home = () => {
                     </Typography>
                 </Card>
 
-                <Row className="mt-36 mb-16 ml-60">
+                <Row className="mt-36 mb-16 ml-60 mr-106 justify-between">
                     <TextField
                         type="search"
                         beforeIcon={<IconRiSearchLine/>}
                         placeholder='Search Employees'
                         onChange={(event) => handleSearchEmployees(event.target.value)}
                         beforeIconSize={20}
-                        height={38}
                         width={270}>
                     </TextField>
 
+
+                    <Button
+                        variant="primary">
+                        <Typography variant={'button1'} color="white">
+                            Publish
+                        </Typography>
+                    </Button>
                 </Row>
 
                 <Row className="ml-60 mr-80 pb-30 overflow-y-hidden">
