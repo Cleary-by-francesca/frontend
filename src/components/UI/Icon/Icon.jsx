@@ -1,4 +1,4 @@
-import style from './Icon.module.css';
+import cssStyle from './Icon.module.css';
 
 
 /**
@@ -8,17 +8,18 @@ import style from './Icon.module.css';
  * @constructor
  */
 const Icon = (props) => {
-    const {children, size, height, width, color, className, ...restProps} = props;
+    const {children, size, style, height, width, color, className, ...restProps} = props;
 
     return (
         <div
             {...restProps}
-            className={`${style.icon} ${className}`}
+            className={`${cssStyle.icon} ${className}`}
             style={{
                 height,
                 width,
                 fontSize: size,
-                color:    color
+                color,
+                ...style,
             }}>
             {children}
         </div>

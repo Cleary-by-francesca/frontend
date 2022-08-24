@@ -14,14 +14,13 @@ import {
     Profile,
     Button,
     Navigation,
-    TextField, Dialog
+    TextField, Dialog, Select
 } from "../components/UI"
-import {useEffect, useState} from "react";
+import {useState} from "react";
 import ShiftCard from "../components/ShiftCard.jsx";
 import {useEmployeesContext} from "../context/EmployeesContext.jsx";
 import Logo from "../components/Logo.jsx";
 import avatar from "../assets/avatar1.png"
-
 
 const shiftsTemplates = [
     {time: '9:00 - 11:00', position: 'Chef'},
@@ -133,14 +132,27 @@ const Home = () => {
 
             <Main>
                 <Card
-                    className="mt-24 ml-60 mr-80 pl-20 justify-center"
+                    className="flex-row mt-24 ml-60 mr-80 pl-20 align-center justify-between"
                     height={68} width="auto">
-
                     <Typography
                         className="font-bold"
                         variant={'h4'}>
                         Francesca’s
                     </Typography>
+
+                    <Col className="pr-26">
+                        <Select
+                            blurInputOnSelect={true}
+                            isSelectable={false}
+                            isSearchable={false}
+                            menuAnchorPoint="right"
+                            menuWidth={220}
+                            options={[
+                                {label: "Edit tasks", value: "editTask"},
+                                {label: "Manage Shift Templates", value: "manageShiftTemplates"}
+                            ]}
+                            value={{label: "Options", value: ""}}/>
+                    </Col>
                 </Card>
 
                 <Row className="mt-36 mb-16 ml-60 mr-106 justify-between">
