@@ -5,17 +5,23 @@
  * @constructor
  */
 const Col = (props) => {
-    const {children, className, ...restProps} = props;
+    const {children, className, cols, style, ...restProps} = props;
 
     return (
-        <div {...restProps} className={`flex-col ${className}`}>
+        <div
+            {...restProps}
+            className={`flex-col ${className}`}
+            style={{
+                flex: cols,
+                ...style,
+            }}>
             {children}
         </div>
     )
 }
 
 Col.defaultProps = {
-    className: ''
+    className: '',
 }
 
 export default Col

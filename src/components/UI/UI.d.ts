@@ -1,5 +1,6 @@
 import {ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, HTMLAttributes, ReactNode} from "react";
 import {HTMLMotionProps} from "framer-motion";
+import {StateManagerProps} from "react-select/dist/declarations/src/useStateManager";
 
 interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
 	rounded?: CSSProperties["borderRadius"]
@@ -15,7 +16,7 @@ interface RowProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTM
 }
 
 interface ColProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
-
+	cols?: CSSProperties["flex"]
 }
 
 interface AppBarProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
@@ -149,4 +150,16 @@ interface BackdropProps extends HTMLMotionProps<"div"> {
 	dark?: boolean,
 	active: boolean
 	animationTime?: number
+}
+
+interface SelectProps extends StateManagerProps {
+	singleValueVariant?: TypographyVariantOptions
+	singleValueColor?: CSSProperties['color']
+	dropdownIcon: ReactNode,
+	dropdownIconColor: `#${string}`,
+	dropdownIconSize: CSSProperties['fontSize'],
+	menuAnchorPoint?: 'left' | 'right'
+	menuWidth?: CSSProperties['width']
+	isSelectable?: boolean,
+	noBorder?: boolean
 }
