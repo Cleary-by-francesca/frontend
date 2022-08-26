@@ -26,13 +26,14 @@ const Button = (props) => {
 
     return (
         <button {...restProps}
-                className={classes}
-                style={{
-                    borderRadius: rounded,
-                    width,
-                    height,
-                    ...style
-                }}>
+            disabled={disabled}
+            className={classes}
+            style={{
+                borderRadius: rounded,
+                width,
+                height,
+                ...style
+            }}>
             {children}
         </button>
     )
@@ -40,13 +41,13 @@ const Button = (props) => {
 
 Button.defaultProps = {
     className: '',
-    variant:   'primary',
-    disabled:  false,
-    rounded:   4,
-    size:      18,
-    width:     95,
-    height:    40,
-    outlined:  false,
+    variant: 'primary',
+    disabled: false,
+    rounded: 4,
+    size: 18,
+    width: 95,
+    height: 40,
+    outlined: false,
 }
 
 export default Button

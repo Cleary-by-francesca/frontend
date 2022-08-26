@@ -1,5 +1,5 @@
 import cssStyle from './Card.module.css'
-import {motion} from "framer-motion";
+import { motion } from "framer-motion";
 
 /**
  *
@@ -9,21 +9,21 @@ import {motion} from "framer-motion";
  */
 const Card = (props) => {
     const {
-              children, className, hasIndicator,
-              backgroundColor,
-              style,
-              hasShadow, hasBorder, borderColor, borderWidth, indicatorColor,
-              indicatorPosition, rounded,
-              height, width, ...restProps
-          } = props
+        children, className, hasIndicator,
+        backgroundColor,
+        style,
+        hasShadow, hasBorder, borderColor, borderWidth, indicatorColor,
+        indicatorPosition, rounded, status,
+        height, width, ...restProps
+    } = props
 
     /** @type {CSSProperties} */
-    const borderStyle = hasBorder ? {borderColor, borderWidth, borderStyle: 'solid'} : {}
+    const borderStyle = hasBorder ? { borderColor, borderWidth, borderStyle: 'solid' } : {}
 
     /** @type {Omit<HTMLMotionProps<"div">, 'children'>} */
     const cardProps = {
         className: `${cssStyle.card} ${hasShadow ? cssStyle.cardShadow : ''} ${className}`,
-        style:     {
+        style: {
             ...(hasIndicator ? {} : borderStyle),
             borderRadius: rounded,
             backgroundColor,
@@ -36,9 +36,9 @@ const Card = (props) => {
     /** @type {Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, 'children'>} */
     const indicatorProps = {
         className: indicatorPosition === 'left' ? cssStyle.cardLeftIndicator : cssStyle.cardRightIndicator,
-        style:     {
+        style: {
             backgroundColor: indicatorColor,
-            minWidth:        12,
+            minWidth: 12,
         }
     }
 
@@ -60,7 +60,7 @@ const Card = (props) => {
                 ...borderStyle,
                 ...style,
             }}>
-            <div {...indicatorProps}/>
+            <div {...indicatorProps} />
             <motion.div
                 {...restProps}
                 {...cardProps}>
@@ -71,17 +71,17 @@ const Card = (props) => {
 }
 
 Card.defaultProps = {
-    className:         '',
-    height:            'auto',
-    width:             'auto',
-    hasShadow:         true,
-    hasIndicator:      false,
-    rounded:           4,
-    indicatorColor:    '#E8E8E8',
-    hasBorder:         false,
-    borderColor:       '#A0A0A0',
-    borderWidth:       1,
-    backgroundColor:   '#ffffff',
+    className: '',
+    height: 'auto',
+    width: 'auto',
+    hasShadow: true,
+    hasIndicator: false,
+    rounded: 4,
+    indicatorColor: '#E8E8E8',
+    hasBorder: false,
+    borderColor: '#A0A0A0',
+    borderWidth: 1,
+    backgroundColor: '#ffffff',
     indicatorPosition: 'left'
 }
 
