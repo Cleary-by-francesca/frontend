@@ -1,0 +1,55 @@
+.dot {
+    height: 14px;
+    width: 14px;
+    border-radius: 100%;
+    margin-left: 16.56px;
+    margin-top: 13px;
+}
+
+.role {
+    border-color: black;
+    padding-top: 3px;
+    border-width: 1px;
+    border-radius: 8px;   
+}
+
+.role :hover {
+    border-color: #643D80;
+    background-color: #643D80;
+    border-radius: 8px;
+}
+
+.role :active {
+    border-color: #643D80;
+    background-color: #643D80;
+    border-radius: 8px;
+}
+
+.title {
+    align-items: center;
+    font-weight: 400;
+    
+}
+
+.edit {
+    width: 40px;
+    height: 36px; 
+    margin-right: 32px;
+    font-weight: 400;
+}
+
+.btn {
+    width: 386px;
+    border-color: black;
+    padding-top: 3px;
+    border-width: 2px;
+    border-radius: 8px;
+    background: #FFFFFF;
+    display: inline-flex;
+    flex-direction: row;
+    justify-content: space-between;
+}
+
+.position {
+    display: inline-flex;
+}
