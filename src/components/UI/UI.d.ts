@@ -199,6 +199,7 @@ interface DatePickerProps {
 }
 
 interface NavigationProps<Options extends Record<string, any>[]> extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+	horizontal?: boolean
 	navigationOptions: Options
 	navigationItem: (activeIndex: number, setActiveIndex: (index: number) => void, option: Record<string, any>, index: number) => ReactNode
 }
