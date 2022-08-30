@@ -145,7 +145,7 @@ const Home = () => {
                 </Col>
             </Card>
 
-            <Row className="mt-36 mb-16 ml-60 mr-106 justify-between">
+            <Row className="mt-36 mb-16 ml-60 mr-80 justify-between">
                 <Row>
                     <TextField
                         type="search"
