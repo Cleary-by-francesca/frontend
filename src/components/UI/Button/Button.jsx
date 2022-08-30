@@ -2,7 +2,12 @@ import cssStyle from './Button.module.css'
 
 
 const variants = {
-    primary: cssStyle.primary,
+    primary: cssStyle.buttonPrimary,
+    icon:    cssStyle.buttonIcon,
+}
+
+const outlinedVariants = {
+    default: cssStyle.buttonOutlinedDefault,
 }
 
 /**
@@ -16,24 +21,28 @@ const Button = (props) => {
         {
             children, className,
             variant, disabled,
+            outlined,
             style, size,
             width, height,
             rounded,
             ...restProps
         } = props
 
-    const classes = `${cssStyle.button} ${disabled ? cssStyle.disabledButton : variants[variant]} ${className}`
+    const classes = `${cssStyle.button} ${disabled ? cssStyle.buttonDisabled : outlined ? outlinedVariants[variant] : variants[variant]} ${className}`
+
+    /** @type {CSSProperties} */
+    const _style = {
+        borderRadius: rounded,
+        width:        variant === 'icon' ? 'auto' : width,
+        height:       variant === 'icon' ? 'auto' : height,
+        ...style
+    }
 
     return (
         <button {...restProps}
-            disabled={disabled}
-            className={classes}
-            style={{
-                borderRadius: rounded,
-                width,
-                height,
-                ...style
-            }}>
+                disabled={disabled}
+                className={classes}
+                style={_style}>
             {children}
         </button>
     )
@@ -41,13 +50,13 @@ const Button = (props) => {
 
 Button.defaultProps = {
     className: '',
-    variant: 'primary',
-    disabled: false,
-    rounded: 4,
-    size: 18,
-    width: 95,
-    height: 40,
-    outlined: false,
+    variant:   'primary',
+    disabled:  false,
+    rounded:   4,
+    size:      18,
+    width:     95,
+    height:    40,
+    outlined:  false,
 }
 
 export default Button

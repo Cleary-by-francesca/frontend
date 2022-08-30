@@ -45,8 +45,8 @@ const Card = (props) => {
     if (!hasIndicator) {
         return (
             <motion.div
-                {...restProps}
-                {...cardProps}>
+                {...cardProps}
+                {...restProps}>
                 {children}
             </motion.div>
         )
@@ -62,8 +62,8 @@ const Card = (props) => {
             }}>
             <div {...indicatorProps} />
             <motion.div
-                {...restProps}
-                {...cardProps}>
+                {...cardProps}
+                {...restProps}>
                 {children}
             </motion.div>
         </div>

@@ -9,14 +9,15 @@ interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonE
 	width?: CSSProperties["width"]
 	height?: CSSProperties["height"]
 	borderColor?: CSSProperties["borderColor"]
-	variant?: "primary"
+	variant?: "primary" | 'default' | 'icon'
 	outlined?: boolean
 }
 
-interface RowProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+interface RowProps extends HTMLMotionProps<"div"> {
+	grid?: boolean
 }
 
-interface ColProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+interface ColProps extends HTMLMotionProps<"div"> {
 	cols?: CSSProperties["flex"]
 }
 
@@ -55,8 +56,8 @@ type TypographyVariant<Variant extends TypographyVariantOptions> = Variant exten
 type TypographyProps<Variant extends TypographyVariantOptions> = TypographyVariant<Variant> & {
 	variant: Variant
 	color?: CSSProperties['color']
-	spacing?: CSSProperties['letterSpacing']
 	size?: number
+	spacing?: CSSProperties['letterSpacing']
 	lineHeight?: CSSProperties['lineHeight']
 	fontFamily?: CSSProperties['fontFamily']
 	fontWeight?: CSSProperties['fontWeight']
@@ -146,10 +147,11 @@ interface ModalProps extends HTMLMotionProps<"div"> {
 	width?: `${number}px` | `${number}%`
 	onBackdropClick?: () => void
 	centered?: boolean
+	animationDuration?: number
 }
 
 interface BackdropProps extends HTMLMotionProps<"div"> {
-	dark?: boolean,
+	isTransparent?: boolean
 	active: boolean
 	animationTime?: number
 }
@@ -157,13 +159,43 @@ interface BackdropProps extends HTMLMotionProps<"div"> {
 interface SelectProps extends StateManagerProps {
 	singleValueVariant?: TypographyVariantOptions
 	singleValueColor?: CSSProperties['color']
-	dropdownIcon: ReactNode,
-	dropdownIconColor: `#${string}`,
-	dropdownIconSize: CSSProperties['fontSize'],
+	singleValueWeight?: CSSProperties['fontWeight']
+	singleValueFontFamily?: CSSProperties['fontFamily']
+	singleValueSize?: CSSProperties['fontSize']
+	singleValueSpacing?: CSSProperties['letterSpacing']
+	dropdownIconColor?: `#${string}`,
+	dropdownIconSize?: CSSProperties['fontSize'],
 	menuAnchorPoint?: 'left' | 'right'
 	menuWidth?: CSSProperties['width']
 	isSelectable?: boolean,
 	noBorder?: boolean
+}
+
+
+interface DatePickerProps {
+	onSelect?: (date) => void
+	onSet?: (date) => void
+	onClear?: () => void
+	currentDate: string
+	yearsOptions: { label: string, value: string }[]
+	daysToEndDate?: number
+	width?: CSSProperties['width']
+	height?: CSSProperties['height']
+	rounded?: CSSProperties['borderRadius']
+	hasIcon?: boolean
+	beforeIconColor?: CSSProperties['color']
+	beforeIconSize?: CSSProperties['fontSize']
+	hasBorder?: boolean
+	borderColor?: CSSProperties['borderColor']
+	borderWidth?: CSSProperties['borderWidth']
+	color?: CSSProperties['color']
+	calendarMarginTop?: CSSProperties['marginTop']
+	calendarMarginLeft?: CSSProperties['marginLeft']
+	calendarMarginRight?: CSSProperties['marginRight']
+	calendarMarginBottom?: CSSProperties['marginBottom']
+	hasDropdownIndicator?: boolean
+	dropdownIndicatorColor?: CSSProperties['borderColor']
+	dropdownIndicatorSize?: CSSProperties['fontSize']
 }
 
 interface NavigationProps<Options extends Record<string, any>[]> extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {

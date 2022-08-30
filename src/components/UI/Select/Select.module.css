@@ -8,7 +8,7 @@
 }
 
 .dropdownIndicatorFocused {
-    transform: rotate(180deg) !important;
+    transform: rotate(180deg) scaleX(1.05) translateY(2px) !important;
 }
 
 .selectControl {
@@ -21,4 +21,18 @@
 
 .selectMenu {
     z-index: 200 !important;
+}
+
+.selectMenuList::-webkit-scrollbar-thumb {
+    background: #afafaf;
+    border-radius: 60px;
+}
+
+.selectMenuList::-webkit-scrollbar-track {
+    border-radius: 20px;
+}
+
+.selectMenuList::-webkit-scrollbar {
+    width: 3px;
+    background-color: transparent;
 }

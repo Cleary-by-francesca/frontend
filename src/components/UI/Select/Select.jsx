@@ -1,50 +1,27 @@
 import cssStyle from './Select.module.css'
-import {default as ReactSelect, components} from "react-select"
+import Select, {components, defaultTheme} from "react-select"
 import produce from "immer";
-import Icon from "../Icon/Icon.jsx";
-import {useEffect, useRef, useState} from "react";
 import {Typography} from "../index.jsx";
+
 
 /**
  *
- * @param props {import("react-select").DropdownIndicatorProps<any> & {dropdownIcon: ReactNode; dropdownIconSize: CSSProperties['fontSize']; dropdownIconColor: `#${string}`}}
+ * @param props {import("react-select").DropdownIndicatorProps<any> & {
+ * dropdownIcon: ReactNode;
+ * dropdownIconSize: CSSProperties['fontSize'];
+ * dropdownIconColor: `#${string}`;
+ * }}
  * @returns {JSX.Element}
  * @constructor
  */
 const DropdownIndicator = (props) => {
-    const {isFocused, className, dropdownIcon, dropdownIconColor, dropdownIconSize, ...restProps} = props
 
     return (
         <components.DropdownIndicator
-            {...restProps}
-            theme={produce(props.theme, (draft) => {
-                draft.colors.neutral20 = dropdownIconColor
-            })}
-            className={`${cssStyle.dropdownIndicator} ${isFocused ? cssStyle.dropdownIndicatorFocused : ''} ${className || ''}`}>
-            <Icon
-                size={dropdownIconSize}
-                style={{
-                    transform: 'scaleX(1.05) translateY(2px)'
-                }}>
-                {dropdownIcon}
-            </Icon>
+            className={`${cssStyle.dropdownIndicator} ${props.isFocused ? cssStyle.dropdownIndicatorFocused : ''}`}
+            {...props}>
+            <IconIonChevronDown/>
         </components.DropdownIndicator>
-    )
-}
-
-/**
- *
- * @param props {import("react-select").ContainerProps}
- * @returns {JSX.Element}
- * @constructor
- */
-const SelectContainer = (props) => {
-    const {children, ...restProps} = props
-
-    return (
-        <components.SelectContainer {...restProps}>
-            {children}
-        </components.SelectContainer>
     )
 }
 
@@ -66,16 +43,34 @@ const Option = (props) => {
 
 /**
  *
- * @param props {import("react-select").SingleValueProps<any> & {singleValueVariant: TypographyVariantOptions; singleValueColor: `CSSProperties['color]`}}
+ * @param props {import("react-select").SingleValueProps<any> & {
+ * singleValueVariant: TypographyVariantOptions;
+ * singleValueColor: CSSProperties[color];
+ * singleValueWeight: CSSProperties['fontWeight'];
+ * singleValueSize: CSSProperties['fontSize'];
+ * singleValueFontFamily: CSSProperties['fontFamily'];
+ * singleValueSpacing: CSSProperties['letterSpacing'];
+ * }}
  * @returns {JSX.Element}
  * @constructor
  */
 const SingleValue = (props) => {
-    const {children, singleValueVariant, singleValueColor, ...restProps} = props
+    const {
+              children, singleValueVariant, singleValueSize,
+              singleValueColor, singleValueFontFamily, singleValueSpacing,
+              singleValueWeight, ...restProps
+          } = props
+
 
     return (
         <components.SingleValue {...restProps}>
-            <Typography variant={singleValueVariant} color={singleValueColor}>
+            <Typography
+                variant={singleValueVariant}
+                fontWeight={singleValueWeight}
+                size={singleValueSize}
+                fontFamily={singleValueFontFamily}
+                spacing={singleValueSpacing}
+                color={singleValueColor}>
                 {children}
             </Typography>
         </components.SingleValue>
@@ -89,26 +84,13 @@ const SingleValue = (props) => {
  * @constructor
  */
 const Control = (props) => {
-    const {children, isFocused, isSelectable, noBorder, ...restProps} = props
+    const {children, className, ...restProps} = props
 
     return (
-        <components.Control {...{...restProps, isFocused: false}}
-                            className={`${cssStyle.selectControl}`}
+        <components.Control
+            {...restProps}
+            className={`${cssStyle.selectControl} ${className}`}>
 
-                            getStyles={(...args) => {
-                                const styles = props.getStyles(...args)
-                                return produce(styles, (draft) => {
-                                        draft.outline     = isSelectable ? 'none' : styles.outline
-                                        draft.borderStyle = noBorder ? '' : 'solid'
-                                    }
-                                )
-                            }}
-                            theme={produce(props.theme, (draft) => {
-                                draft.borderRadius     = 5
-                                draft.colors.primary   = isSelectable ? '#53326C' : '#515151'
-                                draft.colors.neutral20 = '#515151'
-                                // draft.colors.neutral30 = theme.colors.gray_200
-                            })}>
             {children}
         </components.Control>
     )
@@ -121,29 +103,34 @@ const Control = (props) => {
  * @constructor
  */
 const Menu = (props) => {
-    const {children, className, width, getStyles, anchorPoint, ...restProps} = props
+    const {children, className, ...restProps} = props
 
 
     return (
         <components.Menu
             className={`${className || ''} ${cssStyle.selectMenu}`}
-            {...restProps}
-            getStyles={(...args) => {
-                const styles = getStyles(...args)
-                return produce(styles, (draft) => {
-                        draft.width = width
-                        if (anchorPoint === 'right') draft.right = 0
-                        if (anchorPoint === 'left') draft.left = 0
-                    }
-                )
-            }}
-            style={{
-                width: width,
-                ...(anchorPoint === 'right') ? {right: 0} : {left: 0},
-                ...getStyles
-            }}>
+            {...restProps}>
             {children}
         </components.Menu>
+    )
+}
+
+
+/**
+ *
+ * @param props {import("react-select").MenuListProps<any>}
+ * @returns {JSX.Element}
+ * @constructor
+ */
+const MenuList = (props) => {
+    const {children, className, ...restProps} = props
+
+    return (
+        <components.MenuList
+            className={`${cssStyle.selectMenuList} ${className}`}
+            {...restProps}>
+            {children}
+        </components.MenuList>
     )
 }
 
@@ -153,38 +140,74 @@ const Menu = (props) => {
  * @returns {JSX.Element}
  * @constructor
  */
-const Select = (props) => {
+const AppSelect = (props) => {
     const {
               components, menuWidth, menuAnchorPoint,
-              singleValueVariant, singleValueColor,
-              isSelectable, onBlur, onFocus,
-              dropdownIcon, dropdownIconColor, dropdownIconSize,
-              noBorder,
+              singleValueVariant, singleValueColor, singleValueWeight,
+              singleValueFontFamily, singleValueSize, singleValueSpacing,
+              isSelectable, dropdownIconColor, dropdownIconSize, noBorder,
               ...restProps
           } = props
 
+    const customStyles = {
+        singleValue: (provided, state) => ({
+            ...provided,
+            borderRadius: 5,
+            primary:      isSelectable ? '#53326C' : '#515151',
+        }),
+
+        control: (provided, state) => {
+            return {
+                ...provided,
+                borderStyle: noBorder ? 'none' : 'solid',
+                boxShadow:   noBorder ? 'none' : '',
+                borderColor: '#515151',
+            }
+        },
+
+        dropdownIndicator: (provided, state) => ({
+            ...provided,
+            color:    dropdownIconColor,
+            fontSize: dropdownIconSize,
+        }),
+
+        menu: (provided, state) => ({
+            ...provided,
+            width: menuWidth,
+            ...(menuAnchorPoint === 'right') ? {right: 0} : {left: 0},
+        })
+    }
+
     return (
-        <ReactSelect
+        <Select
+            {...restProps}
+            theme={produce(defaultTheme, (draft) => {
+                draft.colors.primary   = '#53326C'
+                draft.colors.primary50 = '#d5c9e7'
+                draft.colors.primary25 = '#BAADC4'
+            })}
+            blurInputOnSelect={true}
+            options={props.options}
+            styles={customStyles}
             components={{
                 IndicatorSeparator: () => null,
-                DropdownIndicator:  (props) => DropdownIndicator({
-                    ...props, dropdownIcon, dropdownIconColor, dropdownIconSize
-                }),
-                Control:            (props) => Control({...props, isSelectable, noBorder}),
-                SelectContainer,
+                DropdownIndicator,
+                Control,
                 Option,
-                SingleValue:        (props) => SingleValue({...props, singleValueVariant, singleValueColor}),
-                Menu:               (props) => Menu({width: menuWidth, anchorPoint: menuAnchorPoint, ...props}),
+                SingleValue:        (props) => SingleValue({
+                    ...props, singleValueVariant, singleValueWeight, singleValueColor, singleValueFontFamily,
+                    singleValueSpacing, singleValueSize
+                }),
+                Menu,
+                MenuList,
                 ...components
-            }}
-            {...restProps}/>
+            }}/>
     )
 }
 
-Select.defaultProps = {
+AppSelect.defaultProps = {
     singleValueVariant: 'button1',
     singleValueColor:   '#515151',
-    dropdownIcon:       <IconIonChevronDown/>,
     dropdownIconColor:  '#515151',
     dropdownIconSize:   16,
     noBorder:           false,
@@ -193,4 +216,4 @@ Select.defaultProps = {
     menuAnchorPoint:    'left',
 }
 
-export default Select
+export default AppSelect
