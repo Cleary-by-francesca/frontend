@@ -162,7 +162,7 @@ const Home = () => {
                             currentDate={startDate}
                             width={175}
                             height={38}
-                            daysToEndDate={7}
+                            daysToEndDate={6}
                             onSet={(startDate) => setStartDate(startDate)}/>
                     </Col>
                 </Row>
