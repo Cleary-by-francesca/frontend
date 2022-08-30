@@ -28,7 +28,7 @@ const Button = (props) => {
             ...restProps
         } = props
 
-    const classes = `${cssStyle.button} ${disabled ? cssStyle.buttonDisabled : outlined ? outlinedVariants[variant] : variants[variant]} ${className}`
+    const classes = `${cssStyle.button} ${outlined ? (disabled ? cssStyle.buttonOutlinedDisabled : outlinedVariants[variant]) : (disabled ? cssStyle.buttonDisabled : variants[variant])} ${className}`
 
     /** @type {CSSProperties} */
     const _style = {
