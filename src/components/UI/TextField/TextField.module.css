@@ -1,4 +1,8 @@
 .textFieldInput {
     border: none;
     outline: none;
+    color: #515151;
+    font-weight: 500;
+    letter-spacing: 0.1px;
+    font-size: 14px;
 }
