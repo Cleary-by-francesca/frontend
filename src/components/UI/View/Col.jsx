@@ -1,3 +1,5 @@
+import {motion} from "framer-motion";
+
 /**
  *
  * @param props {ColProps}
@@ -8,15 +10,15 @@ const Col = (props) => {
     const {children, className, cols, style, ...restProps} = props;
 
     return (
-        <div
+        <motion.div
+            {...restProps} className={`flex-col ${className}`}
             {...restProps}
-            className={`flex-col ${className}`}
             style={{
                 flex: cols,
                 ...style,
             }}>
             {children}
-        </div>
+        </motion.div>
     )
 }
 

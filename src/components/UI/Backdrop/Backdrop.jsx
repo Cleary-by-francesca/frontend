@@ -8,7 +8,7 @@ import {AnimatePresence, motion} from "framer-motion"
  * @constructor
  */
 const Backdrop = (props) => {
-    const {active, className, animationTime, ...restProps} = props
+    const {active, className, animationTime, isTransparent, ...restProps} = props
     return (
         <AnimatePresence>
             {active && (
@@ -26,17 +26,15 @@ const Backdrop = (props) => {
                     exit={{
                         opacity: 0,
                     }}
-                    style={{
-                        zIndex: 800,
-                    }}
-                    className={`absolute h-full w-full ${className} ${style.backdrop}`}/>
+                    className={`absolute h-full w-full ${className} ${isTransparent ? '' : style.backdropColor} ${style.backdrop}`}/>
             )}
         </AnimatePresence>
     )
 }
 
 Backdrop.defaultProps = {
-    animationTime: 0.4
+    animationTime: 0.4,
+    isTransparent: false,
 }
 
 export default Backdrop

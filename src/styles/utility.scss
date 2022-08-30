@@ -1,4 +1,4 @@
-$spaceAmounts: (2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22,23, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100, 102, 104, 106, 108, 110);
+$spaceAmounts: (0, 2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22, 23, 24, 26, 28, 30, 32, 34, 36, 38, 40, 42, 44, 46, 48, 50, 52, 54, 56, 58, 60, 62, 64, 68, 70, 72, 74, 76, 78, 80, 82, 84, 86, 88, 90, 92, 94, 96, 98, 100, 102, 104, 106, 108, 110);
 
 @each $space in $spaceAmounts {
   @if $space==auto {
@@ -97,10 +97,190 @@ $spaceAmounts: (2, 4, 6, 8, 10, 12, 14, 16, 18, 20, 22,23, 24, 26, 28, 30, 32, 3
   }
 }
 
+@each $space in (auto) {
+  @if $space==auto {
+    .m-#{$space} {
+      margin: #{$space};
+    }
+
+    .mx-#{$space} {
+      margin-left: #{$space};
+      margin-right: #{$space};
+    }
+
+    .my-#{$space} {
+      margin-top: #{$space};
+      margin-bottom: #{$space};
+
+    }
+
+    .ml-#{$space} {
+      margin-left: #{$space};
+    }
+
+    .mr-#{$space} {
+      margin-right: #{$space};
+    }
+
+    .mb-#{$space} {
+      margin-bottom: #{$space};
+    }
+
+    .mt-#{$space} {
+      margin-top: #{$space};
+    }
+  } @else {
+    .m-#{$space} {
+      margin: #{$space};
+    }
+
+    .mx-#{$space} {
+      margin-left: #{$space};
+      margin-right: #{$space};
+    }
+
+    .my-#{$space} {
+      margin-top: #{$space};
+      margin-bottom: #{$space};
+
+    }
+
+    .ml-#{$space} {
+      margin-left: #{$space};
+    }
+
+    .mr-#{$space} {
+      margin-right: #{$space};
+    }
+
+    .mb-#{$space} {
+      margin-bottom: #{$space};
+    }
+
+    .mt-#{$space} {
+      margin-top: #{$space};
+    }
+
+    .p-#{$space} {
+      padding: #{$space};
+    }
+
+    .px-#{$space} {
+      padding-left: #{$space};
+      padding-right: #{$space};
+    }
+
+    .py-#{$space} {
+      padding-top: #{$space};
+      padding-bottom: #{$space};
+
+    }
+
+    .pl-#{$space} {
+      padding-left: #{$space};
+    }
+
+    .pr-#{$space} {
+      padding-right: #{$space};
+    }
+
+    .pb-#{$space} {
+      padding-bottom: #{$space};
+    }
+
+    .pt-#{$space} {
+      padding-top: #{$space};
+    }
+  }
+}
+
 $cols: (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12);
 
 @each $col in $cols {
   .col-#{$col} {
     flex: $col
+  }
+}
+
+.col-auto {
+  grid-column: auto;
+}
+
+.col-span-1 {
+  grid-column: span 1 / span 1;
+}
+
+.col-span-2 {
+  grid-column: span 2 / span 2;
+}
+
+.col-span-3 {
+  grid-column: span 3 / span 3;
+}
+
+.col-span-4 {
+  grid-column: span 4 / span 4;
+}
+
+.col-span-5 {
+  grid-column: span 5 / span 5;
+}
+
+.col-span-6 {
+  grid-column: span 6 / span 6;
+}
+
+.col-span-7 {
+  grid-column: span 7 / span 7;
+}
+
+.col-span-8 {
+  grid-column: span 8 / span 8;
+}
+
+.col-span-9 {
+  grid-column: span 9 / span 9;
+}
+
+.col-span-10 {
+  grid-column: span 10 / span 10;
+}
+
+.col-span-11 {
+  grid-column: span 11 / span 11;
+}
+
+.col-span-12 {
+  grid-column: span 12 / span 12;
+}
+
+.col-span-full {
+  grid-column: 1 / -1;
+}
+
+$grid-cols: (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, auto);
+$grid-cols-template: (1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11, 12, auto);
+
+@each $col in $grid-cols {
+  .grid-col-#{$col} {
+    grid-column: #{$col};
+  }
+
+  .grid-col-#{$col}-auto {
+    grid-column: #{$col} / auto;
+  }
+
+  .col-start-#{$col} {
+    grid-column-start: #{$col};
+  }
+
+  .col-end-#{$col}-2 {
+    grid-column-end: #{$col} + 1;
+  }
+}
+
+@each $col in $grid-cols-template {
+  .grid-cols-#{$col} {
+    grid-template-columns: repeat($col, minmax(0, 1fr));
   }
 }

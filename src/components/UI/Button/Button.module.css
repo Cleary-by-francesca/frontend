@@ -4,24 +4,45 @@
     cursor: pointer;
 }
 
-.disabledButton {
+.buttonDisabled {
     border: 1px solid #A0A0A0;
     background-color: transparent;
     cursor: default;
 }
 
-.disabledButton * {
+.buttonDisabled * {
     color: #BEBEBE !important;
 }
 
-.primary {
+.buttonPrimary {
     background-color: #53326C;
 }
 
-.primary:hover {
+.buttonPrimary:hover {
     background-color: #643d80;
 }
 
-.primary:active {
+.buttonPrimary:active {
     background-color: #784c98;
+}
+
+.buttonIcon {
+    background-color: transparent;
+    border: none;
+    outline: none;
+}
+
+.buttonOutlinedDefault {
+    border: 1px solid #515151;
+    background-color: transparent;
+}
+
+.buttonOutlinedDefault:hover {
+    border: 1px solid #7c7c7c;
+    background-color: #E2E8F005;
+}
+
+.buttonOutlinedDefault:active {
+    border: 1px solid #9f9f9f;
+    background-color: #E2E8F010;
 }

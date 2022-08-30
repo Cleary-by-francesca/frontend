@@ -1,6 +1,7 @@
 import Portal from "../Portal/Portal"
 import Card from "../Card/Card"
 import Backdrop from "../Backdrop/Backdrop";
+import {motion} from "framer-motion";
 
 
 /**
@@ -10,11 +11,23 @@ import Backdrop from "../Backdrop/Backdrop";
  * @constructor
  */
 const Dialog = (props) => {
-    const {children, className, centered, height, width, onBackdropClick, ...restProps} = props
+    const {children, className, animationDuration, centered, height, width, onBackdropClick, ...restProps} = props
 
     return (
         <Portal>
-            <div
+            <motion.div
+                initial={{
+                    translateY: '100%',
+                }}
+                transition={{
+                    duration: animationDuration,
+                }}
+                animate={{
+                    translateY: '0%',
+                }}
+                exit={{
+                    translateY: '100%',
+                }}
                 style={{zIndex: 1300}}
                 className={`${centered ? ' flex-col justify-center items-center' : ''} h-full w-full fixed relative ${className}`}>
                 <Backdrop
@@ -24,15 +37,6 @@ const Dialog = (props) => {
                     <Card
                         {...restProps}
                         className="relative"
-                        initial={{
-                            opacity: 0,
-                        }}
-                        transition={{
-                            duration: 0.4,
-                        }}
-                        animate={{
-                            opacity: 1,
-                        }}
                         style={{
                             margin: 'auto'
                         }}
@@ -40,18 +44,19 @@ const Dialog = (props) => {
                         {children}
                     </Card>
                 </div>
-            </div>
+            </motion.div>
         </Portal>
     )
 }
 
 Dialog.defaultProps = {
-    className:       '',
-    height:          "400px",
-    width:           "400px",
-    onBackdropClick: () => {
+    className:         '',
+    height:            "400px",
+    width:             "400px",
+    onBackdropClick:   () => {
     },
-    centered:        false,
+    centered:          false,
+    animationDuration: 0.3
 }
 
 export default Dialog

@@ -1,6 +1,8 @@
 import {Row, Typography} from "./..";
 import style from './Scheduler.module.css';
-import {filterDate, generateDates} from "../../../modules/Time";
+import {filterDate, generateDates} from "../../../Util/Time";
+import {motion, AnimatePresence} from "framer-motion";
+import {fadeInOutAnimation} from "../Utils/utils.js";
 
 /**
  * @param {SchedulerProps} props
@@ -22,6 +24,7 @@ const Scheduler = (props) => {
                         <th className={style.boxBorder} key={index}>
                             <Typography
                                 className="py-24"
+                                fontWeight={500}
                                 color={'#515151'}
                                 variant="h5">
                                 {label}
@@ -31,21 +34,23 @@ const Scheduler = (props) => {
                 </tr>
                 </thead>
                 <tbody>
-                {data.map(({dates, ...restData}, index) => (
-                    <tr key={index}>
-                        <td style={{width: 200}} className={style.boxBorder}>
-                            {profileComp({dates, ...restData})}
-                        </td>
-
-                        {generatedDates.map((date, index) => (
-                            <td className={style.boxBorder} key={date.label}>
-                                {Object.keys(restData).length > 0 && (
-                                    tdContentComp({...filterDate(dates, startDate, index), userData: restData})
-                                )}
+                <AnimatePresence initial={false}>
+                    {data.map(({dates, ...restData}, index) => (
+                        <motion.tr {...fadeInOutAnimation} key={index}>
+                            <td style={{width: 200}} className={style.boxBorder}>
+                                {profileComp({dates, ...restData})}
                             </td>
-                        ))}
-                    </tr>
-                ))}
+
+                            {generatedDates.map((date, index) => (
+                                <td className={style.boxBorder} key={date.label}>
+                                    {Object.keys(restData).length > 0 && (
+                                        tdContentComp({...filterDate(dates, startDate, index), userData: restData})
+                                    )}
+                                </td>
+                            ))}
+                        </motion.tr>
+                    ))}
+                </AnimatePresence>
                 </tbody>
             </table>
         </Row>

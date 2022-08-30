@@ -1,3 +1,5 @@
+import {motion} from "framer-motion";
+
 /**
  *
  * @param props {RowProps}
@@ -5,17 +7,18 @@
  * @constructor
  */
 const Row = (props) => {
-    const {children, className, ...restProps} = props
+    const {children, className, grid, ...restProps} = props
 
     return (
-        <div {...restProps} className={`flex-row ${className}`}>
+        <motion.div {...restProps} className={`${grid ? 'grid' : 'flex-row'} ${className}`}>
             {children}
-        </div>
+        </motion.div>
     )
 }
 
 Row.defaultProps = {
-    className: ''
+    className: '',
+    grid: false
 }
 
 export default Row

@@ -1,5 +1,8 @@
 .backdrop {
+  z-index: 1220;
+}
+
+.backdropColor {
   background: rgba(132, 132, 132, 0.55);
   backdrop-filter: blur(15px);
-  z-index: 800;
 }

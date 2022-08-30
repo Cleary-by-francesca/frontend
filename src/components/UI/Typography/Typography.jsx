@@ -42,17 +42,21 @@ const fontWeightForVariant = {
  */
 const Typography = (props) => {
     const {
-              children, className, color, spacing, lineHeight, fontWeight, fontFamily, variant, style, size,
+              children, className, spacing,
+              color, lineHeight, centered,
+              fontWeight, fontFamily,
+              variant, style, size,
               ...restProps
           } = props;
 
     /** @type {CSSProperties} */
     const typographyStyle = {
         ...style,
-        letterSpacing: spacing,
         color,
         fontFamily,
         lineHeight,
+        letterSpacing: spacing,
+        textAlign:     centered ? 'center' : '',
         fontWeight:    fontWeight || fontWeightForVariant[variant],
         fontSize:      size || sizeForVariant[variant],
     }

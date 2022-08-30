@@ -21,7 +21,12 @@ const TextField = (props) => {
     return (
         <div
             className={`flex-row ${className}`}
-            style={{...borderStyle, borderRadius: rounded, height, width}}>
+            style={{
+                ...borderStyle,
+                borderRadius:    rounded,
+                height,
+                width
+            }}>
             {beforeIcon && (
                 <Icon
                     color={beforeIconColor}
