@@ -1,0 +1,24 @@
+.navigationIndicator {
+    position: absolute;
+    width: 7px;
+    height: 74px;
+    border-radius: 0px 2px 3px 0px;
+    transition: transform 0.3s ease-in-out;
+    background-color: #53326C;
+}
+
+.navigationIndicatorShadow {
+    filter: blur(20px);
+    border-radius: 0px 2px 3px 0px;
+    width: 10px;
+    height: 74px;
+    background-color: #53326C;
+    position: absolute;
+}
+
+.navigationLink {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 74px;
+}

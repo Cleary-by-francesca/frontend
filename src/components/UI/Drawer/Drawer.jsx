@@ -21,7 +21,6 @@ const Drawer = (props) => {
 
     return (
         <div className={`relative ${isOpen ? cssStyle.drawerWrapperOpen : cssStyle.drawerWrapperClosed}`}>
-
             <div
                 {...restProps}
                 className={`${cssStyle.drawer} ${className}`}
@@ -39,6 +38,7 @@ const Drawer = (props) => {
                 onClick={onLabelClick}
                 className={`px-10 align-center justify-between ${cssStyle.drawerLabel}`}
                 style={{
+                    top: top + height / 2 - 20,
                     ...labelPositionStyle,
                     color:    labelColor,
                     fontSize: 14,
@@ -48,11 +48,12 @@ const Drawer = (props) => {
                 </Typography>
                 <Icon
                     className={isOpen ? cssStyle.drawerLabelIconOpen : cssStyle.drawerLabelIconClosed}
-                    size={18} width={18} height={18}>
+                    size={18}
+                    width={18}
+                    height={18}>
                     <IconMdiChevronDown/>
                 </Icon>
             </button>
-
         </div>
     )
 }

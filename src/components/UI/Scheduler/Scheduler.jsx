@@ -22,7 +22,7 @@ const Scheduler = (props) => {
                         <th className={style.boxBorder} key={index}>
                             <Typography
                                 className="py-24"
-                                color={'#6F6F6F'}
+                                color={'#515151'}
                                 variant="h5">
                                 {label}
                             </Typography>
@@ -37,10 +37,10 @@ const Scheduler = (props) => {
                             {profileComp({dates, ...restData})}
                         </td>
 
-                        {generatedDates?.map((date, index) => (
+                        {generatedDates.map((date, index) => (
                             <td className={style.boxBorder} key={date.label}>
                                 {Object.keys(restData).length > 0 && (
-                                    tdContentComp(filterDate(dates, startDate, index))
+                                    tdContentComp({...filterDate(dates, startDate, index), userData: restData})
                                 )}
                             </td>
                         ))}

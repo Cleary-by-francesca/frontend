@@ -41,16 +41,20 @@ const fontWeightForVariant = {
  * @constructor
  */
 const Typography = (props) => {
-    const {children, className, color, lineHeight, fontWeight, fontFamily, variant, style, size, ...restProps} = props;
+    const {
+              children, className, color, spacing, lineHeight, fontWeight, fontFamily, variant, style, size,
+              ...restProps
+          } = props;
 
     /** @type {CSSProperties} */
     const typographyStyle = {
         ...style,
+        letterSpacing: spacing,
         color,
         fontFamily,
         lineHeight,
-        fontWeight: fontWeight || fontWeightForVariant[variant],
-        fontSize:   size || sizeForVariant[variant],
+        fontWeight:    fontWeight || fontWeightForVariant[variant],
+        fontSize:      size || sizeForVariant[variant],
     }
 
     /** @type {TypographyVariant<typeof variant>} */

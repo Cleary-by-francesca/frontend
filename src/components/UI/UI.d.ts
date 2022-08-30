@@ -1,6 +1,7 @@
 import {ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, HTMLAttributes, ReactNode} from "react";
 import {HTMLMotionProps} from "framer-motion";
 import {StateManagerProps} from "react-select/dist/declarations/src/useStateManager";
+import {LinkProps} from "react-router-dom";
 
 interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
 	rounded?: CSSProperties["borderRadius"]
@@ -54,6 +55,7 @@ type TypographyVariant<Variant extends TypographyVariantOptions> = Variant exten
 type TypographyProps<Variant extends TypographyVariantOptions> = TypographyVariant<Variant> & {
 	variant: Variant
 	color?: CSSProperties['color']
+	spacing?: CSSProperties['letterSpacing']
 	size?: number
 	lineHeight?: CSSProperties['lineHeight']
 	fontFamily?: CSSProperties['fontFamily']
@@ -162,4 +164,15 @@ interface SelectProps extends StateManagerProps {
 	menuWidth?: CSSProperties['width']
 	isSelectable?: boolean,
 	noBorder?: boolean
+}
+
+interface NavigationProps<Options extends Record<string, any>[]> extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+	navigationOptions: Options
+	navigationItem: (activeIndex: number, setActiveIndex: (index: number) => void, option: Record<string, any>, index: number) => ReactNode
+}
+
+interface NavigationLinkProps extends LinkProps {
+	icon: ReactNode
+	activeIcon: ReactNode
+	isActive: boolean
 }
