@@ -33,14 +33,29 @@ const colorForPosition = {
 const Home = () => {
     const [isDrawerOpen, setIsDrawerOpen]           = useState(false)
     const [isDialogOpen, setIsDialogOpen]           = useState(false)
-    const {employees}                               = useEmployeesContext()
+    const {employees, updateEmployees}              = useEmployeesContext()
     const [startDate]                               = useState(new Date().toISOString())
     const [filteredEmployees, setFilteredEmployees] = useState(employees)
+    const [isPublish, setIsPublish]                 = useState(false)
 
 
     const handleSearchEmployees = (searchValue) => {
         const filtered = employees.filter(employee => employee.name.toLowerCase().includes(searchValue.toLowerCase()))
         setFilteredEmployees(filtered);
+    }
+
+    const handlePublish = () => {
+        const _employees = employees.map(({dates, ...restData}) => ({
+            ...restData,
+            dates: dates.map(({status, ...restDate}) => ({
+                ...restDate,
+                status: status === 'added' ? status = "published" : ''
+            }))
+        }))
+
+        updateEmployees(_employees)
+        setFilteredEmployees(_employees)
+        setIsPublish(true)
     }
 
     return (
@@ -118,6 +133,8 @@ const Home = () => {
 
 
                 <Button
+                    disabled={isPublish}
+                    onClick={handlePublish}
                     variant="primary">
                     <Typography variant={'button1'} color="white">
                         Publish
@@ -133,6 +150,7 @@ const Home = () => {
                         <Col className="px-12 py-10 h-full w-full">
                             <ShiftCard
                                 shift={data.shift}
+                                status={data.status}
                                 positionColor={colorForPosition[data.position]}
                                 time={data.time}
                                 employeePosition={data.position}/>
