@@ -1,5 +1,6 @@
 import {createContext, useContext, useState} from "react";
 import moment from "moment"
+import produce from "immer"
 import avatar2 from "../assets/avatar2.png";
 import avatar3 from "../assets/avatar3.png";
 import avatar4 from "../assets/avatar4.png";
@@ -210,6 +211,7 @@ const employeesData = [
 
 /** @typedef {{
  *  employees: Employee[],
+ *  addShift: () => void,
  *  addEmployee: (employee: Employee) => void,
  * getEmployees: () => Promise<Employee[]>,
  * updateEmployees: (employees: Employee[]) => void,
@@ -251,6 +253,19 @@ const EmployeesProvider = ({children}) => {
         setEmployees([...employees, newEmployee])
     }
 
+    const addShift = (employeeId, shiftDate, shift) => {
+        const employeeIndex = employees.findIndex(employee => employee.id === employeeId)
+        const dateIndex = employees[employeeIndex].dates.findIndex(date => date.date === shiftDate)
+
+        const _employees = produce(employees, (draft) => {
+            draft[employeeIndex].dates[dateIndex] = { ...shift, status: "added", date: draft[employeeIndex].dates[dateIndex].date }
+        })
+
+        setEmployees(_employees)
+        return _employees
+    }
+
+
     const getEmployees = (startDate) => {
         setEmployees(employees)
     }
@@ -271,6 +286,7 @@ const EmployeesProvider = ({children}) => {
 
     return <EmployeesContext.Provider value={{
         employees,
+        addShift,
         addEmployee,
         getEmployees,
         updateEmployees,

@@ -2,7 +2,8 @@ import {Row, Typography} from "./..";
 import style from './Scheduler.module.css';
 import {filterDate, generateDates} from "../../../Util/Time";
 import {motion, AnimatePresence} from "framer-motion";
-import {fadeInOutAnimation} from "../Utils/utils.js";
+import {fadeInOutAnimation} from "../Utils/utils.js"
+import { useEffect, useState } from "react";
 
 /**
  * @param {import("../UI").SchedulerProps} props
@@ -12,7 +13,11 @@ import {fadeInOutAnimation} from "../Utils/utils.js";
 const Scheduler = (props) => {
     const {startDate, data, tdContentComp, cellHeight, maxHeight, profileComp} = props
 
-    const generatedDates = generateDates(startDate)
+    const [generatedDates, setGeneratedDates] = useState(generateDates(startDate))
+
+    useEffect(() => {
+        setGeneratedDates(generateDates(startDate))
+    }, [data])
 
     return (
         <Row

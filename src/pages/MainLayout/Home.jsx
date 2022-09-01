@@ -7,7 +7,7 @@ import {
     Profile,
     Button,
     TextField,
-    Select, Dialog, Drawer, DatePicker
+    Select, Dialog, Drawer, DatePicker, Icon
 } from "../../components/UI/index.jsx"
 import {useEffect, useState} from "react";
 import ShiftCard from "../../components/ShiftCard.jsx";
@@ -48,14 +48,15 @@ const yearsList = [
 ]
 
 const Home = () => {
-    const [isDrawerOpen, setIsDrawerOpen] = useState(false)
-    const [isDialogOpen, setIsDialogOpen] = useState(false)
-    const [isLoading, setIsLoading] = useState(true)
-    const {employees, updateEmployees} = useEmployeesContext()
-    const [startDate, setStartDate] = useState(new Date().toISOString())
-    const [filteredEmployees, setFilteredEmployees] = useState(employees)
-    const [isPublish, setIsPublish] = useState(false)
-    const [rolesList, setRolesList] = useState([])
+    const [isDrawerOpen, setIsDrawerOpen]                   = useState(false)
+    const [isDialogOpen, setIsDialogOpen]                   = useState(false)
+    const [isLoading, setIsLoading]                         = useState(true)
+    const {employees, addShift, updateEmployees}            = useEmployeesContext()
+    const [startDate, setStartDate]                         = useState(new Date().toISOString())
+    const [filteredEmployees, setFilteredEmployees]         = useState(employees)
+    const [isPublish, setIsPublish]                         = useState(false)
+    const [selectedShiftTemplate, setSelectedShiftTemplate] = useState()
+    const [rolesList, setRolesList]                         = useState([])
 
 
     const handleSearchEmployees = (searchValue) => {
@@ -77,6 +78,24 @@ const Home = () => {
         updateEmployees(_employees)
         setFilteredEmployees(_employees)
         setIsPublish(true)
+    }
+
+    const handleSelectShiftTemplate = (shiftTemplate) => {
+        setSelectedShiftTemplate(shiftTemplate)
+    }
+
+    const handleAddingShift = ({employeeId, date, position}) => {
+        if (selectedShiftTemplate) {
+            if (selectedShiftTemplate.position === position) {
+                const employees = addShift(employeeId, date, selectedShiftTemplate)
+                setFilteredEmployees(employees)
+                setIsPublish(false)
+                setSelectedShiftTemplate(undefined)
+            } else {
+                alert("Please select appropriate position")
+                setSelectedShiftTemplate(undefined)
+            }
+        }
     }
 
     useEffect(() => {
@@ -121,6 +140,8 @@ const Home = () => {
                             style={{height: 56}}
                             key={index}>
                             <ShiftCard
+                                className="cursor-pointer"
+                                onClick={() => handleSelectShiftTemplate({position, time, shift})}
                                 shift={shift}
                                 positionColor={rolesList[rolesList.findIndex(role => role.title === position)].color}
                                 employeePosition={position}
@@ -200,7 +221,30 @@ const Home = () => {
                                     time={data.time}
                                     employeePosition={data.position}/>
                             </Col>
-                        ) : <></>}
+                        ) : (
+                            <Col
+                                className={`${selectedShiftTemplate ? "cursor" : ""} px-12 py-10 h-full w-full`}
+                                onClick={() => {
+                                    handleAddingShift({
+                                        date: data.date, employeeId: data.userData.id, position: data.userData.position
+                                    })
+                                }}>
+                                {!selectedShiftTemplate && (
+                                    <Icon
+                                        onMouseEnter={({target}) => {
+                                            target.setAttribute('class', 'cursor-pointer align-center justify-center flex-row opacity-100')
+                                        }}
+                                        onMouseLeave={({target}) => {
+                                            target.setAttribute('class', 'opacity-0')
+                                        }}
+                                        onClick={() => setIsDialogOpen(true)}
+                                        className={`cursor align-center justify-center flex-row opacity-0`}
+                                        width="100%" height="100%" size={20} color="#515151">
+                                        <IconRiAddCircleLine/>
+                                    </Icon>
+                                )}
+                            </Col>
+                        )}
                         profileComp={({firstName, lastName, rating, image, position}) => (
                             <Profile
                                 {...{name: `${firstName} ${lastName}`, rating, image}}
