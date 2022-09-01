@@ -21,6 +21,9 @@ import {getRoles} from "../../services/Roles/Roles.js";
 import style from "./Home.module.scss";
 import {AnimatePresence} from "framer-motion";
 import ShiftSheet from "../../components/BottomSheets/ShiftSheet.jsx";
+import Role from '../../components/Role/Role.jsx';
+import Employee from '../../components/Employee/Employee';
+
 
 const shiftsTemplates = [
     {time: '9:00 - 11:00', position: 'Chef', shift: 'Morning'},
@@ -54,6 +57,19 @@ const yearsList = [
     {label: "2032", value: "2032"},
 ]
 
+const employeesList = [
+    { name: 'Suzanna Vatik', position: 'Waiter', selected: false},
+    { name: 'Ross Geller', position: 'Chef', selected: false},
+    { name: 'Suffi Gussee', position: 'Bartender', selected: false},
+    { name: 'Luna Arenna', position: 'Host', selected: false},
+    { name: 'Skyler Kaufman', position: 'Bartender', selected: false},
+    { name: 'Soi Rio', position: 'Waiter', selected: false},
+    { name: 'Sofia Ashtamker', position: 'Waiter', selected: false},
+    { name: 'Fred Vereceloni', position: 'Waiter', selected: false},
+]
+
+
+
 const Home = () => {
     const [isDrawerOpen, setIsDrawerOpen]                       = useState(false)
     const [isRolesSheetOpen, setIsRolesSheetOpen]               = useState(false)
@@ -67,7 +83,9 @@ const Home = () => {
     const [selectedShiftTemplate, setSelectedShiftTemplate]     = useState()
     const [isPublish, setIsPublish]                             = useState(true)
     const [shiftToEditPayload, setShiftToEditPayload]           = useState()
-
+    const [filteredRoles, setFilteredRoles]         = useState()
+    const [selectedRole, setSelectedRole]           = useState({})
+    const [filteredEmployeesList, setFilteredEmployeesList] = useState(employeesList)
 
     const handleSearchEmployees = (searchValue) => {
         const filtered = employees.filter(({firstName, lastName}) => {
@@ -75,6 +93,16 @@ const Home = () => {
         })
 
         setFilteredEmployees(filtered)
+    }
+
+    const handleSearchRoles = (searchValue) => {
+        const filtered = rolesList.filter(role => role.position.toLowerCase().includes(searchValue.toLowerCase()))
+        setFilteredRoles(filtered);
+    }
+
+    const handleSearchEmployeesList = (searchValue) => {
+        const filtered = employeesList.filter(employee => employee.name.toLowerCase().includes(searchValue.toLowerCase()))
+        setFilteredEmployeesList(filtered)
     }
 
     const handlePublish = () => {
@@ -101,6 +129,7 @@ const Home = () => {
         (async () => {
             const roles = await getRoles()
             setRolesList(roles)
+            setFilteredRoles(roles)
             setIsLoading(false)
         })()
     }, [])
@@ -118,6 +147,146 @@ const Home = () => {
             <AnimatePresence>
                 {isRolesSheetOpen && (
                     <BottomSheet onBackdropClick={() => setIsRolesSheetOpen(false)}>
+                        <Row>
+                            <Col className="font-medium ml-86 mt-90">
+                                <Row>
+                                    <Typography
+                                        className="font-medium"
+                                        color="black"
+                                        fontWeight="500"
+                                        variant="h5">
+                                        Role
+                                    </Typography>
+                                    <Icon
+                                        className="ml-22"
+                                          color="#515151"
+                                          size={12}>
+                                        <IconIonChevronRight/>
+                                    </Icon>
+                                    <TextField
+                                        type="search"
+                                        beforeIcon={<IconRiSearchLine/>}
+                                        placeholder='Search'
+                                        onChange={(event) => handleSearchRoles(event.target.value)}
+                                        beforeIconSize={20}
+                                        width={266}
+                                        height={40}
+                                        radius={32}
+                                        className="ml-36"
+                                    >
+                                    </TextField>
+                                </Row>
+                                <Row className="mt-36">
+                                    <Button width="106px" height="40px"
+                                            variant="primary">
+                                        <Typography variant={'button1'} color="white">
+                                            Add Role
+                                        </Typography>
+                                    </Button>
+                                </Row>
+                                <div className="mt-38">
+                                    { filteredRoles.map((role) => (
+                                        <Row key={role.title} className="mt-14">
+                                            <Role
+                                                title={role.title}
+                                                roleColor={role.color}
+                                                selected={role.title === selectedRole.title}
+                                                onSelect={() => setSelectedRole(role)}/>
+                                        </Row>
+                                    ))}
+                                </div>
+                            </Col>
+                            {selectedRole.title && (<Col>
+                                <div className="ml-74 mt-90">
+                                    <Row className="ml-92">
+                                        <Typography
+                                            className="font-medium pl-10 pr-8"
+                                            color="black"
+                                            fontWeight="500"
+                                            variant="h5">
+                                            Title
+                                        </Typography>
+                                        <Icon className="ml-12"
+                                              color="#515151"
+                                              size={12}>
+                                            <IconIonChevronRight/>
+                                        </Icon>
+                                        <Typography
+                                            className="font-medium ml-14"
+                                            color="black"
+                                            fontWeight="500"
+                                            variant="h5">
+                                            {selectedRole.title}
+                                        </Typography>
+                                    </Row>
+                                    <Row className="ml-92 mt-68">
+                                        <Col>
+                                            <Typography
+                                                className="font-medium pl-10 pr-8"
+                                                color="black"
+                                                fontWeight="500"
+                                                variant="h5">
+                                                Color
+                                            </Typography>
+                                            <p className="mt-20">Color Picker</p>
+                                        </Col>
+                                        <Col className="ml-70">
+                                            <Typography
+                                                className="font-medium pl-10 pr-8"
+                                                color="black"
+                                                fontWeight="500"
+                                                variant="h5">
+                                                Employees
+                                            </Typography>
+                                            <Row>
+                                                <TextField
+                                                    type="search"
+                                                    beforeIcon={<IconRiSearchLine/>}
+                                                    placeholder='Search Employees'
+                                                    onChange={(event) => handleSearchEmployeesList(event.target.value)}
+                                                    beforeIconSize={20}
+                                                    width={266}
+                                                    height={40}
+                                                    radius={32}
+                                                    className="ml-20"
+                                                >
+                                                </TextField>
+                                            </Row>
+                                            <div style={{borderColor:"black", borderWidth:"1px", borderStyle:"solid"}}>
+                                                { filteredEmployeesList.map((e) => (
+                                                    <Row key={e.name} className="mt-14">
+                                                        <Employee
+                                                            name={e.name}
+                                                            position={e.position} />
+                                                    </Row>
+                                                ))}
+                                            </div>
+                                        </Col>
+                                        <Col>
+                                            <Button width="125px" height="40px"
+                                                    variant="primary" className="ml-588 mt-274">
+                                                <Typography variant={'button1'} color="white">
+                                                    Save Changes
+                                                </Typography>
+                                            </Button>
+                                            <Button width="125px" height="40px"
+                                                    variant="default" outlined className="ml-16">
+                                                <Row className="justify-center align-center">
+                                                    <Typography variant={'button1'} color="black">
+                                                        Delete Job
+                                                    </Typography>
+                                                    <Icon className="ml-4"
+                                                          color="#515151"
+                                                          size={18}>
+                                                        <IconFluentDelete20Regular/>
+                                                    </Icon>
+                                                </Row>
+                                            </Button>
+                                        </Col>
+                                    </Row>
+                                </div>
+                            </Col>)}
+                        </Row>
                     </BottomSheet>
                 )}
             </AnimatePresence>

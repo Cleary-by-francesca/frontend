@@ -7,13 +7,13 @@ import style from './Role.module.css';
  * @returns {JSX.Element}
  * @constructor
  */
-const Role = ( {title, roleColor, onEditClick}) => {
+const Role = ( {title, roleColor, selected, onSelect}) => {
 
     return (
         <div className={`flex-row` }>
-            <div className={`${style.role}`}>
+            <div className={`${style.role} ${selected? style.selected: ''}`}>
             <Row>
-            <button className={`${style.btn}`} onClick={onEditClick}>  
+            <button className={`${style.btn}`} onClick={onSelect}>  
             <div className={`${style.position}`}>
             <span className={`${style.dot}`}
             style={{

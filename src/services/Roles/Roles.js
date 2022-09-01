@@ -3,7 +3,8 @@ const rolesList = [
     {id: '2', title: 'Waiter', color: '#1CB2B2',},
     {id: '3', title: 'Bartender', color: '#FFC6FF',},
     {id: '4', title: 'Host', color: '#998FD7',},
-    {id: '5', title: 'Manager', color: '#9BF6FF'}
+    {id: '5', title: 'Manager', color: '#9BF6FF'},
+    {id: '6', title: 'Dishwasher', color: '#FFB864'}
 ]
 
 export const getRoles = async () => rolesList

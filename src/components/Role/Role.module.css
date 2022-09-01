@@ -8,9 +8,9 @@
 
 .role {
     border-color: black;
-    padding-top: 3px;
     border-width: 1px;
     border-radius: 8px;   
+    background: #FFFFFF;
 }
 
 .role :hover {
@@ -19,16 +19,13 @@
     border-radius: 8px;
 }
 
-.role :active {
-    border-color: #643D80;
+.selected {
     background-color: #643D80;
-    border-radius: 8px;
 }
 
 .title {
     align-items: center;
     font-weight: 400;
-    
 }
 
 .edit {
@@ -41,13 +38,12 @@
 .btn {
     width: 386px;
     border-color: black;
-    padding-top: 3px;
     border-width: 2px;
     border-radius: 8px;
-    background: #FFFFFF;
     display: inline-flex;
     flex-direction: row;
     justify-content: space-between;
+    background-color: transparent;
 }
 
 .position {
