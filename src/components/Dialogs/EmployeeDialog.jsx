@@ -12,8 +12,6 @@ import EmployeeForm from "../Forms/EmployeeForm.jsx";
 const EmployeeDialog = (props) => {
     const {employeeId, closeDialogAction, initialData} = props
 
-    const isEditingMode = Object.keys(initialData).length > 0
-
 
     return (
         <Col className="pt-112 align-center h-full w-full">
@@ -37,7 +35,7 @@ const EmployeeDialog = (props) => {
                         color={'#515151'}
                         fontWeight={500}
                         variant={'h5'}>
-                        {isEditingMode ? `${initialData.firstName} ${initialData.lastName}` : 'Add New Employee'}
+                        {employeeId ? `${initialData.firstName} ${initialData.lastName}` : 'Add New Employee'}
                     </Typography>
                 </Row>
 

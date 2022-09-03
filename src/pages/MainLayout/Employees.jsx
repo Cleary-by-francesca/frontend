@@ -102,7 +102,8 @@ const Employees = () => {
 
             <AnimatePresence>
                 {isArchiveDialogOpen && (
-                    <Dialog onBackdropClick={() => setIsArchiveDialogOpen(false)} width={670} height={500}>
+                    <Dialog onBackdropClick={() => setIsArchiveDialogOpen(false)}
+                            width={670} height={500}>
                         <ArchiveEmployeeDialog
                             closeDialogAction={() => setIsArchiveDialogOpen(false)}
                             employee={employeeToArchive}/>
@@ -117,9 +118,8 @@ const Employees = () => {
                         showAppBar
                         animationDirection="right"
                         animationDuration={0.4}
-                        onBackdropClick={() => setIsAddEmployeeDialogOpen(false)}
-                        width={'100%'}
-                        height={'100%'}>
+                        fullScreen
+                        onBackdropClick={() => setIsAddEmployeeDialogOpen(false)}>
                         <EmployeeDialog
                             employeeId={employeeToEdit.id}
                             initialData={employeeToEdit}

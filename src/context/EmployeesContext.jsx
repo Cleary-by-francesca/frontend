@@ -284,7 +284,7 @@ const EmployeesProvider = ({children}) => {
             ...restData,
             dates: dates.map(({status, ...restDate}) => ({
                 ...restDate,
-                status: status === 'added' ? status = "published" : ''
+                status: "published"
             }))
         }))
 
@@ -297,13 +297,14 @@ const EmployeesProvider = ({children}) => {
 
 
     const archiveEmployee = (id) => {
-        const newEmployees = employees.map(employee => {
-            if (employee.id === id) {
-                employee.status = 'Archived'
-            }
-            return employee
-        })
-        setEmployees(newEmployees)
+        setEmployees(produce(employees, draft => {
+            draft.map(employee => {
+                if (employee.id === id) {
+                    employee.status = 'Archived'
+                }
+                return employee
+            })
+        }))
     }
 
     return <EmployeesContext.Provider value={{
