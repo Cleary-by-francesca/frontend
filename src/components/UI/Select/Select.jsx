@@ -138,7 +138,7 @@ const MenuList = (props) => {
 
 
 /**
- * @param props {SelectProps}
+ * @param props {import("../UI").SelectProps}
  * @returns {JSX.Element}
  * @constructor
  */

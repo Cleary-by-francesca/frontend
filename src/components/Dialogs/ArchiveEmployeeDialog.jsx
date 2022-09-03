@@ -56,6 +56,7 @@ const ArchiveEmployeeDialog = (props) => {
 
                 <Button
                     className="mx-32 px-12"
+                    removePadding
                     outlined
                     variant="primary"
                     onClick={() => {

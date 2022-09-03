@@ -73,6 +73,7 @@ const DayPicker = ({year, month, selectedDays, currentDate, onSelect, daysGap}) 
                     <Button
                         key={index}
                         noShadow
+                        icon
                         onClick={() => daySelectHandler(index + 1)}
                         className="relative my-14"
                         variant="icon">

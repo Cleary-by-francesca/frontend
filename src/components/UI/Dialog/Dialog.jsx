@@ -7,7 +7,7 @@ import {motion} from "framer-motion";
 
 /**
  *
- * @param props {import("../UI").ModalProps}
+ * @param props {import("../UI").DialogProps}
  * @returns {JSX.Element}
  * @constructor
  */

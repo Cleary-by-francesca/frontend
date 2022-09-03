@@ -26,7 +26,7 @@ const Button = (props) => {
             outlined, icon,
             style, size,
             width, height,
-            rounded,
+            rounded, removePadding,
             ...restProps
         } = props
 
@@ -35,6 +35,7 @@ const Button = (props) => {
     if (icon) classes.push(cssStyle.icon)
 
     if (!icon) {
+        if (!removePadding) classes.push('px-20')
         if (outlined) classes.push(disabled ? cssStyle.buttonOutlinedDisabled : outlinedVariants[variant])
         if (!outlined) classes.push(disabled ? cssStyle.buttonDisabled : variants[variant])
     }
@@ -53,7 +54,7 @@ const Button = (props) => {
     return (
         <button {...restProps}
                 disabled={disabled}
-                className={classes.join(' ')}
+                className={`${classes.join(' ')}`}
                 style={_style}>
             {children}
         </button>
@@ -61,16 +62,17 @@ const Button = (props) => {
 }
 
 Button.defaultProps = {
-    className: '',
-    variant:   'primary',
-    noShadow:  false,
-    disabled:  false,
-    rounded:   4,
-    icon:      false,
-    size:      18,
-    width:     'fit-content',
-    height:    40,
-    outlined:  false,
+    className:     '',
+    variant:       'primary',
+    noShadow:      false,
+    disabled:      false,
+    removePadding: false,
+    rounded:       4,
+    icon:          false,
+    size:          18,
+    width:         'fit-content',
+    height:        40,
+    outlined:      false,
 }
 
 export default Button

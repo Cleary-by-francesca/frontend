@@ -22,11 +22,13 @@ interface EmployeeFormData {
 }
 
 interface AddEmployeeDialogProps {
+	employeeId?: string
 	initialData?: EmployeeFormData
 	closeDialogAction: () => void
 }
 
 interface AddEmployeeFormProps {
+	employeeId?: string
 	initialData?: EmployeeFormData
 	onSubmit: () => void
 	onClose: () => void

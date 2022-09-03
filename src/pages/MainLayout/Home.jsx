@@ -7,7 +7,7 @@ import {
     Profile,
     Button,
     TextField,
-    Select, Dialog, Drawer, DatePicker, Icon
+    Select, Dialog, Drawer, DatePicker, Icon, BottomSheet
 } from "../../components/UI/index.jsx"
 import {useEffect, useState} from "react";
 import ShiftCard from "../../components/ShiftCard.jsx";
@@ -15,6 +15,7 @@ import {useEmployeesContext} from "../../context/EmployeesContext.jsx";
 import {fadeInOutAnimation} from "../../components/UI/Utils/utils.js";
 import {getRoles} from "../../services/Roles/Roles.js";
 import style from "./Home.module.scss";
+import {AnimatePresence} from "framer-motion";
 
 const shiftsTemplates = [
     {time: '9:00 - 11:00', position: 'Chef', shift: 'Morning'},
@@ -49,35 +50,28 @@ const yearsList = [
 ]
 
 const Home = () => {
-    const [isDrawerOpen, setIsDrawerOpen]                   = useState(false)
-    const [isDialogOpen, setIsDialogOpen]                   = useState(false)
-    const [isLoading, setIsLoading]                         = useState(true)
-    const {employees, addShift, updateEmployees}            = useEmployeesContext()
-    const [startDate, setStartDate]                         = useState(new Date().toISOString())
-    const [filteredEmployees, setFilteredEmployees]         = useState(employees)
-    const [isPublish, setIsPublish]                         = useState(false)
-    const [selectedShiftTemplate, setSelectedShiftTemplate] = useState()
-    const [rolesList, setRolesList]                         = useState([])
+    const [isDrawerOpen, setIsDrawerOpen]                       = useState(false)
+    const [isRolesSheetOpen, setIsRolesSheetOpen]               = useState(false)
+    const [isShiftEditingSheetOpen, setIsShiftEditingSheetOpen] = useState(false)
+    const [isLoading, setIsLoading]                             = useState(true)
+    const {employees, addShift, publishShifts}                  = useEmployeesContext()
+    const [startDate, setStartDate]                             = useState(new Date().toISOString())
+    const [filteredEmployees, setFilteredEmployees]             = useState(employees)
+    const [isPublish, setIsPublish]                             = useState(true)
+    const [selectedShiftTemplate, setSelectedShiftTemplate]     = useState()
+    const [rolesList, setRolesList]                             = useState([])
+    const [search, setSearch]                                   = useState('')
 
 
     const handleSearchEmployees = (searchValue) => {
-        const filtered = employees.filter(({
-                                               firstName, lastName
-                                           }) => `${firstName} ${lastName}`.toLowerCase().includes(searchValue.toLowerCase()))
-        setFilteredEmployees(filtered);
+        const filtered = employees.filter(({firstName, lastName}) => {
+            return `${firstName} ${lastName}`.toLowerCase().includes(searchValue.toLowerCase())
+        })
+        setFilteredEmployees(filtered)
     }
 
     const handlePublish = () => {
-        const _employees = employees.map(({dates, ...restData}) => ({
-            ...restData,
-            dates: dates.map(({status, ...restDate}) => ({
-                ...restDate,
-                status: status === 'added' ? status = "published" : ''
-            }))
-        }))
-
-        updateEmployees(_employees)
-        setFilteredEmployees(_employees)
+        publishShifts()
         setIsPublish(true)
     }
 
@@ -107,17 +101,33 @@ const Home = () => {
         })()
     }, [])
 
+    useEffect(() => {
+        handleSearchEmployees(search)
+    }, [employees])
+
     return (
         isLoading ? <div>Loading...</div> : (
             <Col
                 initial={false}
                 {...fadeInOutAnimation}
                 className="h-full w-full">
-                {isDialogOpen && (
-                    <Dialog centered>
 
-                    </Dialog>
-                )}
+                <AnimatePresence>
+                    {isRolesSheetOpen && (
+                        <BottomSheet onBackdropClick={() => setIsRolesSheetOpen(false)}>
+
+                        </BottomSheet>
+                    )}
+                </AnimatePresence>
+
+                <AnimatePresence>
+                    {isShiftEditingSheetOpen && (
+                        <BottomSheet onBackdropClick={() => setIsShiftEditingSheetOpen(false)}>
+
+                        </BottomSheet>
+                    )}
+                </AnimatePresence>
+
 
                 <Drawer
                     labelContent="Shifts Templates"
@@ -159,7 +169,7 @@ const Home = () => {
                     <Typography
                         className="font-bold"
                         variant={'h4'}>
-                        Francesca
+                        Bella Italia
                     </Typography>
 
                     <Col className="pr-26">
@@ -169,9 +179,23 @@ const Home = () => {
                             isSearchable={false}
                             menuAnchorPoint="right"
                             menuWidth={220}
+                            onChange={(option) => option.action()}
                             options={[
-                                {label: "Edit tasks", value: "editTask"},
-                                {label: "Manage Shift Templates", value: "manageShiftTemplates"}
+                                {
+                                    label:  "Edit tasks",
+                                    value:  "editTask",
+                                    action: () => ''
+                                },
+                                {
+                                    label:  "Manage Shift Templates",
+                                    value:  "manageShiftTemplates",
+                                    action: () => ''
+                                },
+                                {
+                                    label:  "Manage Roles",
+                                    value:  "manageRoles",
+                                    action: () => setIsRolesSheetOpen(true)
+                                }
                             ]}
                             value={{label: "Options", value: ""}}/>
                     </Col>
@@ -183,7 +207,10 @@ const Home = () => {
                             type="search"
                             beforeIcon={<IconRiSearchLine/>}
                             placeholder='Search Employees'
-                            onChange={(event) => handleSearchEmployees(event.target.value)}
+                            onChange={({target}) => {
+                                setSearch(target.value)
+                                handleSearchEmployees(target.value)
+                            }}
                             beforeIconSize={20}
                             width={270}>
                         </TextField>
@@ -230,7 +257,7 @@ const Home = () => {
                                 }}>
                                 {!selectedShiftTemplate && (
                                     <Icon
-                                        onClick={() => setIsDialogOpen(true)}
+                                        onClick={() => setIsShiftEditingSheetOpen(true)}
                                         className={`cursor align-center justify-center flex-row ${style.addShiftIcon}`}
                                         width="100%" height="100%" size={20} color="#515151">
                                         <IconRiAddCircleLine/>
