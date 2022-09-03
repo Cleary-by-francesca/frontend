@@ -2,7 +2,7 @@ import style from './AppBar.module.css'
 
 /**
  *
- * @param props {AppBarProps}
+ * @param props {import("../UI").AppBarProps}
  * @returns {JSX.Element}
  * @constructor
  */

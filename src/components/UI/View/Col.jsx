@@ -2,7 +2,7 @@ import {motion} from "framer-motion";
 
 /**
  *
- * @param props {ColProps}
+ * @param props {import("../UI").ColProps}
  * @returns {JSX.Element}
  * @constructor
  */
@@ -11,8 +11,8 @@ const Col = (props) => {
 
     return (
         <motion.div
-            {...restProps} className={`flex-col ${className}`}
             {...restProps}
+            className={`flex-col ${className}`}
             style={{
                 flex: cols,
                 ...style,

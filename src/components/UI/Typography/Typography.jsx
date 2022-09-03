@@ -24,7 +24,7 @@ const fontWeightForVariant = {
     h3:        600,
     h4:        600,
     h5:        600,
-    h6:        600,
+    h6:        400,
     subtitle1: 600,
     subtitle2: 500,
     body1:     400,
@@ -36,7 +36,7 @@ const fontWeightForVariant = {
 
 /**
  *
- * @param props {TypographyProps}
+ * @param props {import("../UI").TypographyProps}
  * @returns {JSX.Element}
  * @constructor
  */
@@ -44,7 +44,7 @@ const Typography = (props) => {
     const {
               children, className, spacing,
               color, lineHeight, centered,
-              fontWeight, fontFamily,
+              fontWeight, fontFamily, width,
               variant, style, size,
               ...restProps
           } = props;
@@ -53,6 +53,7 @@ const Typography = (props) => {
     const typographyStyle = {
         ...style,
         color,
+        width,
         fontFamily,
         lineHeight,
         letterSpacing: spacing,
