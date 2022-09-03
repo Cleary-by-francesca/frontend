@@ -1,0 +1,40 @@
+.menu {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background: #fff;
+  border-radius: 5px;
+  box-shadow: 2px 2px 4px 2px rgba(105, 105, 105, 0.28);
+  filter: drop-shadow(-2px -1px 4px rgba(0, 0, 0, 0.15));
+}
+
+.menuItem {
+  display: flex;
+  padding-left: 25px;
+  padding-right: 25px;
+  align-items: center;
+  width: 100%;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.firstMenuItem {
+  border-radius: 5px 5px 0 0;
+}
+
+.lastMenuItem {
+  border-radius: 0 0 5px 5px;
+}
+
+.menuItem:hover {
+  background-color: #E8E8E8;
+}
+
+.menuItem:active {
+  background-color: #53326C;
+}
+
+.menuItem:active * {
+  color: #E8E8E8;
+}
