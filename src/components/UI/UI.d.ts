@@ -80,9 +80,6 @@ interface CardProps extends HTMLMotionProps<"div"> {
 	backgroundColor?: CSSProperties['backgroundColor']
 	rounded?: number
 	hasShadow?: boolean
-	hasIndicator?: boolean
-	indicatorColor: CSSProperties['borderColor']
-	indicatorPosition: 'left' | 'right'
 	hasBorder?: boolean
 	borderColor?: CSSProperties['borderColor']
 	borderWidth?: CSSProperties['borderWidth']
