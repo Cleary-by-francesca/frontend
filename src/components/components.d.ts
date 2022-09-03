@@ -1,6 +1,6 @@
-import {CSSProperties} from "react";
+import {CSSProperties, DetailedHTMLProps, HTMLAttributes} from "react";
 
-export interface ShiftCardProps {
+export interface ShiftCardProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
 	positionColor?: CSSProperties['borderColor']
 	time: string
 	employeePosition: string

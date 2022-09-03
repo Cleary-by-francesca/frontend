@@ -1,5 +1,5 @@
 import Home from "./pages/MainLayout/Home.jsx";
-import MainLayout from "./Layouts/MainLayout.jsx";
+import MainLayout from "./layouts/MainLayout.jsx";
 import Chat from "./pages/MainLayout/Chat.jsx";
 import Employees from "./pages/MainLayout/Employees.jsx";
 

@@ -8,12 +8,12 @@ import {Card, Typography} from "./UI/index.jsx"
  * @constructor
  */
 const ShiftCard = (props) => {
-    const {positionColor, time, status, employeePosition, shift} = props
-
+    const {positionColor, time, status, employeePosition, shift, className, ...restProps} = props
 
     return (
         <div
-            className={style.shiftCardWrapper}>
+            {...restProps}
+            className={`${className} ${style.shiftCardWrapper}`}>
             {status !== "published" && (
                 <Card
                     className={style.shiftCardIndicator}
