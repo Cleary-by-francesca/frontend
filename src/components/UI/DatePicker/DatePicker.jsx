@@ -3,7 +3,7 @@ import Icon from "../Icon/Icon.jsx";
 import {Button, Col, Row, Typography} from "../index.jsx";
 import {useEffect, useState} from "react";
 import {motion, AnimatePresence} from "framer-motion";
-import {openAnimation} from "../Utils/utils.js";
+import {fadeInOutAndDownToTop, openAnimation} from "../Utils/utils.js";
 import moment from "moment";
 import Backdrop from "../Backdrop/Backdrop.jsx";
 import Portal from "../Portal/Portal.jsx";
@@ -12,97 +12,52 @@ import MonthPicker from "./MonthPicker.jsx";
 import DayPicker from "./DayPicker.jsx";
 import DatePickerHeader from "./DatePickerHeader.jsx";
 import {monthsList} from "../../../Util/Time.js";
+import RelativePortal from "../Portal/RelativePortal.jsx";
 
 /**
  *
- * @param props {DatePickerProps}
+ * @param props {import("../UI").DatePickerProps}
  * @returns {JSX.Element}
  * @constructor
  */
 const DatePicker = (props) => {
     const {
-              width, height, rounded, hasIcon,
-              beforeIconColor, beforeIconSize, hasBorder,
-              borderColor, borderWidth, color, currentDate,
+              width, height, rounded, className,
+              beforeIconColor, beforeIconSize, beforeIcon,
+              afterIconColor, afterIconSize, afterIcon,
+              hasBorder, hasBeforeIcon, hasAfterIcon,
+              borderColor, borderWidth, color, placeholderColor, currentDate, placeholder,
               calendarMarginTop, calendarMarginLeft, calendarMarginRight, calendarMarginBottom,
-              hasDropdownIndicator, dropdownIndicatorColor, dropdownIndicatorSize,
-              daysToEndDate, yearsOptions,
-              onSelect, onSet, onClear
+              hasDropdownIndicator, dropdownIndicatorColor, dropdownIndicatorSize, label,
+              daysToEndDate, yearsOptions, placement, offsetX, offsetY, displayFormat,
+              onSelect, onSet, onClear, ...restProps
           } = props
 
     const [isOpen, setIsOpen]               = useState(false)
-    const [selectedDate, setSelectedDate]   = useState(moment(currentDate).toISOString())
-    const [displayDate, setDisplayDate]     = useState(moment(currentDate).format('MMM, D, YYYY'))
-    const [isSetDisabled, setIsSetDisabled] = useState(false)
+    const [selectedDate, setSelectedDate]   = useState(currentDate ? moment(currentDate).toISOString() : '')
+    const [displayDate, setDisplayDate]     = useState(moment(currentDate).format(displayFormat))
+    const [isSetDisabled, setIsSetDisabled] = useState(true)
 
 
     /** @type {CSSProperties | {}} */
     const borderStyle = hasBorder ? {borderColor, borderWidth, borderStyle: 'solid'} : {}
 
-
     const [year, setYear]   = useState(yearsOptions[yearsOptions.findIndex(_year => _year.value === moment().format('YYYY'))])
     const [month, setMonth] = useState(monthsList[monthsList.findIndex(_month => _month.value === moment().format('MM'))])
 
     return (
-        <div>
-            <div
-                onClick={() => {
-                    if (!isOpen) {
-                        setSelectedDate(moment(currentDate).toISOString())
-                        setIsSetDisabled(false)
-                    }
-                    setIsOpen(!isOpen)
-                }}
-                className={`${cssStyle.datePickerInput} flex-row align-center`}
-                style={{
-                    width,
-                    height,
-                    ...borderStyle,
-                    borderRadius: rounded,
-                }}>
+        <AnimatePresence>
+            <RelativePortal
+                elementWrapperProps={restProps}
+                isOpen={isOpen}
+                placement={placement}
+                portalContent={
+                    <>
+                        <Backdrop
+                            isTransparent
+                            active={isOpen}
+                            onClick={() => setIsOpen(false)}/>
 
-                {hasIcon && (
-                    <Icon
-                        className={`mx-10 align-center flex-row`}
-                        color={beforeIconColor}
-                        height={height - (borderWidth * 2)}
-                        width={beforeIconSize}
-                        size={beforeIconSize}>
-                        <IconOcticonCalendar16/>
-                    </Icon>
-                )}
-
-                <Typography
-                    color={color}
-                    size={14}
-                    variant={'button1'}>
-                    {displayDate}
-                </Typography>
-
-                {hasDropdownIndicator && (
-                    <Icon
-                        className={`align-center justify-end flex-row ml-auto mr-10 ${cssStyle.dropdownIndicator} ${isOpen ? cssStyle.dropdownIndicatorOpen : ''}`}
-                        color={dropdownIndicatorColor}
-                        height={height - (borderWidth * 2)}
-                        width={dropdownIndicatorSize}
-                        size={dropdownIndicatorSize}>
-                        <IconMdiChevronDown/>
-                    </Icon>
-                )}
-            </div>
-
-            {isOpen && (
-                <Portal>
-                    <Backdrop
-                        isTransparent
-                        active={isOpen}
-                        onClick={() => setIsOpen(false)}/>
-                </Portal>
-            )}
-
-            <div className="relative">
-                <AnimatePresence>
-                    {isOpen && (
                         <motion.div
                             {...openAnimation}
                             className={`absolute ${cssStyle.datePicker}`}
@@ -149,6 +104,7 @@ const DatePicker = (props) => {
                                 <Button
                                     className="mx-14"
                                     outlined
+                                    noShadow
                                     variant="default"
                                     onClick={() => {
                                         setSelectedDate('')
@@ -167,12 +123,13 @@ const DatePicker = (props) => {
                                 <Button
                                     className="mx-14"
                                     width={150}
+                                    noShadow
                                     disabled={isSetDisabled}
                                     variant="primary"
                                     onClick={() => {
                                         setIsOpen(false)
                                         onSet(selectedDate)
-                                        setDisplayDate(moment(selectedDate).format('MMM, D, YYYY'))
+                                        setDisplayDate(moment(selectedDate).format(displayFormat))
                                     }}>
                                     <Typography
                                         color={'#E8E8E8'}
@@ -183,15 +140,106 @@ const DatePicker = (props) => {
                                 </Button>
                             </Row>
                         </motion.div>
+                    </>
+                }>
+                <section className={`flex-col relative h-full ${className}`}>
+                    {label && (
+                        <AnimatePresence>
+                            {props.currentDate && (
+                                <motion.label
+                                    {...fadeInOutAndDownToTop}
+                                    style={{top: -9, left: 12, backgroundColor: '#fff', zIndex: 1}}
+                                    className="w-fit absolute px-4">
+                                    <Typography
+                                        size={13}
+                                        fontWeight={400}
+                                        variant={'button1'}>
+                                        {label}
+                                    </Typography>
+                                </motion.label>
+                            )}
+                        </AnimatePresence>
                     )}
-                </AnimatePresence>
-            </div>
-        </div>
+                    <div
+                        onClick={() => {
+                            if (!isOpen) {
+                                setSelectedDate(moment(currentDate).toISOString())
+                                setIsSetDisabled(!currentDate)
+                            }
+
+                            setIsOpen(!isOpen)
+                        }}
+                        className={`${cssStyle.datePickerInput} flex-row align-center`}
+                        style={{
+                            width,
+                            height,
+                            ...borderStyle,
+                            borderRadius: rounded,
+                        }}>
+
+                        {hasBeforeIcon && (
+                            <Icon
+                                className={`mx-10 align-center flex-row`}
+                                color={beforeIconColor}
+                                height={height - (borderWidth * 2)}
+                                width={beforeIconSize}
+                                size={beforeIconSize}>
+                                {beforeIcon}
+                            </Icon>
+                        )}
+
+                        <Row className={hasBeforeIcon ? '' : 'ml-10'}>
+                            {displayDate !== 'Invalid date' ?
+                                <Typography
+                                    color={color}
+                                    size={14}
+                                    spacing={0.1}
+                                    variant={'button1'}>
+                                    {displayDate}
+                                </Typography>
+                                :
+                                <Typography
+                                    color={placeholderColor}
+                                    size={14}
+                                    variant={'button1'}>
+                                    {placeholder}
+                                </Typography>
+                            }
+                        </Row>
+
+                        {hasAfterIcon && (
+                            <Icon
+                                className={`align-center justify-end flex-row ml-auto mr-10`}
+                                color={afterIconColor}
+                                height={height - (borderWidth * 2)}
+                                width={afterIconSize}
+                                size={afterIconSize}>
+                                {afterIcon}
+                            </Icon>
+                        )}
+
+                        {hasDropdownIndicator && (
+                            <Icon
+                                className={`align-center justify-end flex-row ml-auto mr-10 ${cssStyle.dropdownIndicator} ${isOpen ? cssStyle.dropdownIndicatorOpen : ''}`}
+                                color={dropdownIndicatorColor}
+                                height={height - (borderWidth * 2)}
+                                width={dropdownIndicatorSize}
+                                size={dropdownIndicatorSize}>
+                                <IconMdiChevronDown/>
+                            </Icon>
+                        )}
+                    </div>
+                </section>
+            </RelativePortal>
+        </AnimatePresence>
     )
 }
 
 DatePicker.defaultProps = {
     className:              '',
+    label:                  '',
+    placeholder:            'Select Date',
+    placement:              'bottom-left',
     daysToEndDate:          7,
     width:                  'auto',
     height:                 40,
@@ -201,15 +249,22 @@ DatePicker.defaultProps = {
     dropdownIndicatorColor: '#515151',
     dropdownIndicatorSize:  24,
     borderColor:            '#6F6F6F',
-    beforeIconColor:        '#515151',
     color:                  '#515151',
+    placeholderColor:       '#858585',
     calendarMarginTop:      10,
     calendarMarginBottom:   0,
     calendarMarginLeft:     0,
     calendarMarginRight:    0,
-    hasIcon:                true,
     borderWidth:            1,
+    hasBeforeIcon:          true,
+    hasAfterIcon:           false,
+    beforeIcon:             <IconOcticonCalendar16/>,
+    afterIcon:              <IconOcticonCalendar16/>,
+    beforeIconColor:        '#515151',
+    afterIconColor:         '#515151',
     beforeIconSize:         20,
+    afterIconSize:          20,
+    displayFormat:          'MMM, D, YYYY',
     onChange:               () => '',
     onSet:                  () => '',
     onSelect:               () => ''

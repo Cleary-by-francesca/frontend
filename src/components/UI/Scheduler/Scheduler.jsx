@@ -5,20 +5,22 @@ import {motion, AnimatePresence} from "framer-motion";
 import {fadeInOutAnimation} from "../Utils/utils.js";
 
 /**
- * @param {SchedulerProps} props
+ * @param {import("../UI").SchedulerProps} props
  * @returns {JSX.Element}
  * @constructor
  */
 const Scheduler = (props) => {
-    const {startDate, data, tdContentComp, profileComp} = props
+    const {startDate, data, tdContentComp, cellHeight, maxHeight, profileComp} = props
 
     const generatedDates = generateDates(startDate)
 
     return (
-        <Row className={style.schedulerWrapper}>
+        <Row
+            className={style.schedulerWrapper}
+            style={{maxHeight}}>
             <table className={`w-full h-full ${style.schedulerMain}`}>
                 <thead>
-                <tr>
+                <tr style={{height: cellHeight}}>
                     <th className={style.boxBorder}/>
                     {generatedDates.map(({label}, index) => (
                         <th className={style.boxBorder} key={index}>
@@ -36,7 +38,10 @@ const Scheduler = (props) => {
                 <tbody>
                 <AnimatePresence initial={false}>
                     {data.map(({dates, ...restData}, index) => (
-                        <motion.tr {...fadeInOutAnimation} key={index}>
+                        <motion.tr
+                            {...fadeInOutAnimation}
+                            style={{height: cellHeight}}
+                            key={index}>
                             <td style={{width: 200}} className={style.boxBorder}>
                                 {profileComp({dates, ...restData})}
                             </td>
@@ -55,6 +60,11 @@ const Scheduler = (props) => {
             </table>
         </Row>
     )
+}
+
+Scheduler.defaultProps = {
+    cellHeight: 80,
+    maxHeight:  600,
 }
 
 export default Scheduler

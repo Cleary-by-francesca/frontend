@@ -8,11 +8,12 @@ const variants = {
 
 const outlinedVariants = {
     default: cssStyle.buttonOutlinedDefault,
+    primary: cssStyle.buttonOutlinedPrimary,
 }
 
 /**
  *
- * @param props {ButtonProps}
+ * @param props {import("../UI").ButtonProps}
  * @returns {JSX.Element}
  * @constructor
  */
@@ -20,15 +21,26 @@ const Button = (props) => {
     const
         {
             children, className,
+            noShadow,
             variant, disabled,
-            outlined,
+            outlined, icon,
             style, size,
             width, height,
             rounded,
             ...restProps
         } = props
 
-    const classes = `${cssStyle.button} ${outlined ? (disabled ? cssStyle.buttonOutlinedDisabled : outlinedVariants[variant]) : (disabled ? cssStyle.buttonDisabled : variants[variant])} ${className}`
+    const classes = [cssStyle.button, className]
+
+    if (icon) classes.push(cssStyle.icon)
+
+    if (!icon) {
+        if (outlined) classes.push(disabled ? cssStyle.buttonOutlinedDisabled : outlinedVariants[variant])
+        if (!outlined) classes.push(disabled ? cssStyle.buttonDisabled : variants[variant])
+    }
+
+    if (!icon && !noShadow) classes.push(cssStyle.buttonShadow)
+
 
     /** @type {CSSProperties} */
     const _style = {
@@ -41,7 +53,7 @@ const Button = (props) => {
     return (
         <button {...restProps}
                 disabled={disabled}
-                className={classes}
+                className={classes.join(' ')}
                 style={_style}>
             {children}
         </button>
@@ -51,10 +63,12 @@ const Button = (props) => {
 Button.defaultProps = {
     className: '',
     variant:   'primary',
+    noShadow:  false,
     disabled:  false,
     rounded:   4,
+    icon:      false,
     size:      18,
-    width:     95,
+    width:     'fit-content',
     height:    40,
     outlined:  false,
 }

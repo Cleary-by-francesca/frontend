@@ -1,4 +1,4 @@
-import {Avatar, Col, Typography} from "./index.jsx";
+import {Avatar, Col, Row, Typography} from "./index.jsx";
 
 /**
  *
@@ -10,7 +10,7 @@ const Profile = (props) => {
     const {name, rating, image, ratingScale, indicatorColor, className, ...restProps} = props
 
     return (
-        <div className={`flex-row ${className}`} {...restProps}>
+        <div className={`flex-row  ${className}`} {...restProps}>
             <Avatar
                 hasIndicator
                 src={image}
@@ -18,9 +18,11 @@ const Profile = (props) => {
                 borderColor={indicatorColor}
                 size={32}/>
             <Col className="pl-12">
-                <Typography className="font-bold whitespace-nowrap" variant={'subtitle2'}>
-                    {name}
-                </Typography>
+                <Row>
+                    <Typography className="font-bold whitespace-nowrap text-ellipsis" variant={'subtitle2'}>
+                        {name}
+                    </Typography>
+                </Row>
                 <Typography variant={'body2'}>
                     {rating} / {ratingScale}
                 </Typography>

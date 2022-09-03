@@ -7,11 +7,11 @@
 }
 
 .w-fit {
-    width: auto;
+    width: fit-content;
 }
 
 .h-fit {
-    height: auto;
+    height: fit-content;
 }
 
 .flex-row {
@@ -60,6 +60,11 @@
     white-space: nowrap;
 }
 
+.text-ellipsis {
+    text-overflow: ellipsis;
+    overflow: hidden;
+}
+
 .flex-1 {
     flex: 1;
 }
@@ -74,6 +79,10 @@
 
 .overflow-y-hidden {
     overflow-y: hidden;
+}
+
+.overflow-x-hidden {;
+    overflow-x: hidden;
 }
 
 .fixed {

@@ -8,12 +8,12 @@ import cssStyle from './Icon.module.css';
  * @constructor
  */
 const Icon = (props) => {
-    const {children, size, style, height, width, color, className, ...restProps} = props;
+    const {children, size, flip, style, height, width, color, className, ...restProps} = props;
 
     return (
         <div
             {...restProps}
-            className={`${cssStyle.icon} ${className}`}
+            className={`${cssStyle.icon} ${flip ? cssStyle.flipIcon : ''} ${className}`}
             style={{
                 height,
                 width,
