@@ -1,4 +1,5 @@
-import { Card, Typography } from "./UI/index.jsx";
+import style from './ShiftCard.module.css'
+import {Card, Typography} from "./UI/index.jsx"
 
 /**
  *
@@ -7,31 +8,46 @@ import { Card, Typography } from "./UI/index.jsx";
  * @constructor
  */
 const ShiftCard = (props) => {
-    const { positionColor, time, status, employeePosition, shift } = props
+    const {positionColor, time, status, employeePosition, shift} = props
+
 
     return (
-        <Card
-            className={`${status === "published" ? "pl-23": "pl-12"} justify-center`}
-            width={'100%'}
-            height={'100%'}
-            rounded={8}
-            hasShadow={false}
-            hasIndicator={status !== "published"}
-            hasBorder
-            borderWidth={status === "published" ? 2 : 1}
-            borderColor={status === "published" ? positionColor : ''}
-            indicatorColor={positionColor}>
-            <Typography className="whitespace-nowrap font-bold pb-4"
-                variant={'subtitle2'}
-                color={'#2C2C2C'}>
-                {time}
-            </Typography>
-            <Typography className="whitespace-nowrap font-bold"
-                variant={'subtitle2'}
-                color={'#2C2C2C'}>
-                {employeePosition} - {shift}
-            </Typography>
-        </Card>
+        <div
+            className={style.shiftCardWrapper}>
+            {status !== "published" && (
+                <Card
+                    className={style.shiftCardIndicator}
+                    backgroundColor={positionColor}
+                    rounded={8}
+                    width={20}
+                    height={'100%'}>
+
+                </Card>
+            )}
+            <Card
+                className={`ml-4 ${status === "published" ? "pl-16" : "pl-16"} justify-center`}
+                width={'100%'}
+                height={'100%'}
+                rounded={8}
+                style={{
+                    zIndex: 10,
+                }}
+                borderWidth={2}
+                hasBorder={status === "published"}
+                backgroundColor={'#F8F8F8'}
+                borderColor={positionColor}>
+                <Typography className="whitespace-nowrap font-bold pb-4"
+                            variant={'subtitle2'}
+                            color={'#2C2C2C'}>
+                    {time}
+                </Typography>
+                <Typography className="whitespace-nowrap font-bold"
+                            variant={'subtitle2'}
+                            color={'#2C2C2C'}>
+                    {employeePosition} - {shift}
+                </Typography>
+            </Card>
+        </div>
     )
 }
 
