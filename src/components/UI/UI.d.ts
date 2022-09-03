@@ -1,10 +1,12 @@
-import {ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, HTMLAttributes, ReactNode} from "react";
+import {ButtonHTMLAttributes, CSSProperties, DetailedHTMLProps, FC, HTMLAttributes, ReactNode} from "react";
 import {HTMLMotionProps} from "framer-motion";
 import {StateManagerProps} from "react-select/dist/declarations/src/useStateManager";
 import {LinkProps} from "react-router-dom";
 
 interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
 	rounded?: CSSProperties["borderRadius"]
+	noShadow?: boolean
+	icon?: boolean
 	size?: CSSProperties["fontSize"]
 	width?: CSSProperties["width"]
 	height?: CSSProperties["height"]
@@ -57,6 +59,7 @@ type TypographyProps<Variant extends TypographyVariantOptions> = TypographyVaria
 	variant: Variant
 	color?: CSSProperties['color']
 	size?: number
+	width?: CSSProperties['width']
 	spacing?: CSSProperties['letterSpacing']
 	lineHeight?: CSSProperties['lineHeight']
 	fontFamily?: CSSProperties['fontFamily']
@@ -113,7 +116,8 @@ interface DrawerProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, 
 
 
 interface ProfileProps extends Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, 'children'> {
-	name: string
+	firstName: string
+	lastName: string
 	image: string
 	rating: number
 	ratingScale?: number
@@ -129,31 +133,33 @@ type SchedulerData = ({
 export interface SchedulerProps {
 	startDate?: string
 	data: SchedulerData[]
+	cellHeight?: CSSProperties['height']
+	maxHeight?: CSSProperties['maxHeight']
 	tdContentComp: (data: SchedulerDateData) => ReactNode
 	profileComp: (data: any) => ReactNode
 }
 
 
-export interface TextFieldProps extends DetailedHTMLProps<HTMLAttributes<HTMLInputElement>, HTMLInputElement> {
-
-}
-
-
 interface ModalProps extends HTMLMotionProps<"div"> {
-	height?: `${number}px` | `${number}%`
-	width?: `${number}px` | `${number}%`
+	height?: CSSProperties['height']
+	width?: CSSProperties['width']
+	animationDirection?: 'left' | 'right' | 'up' | 'down'
+	showAppBar?: boolean
+	noBackdrop?: boolean
 	onBackdropClick?: () => void
 	centered?: boolean
 	animationDuration?: number
 }
 
 interface BackdropProps extends HTMLMotionProps<"div"> {
+	absolute?: boolean
 	isTransparent?: boolean
 	active: boolean
 	animationTime?: number
 }
 
 interface SelectProps extends StateManagerProps {
+	label?: string
 	singleValueVariant?: TypographyVariantOptions
 	singleValueColor?: CSSProperties['color']
 	singleValueWeight?: CSSProperties['fontWeight']
@@ -169,22 +175,32 @@ interface SelectProps extends StateManagerProps {
 }
 
 
-interface DatePickerProps {
+interface DatePickerProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+	offsetY?: number
+	offsetX?: number
+	placement?: Placement
+	displayFormat?: string
 	onSelect?: (date) => void
 	onSet?: (date) => void
 	onClear?: () => void
 	currentDate: string
 	yearsOptions: { label: string, value: string }[]
 	daysToEndDate?: number
+	placeholder?: string
+	label?: string
 	width?: CSSProperties['width']
 	height?: CSSProperties['height']
 	rounded?: CSSProperties['borderRadius']
-	hasIcon?: boolean
+	hasBeforeIcon?: boolean
+	hasAfterIcon?: boolean
 	beforeIconColor?: CSSProperties['color']
+	afterIconColor?: CSSProperties['color']
 	beforeIconSize?: CSSProperties['fontSize']
+	afterIconSize?: CSSProperties['fontSize']
 	hasBorder?: boolean
 	borderColor?: CSSProperties['borderColor']
 	borderWidth?: CSSProperties['borderWidth']
+	placeholderColor?: CSSProperties['color']
 	color?: CSSProperties['color']
 	calendarMarginTop?: CSSProperties['marginTop']
 	calendarMarginLeft?: CSSProperties['marginLeft']
@@ -206,3 +222,47 @@ interface NavigationLinkProps extends LinkProps {
 	activeIcon: ReactNode
 	isActive: boolean
 }
+
+interface TableHeaders {
+	key: string
+	display: string
+	width?: CSSProperties['width']
+}
+
+interface TableProps {
+	data: any[]
+	headers: TableHeaders[]
+	actionsWidth?: CSSProperties['width']
+	actions?: (data: any) => ReactNode
+	components?: Record<string, FC>
+}
+
+interface TableRowProps extends HTMLMotionProps<"tr"> {
+
+}
+
+type Placement = `${'top' | 'bottom' | 'center'}-${'left' | 'right' | 'center'}`
+
+interface MenuProps {
+	offsetY?: number
+	offsetX?: number
+	options: { label: string, value: string, icon?: ReactNode, flipIcon?: boolean }[]
+	onSelect?: (data: any) => void
+	menuPlacement?: Placement
+	openOnClick?: boolean
+}
+
+
+interface RelativePortalProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+	children: ReactNode
+	portalDivProps?: Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, 'children'>
+	elementWrapperProps?: Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, 'children'>
+	isOpen: boolean
+	placement: Placement
+	itemHeight?: CSSProperties['height']
+	width?: CSSProperties['width']
+	offsetX?: number
+	offsetY?: number
+	portalContent: ReactNode
+}
+
