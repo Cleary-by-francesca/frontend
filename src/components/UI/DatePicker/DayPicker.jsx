@@ -1,6 +1,6 @@
 import {Button, Col, Row, Typography} from "../index.jsx";
 import cssStyle from "./DatePicker.module.css";
-import {isSameDate} from "../../../Util/Time.js";
+import {isSameDate} from "../../../util/Time.js";
 import {useEffect, useState} from "react";
 import moment from "moment";
 

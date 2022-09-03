@@ -1,4 +1,4 @@
-import style from './Employees.module.css'
+import style from './Employees.module.scss'
 import {
     Avatar,
     Button,
@@ -19,6 +19,7 @@ import moment from "moment";
 import {AnimatePresence} from "framer-motion";
 import ArchiveEmployeeDialog from "../../components/Dialogs/ArchiveEmployeeDialog.jsx";
 import EmployeeDialog from "../../components/Dialogs/EmployeeDialog.jsx";
+import produce from "immer";
 
 const headers = [
     {key: 'avatar', display: '', width: 80},
@@ -51,76 +52,22 @@ const colorForPosition = {
     'Manager':   '#9BF6FF'
 }
 
-const orderByObject = (data, object) => data.sort((a, b) => object[a.status] - object[b.status])
+const orderByObject = (data, object) => produce(data, draft => draft.sort((a, b) => object[a.status] - object[b.status]))
 
 const Employees = () => {
-    const {employees, updateEmployees, archiveEmployee}         = useEmployeesContext()
+    const {employees}         = useEmployeesContext()
     const [search, setSearch]                                   = useState('')
-    const [filteredEmployees, setFilteredEmployees]             = useState(employees)
+    const [filteredEmployees, setFilteredEmployees]             = useState(orderByObject(employees, statusOrder))
     const [isArchiveDialogOpen, setIsArchiveDialogOpen]         = useState(false)
     const [employeeToArchive, setEmployeeToArchive]             = useState({})
     const [isAddEmployeeDialogOpen, setIsAddEmployeeDialogOpen] = useState(false)
     const [employeeToEdit, setEmployeeToEdit]                   = useState({})
 
-    const tableComponents = useMemo(() => ({
-        avatar:    ({image, position}) => (
-            <Col className="justify-center align-center">
-                <Avatar
-                    hasIndicator
-                    src={image}
-                    borderWidth={2}
-                    borderColor={colorForPosition[position]}
-                    size={32}/>
-            </Col>
-        ),
-        name:      ({firstName, lastName}) => (
-            <Typography
-                spacing={0.1}
-                variant={'button1'}
-                color={'#515151'}>
-                {firstName} {lastName}
-            </Typography>
-        ),
-        startDate: ({startDate}) => (
-            <Typography
-                spacing={0.1}
-                variant={'button1'}
-                color={'#515151'}>
-                {moment(startDate).format('DD/MM/YYYY')}
-            </Typography>
-        ),
-        lastDate:  ({lastDate}) => {
-            return (
-                <Typography
-                    spacing={0.1}
-                    variant={'button1'}
-                    color={'#515151'}>
-                    {lastDate ? moment(lastDate).format('DD/MM/YYYY') : "Nol"}
-                </Typography>
-            )
-        },
-        status:    ({status}) => (
-            <Card
-                className="justify-center align-center px-8"
-                width={'fit-content'}
-                height={36}
-                backgroundColor={colorsForStatus[status]}>
-                <Typography
-                    spacing={0.1}
-                    color={'white'}
-                    fontWeight={400}
-                    size={13}
-                    variant={'button1'}>
-                    {status}
-                </Typography>
-            </Card>
-        )
-    }), [])
-
     const handleSearchEmployees = (searchValue) => {
         const filteredEmployees       = employees.filter(({firstName, lastName}) => {
             return `${firstName} ${lastName}`.toLowerCase().includes(searchValue.toLowerCase())
         })
+
         const filteredSortedEmployees = orderByObject(filteredEmployees, statusOrder)
         setFilteredEmployees(filteredSortedEmployees);
     }
@@ -249,9 +196,62 @@ const Employees = () => {
                             </Menu>
                         </Row>
                     )}
-                    components={tableComponents}
+                    components={{
+                        avatar:    ({image, position}) => (
+                            <Col className="justify-center align-center">
+                                <Avatar
+                                    hasIndicator
+                                    src={image}
+                                    borderWidth={2}
+                                    borderColor={colorForPosition[position]}
+                                    size={32}/>
+                            </Col>
+                        ),
+                        name:      ({firstName, lastName}) => (
+                            <Typography
+                                spacing={0.1}
+                                variant={'button1'}
+                                color={'#515151'}>
+                                {firstName} {lastName}
+                            </Typography>
+                        ),
+                        startDate: ({startDate}) => (
+                            <Typography
+                                spacing={0.1}
+                                variant={'button1'}
+                                color={'#515151'}>
+                                {moment(startDate).format('DD/MM/YYYY')}
+                            </Typography>
+                        ),
+                        lastDate:  ({lastDate}) => {
+                            return (
+                                <Typography
+                                    spacing={0.1}
+                                    variant={'button1'}
+                                    color={'#515151'}>
+                                    {lastDate ? moment(lastDate).format('DD/MM/YYYY') : "Nol"}
+                                </Typography>
+                            )
+                        },
+                        status:    ({status}) => (
+                            <Card
+                                className="justify-center align-center px-8"
+                                width={'fit-content'}
+                                height={36}
+                                backgroundColor={colorsForStatus[status]}>
+                                <Typography
+                                    spacing={0.1}
+                                    color={'white'}
+                                    fontWeight={400}
+                                    size={13}
+                                    variant={'button1'}>
+                                    {status}
+                                </Typography>
+                            </Card>
+                        )
+                    }}
                     headers={headers}
-                    data={filteredEmployees.sort((a, b) => statusOrder[a.status] - statusOrder[b.status])}/>
+                    data={filteredEmployees}/>
             </Row>
         </Col>
     )

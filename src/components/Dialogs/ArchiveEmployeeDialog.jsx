@@ -57,12 +57,11 @@ const ArchiveEmployeeDialog = (props) => {
                 <Button
                     className="mx-32 px-12"
                     outlined
-                    variant="default"
+                    variant="primary"
                     onClick={() => {
                         archiveEmployee(employee.id)
                         closeDialogAction()
                     }}
-                    borderColor={'#2C2C2C'}
                     width={162}>
                     <Row className="align-center">
                         <Typography

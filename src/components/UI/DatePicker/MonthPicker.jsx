@@ -1,6 +1,6 @@
 import Select from "../Select/Select.jsx";
 import moment from "moment";
-import {monthsList} from "../../../Util/Time.js";
+import {monthsList} from "../../../util/Time.js";
 
 
 /** @typedef {{

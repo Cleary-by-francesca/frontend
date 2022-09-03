@@ -14,6 +14,7 @@ import ShiftCard from "../../components/ShiftCard.jsx";
 import {useEmployeesContext} from "../../context/EmployeesContext.jsx";
 import {fadeInOutAnimation} from "../../components/UI/Utils/utils.js";
 import {getRoles} from "../../services/Roles/Roles.js";
+import style from "./Home.module.scss";
 
 const shiftsTemplates = [
     {time: '9:00 - 11:00', position: 'Chef', shift: 'Morning'},
@@ -84,10 +85,10 @@ const Home = () => {
         setSelectedShiftTemplate(shiftTemplate)
     }
 
-    const handleAddingShift = ({employeeId, date, position}) => {
+    const handleAddingShift = ({id, position}, date) => {
         if (selectedShiftTemplate) {
-            if (selectedShiftTemplate.position === position) {
-                const employees = addShift(employeeId, date, selectedShiftTemplate)
+            if (selectedShiftTemplate?.position === position) {
+                const employees = addShift(id, date, selectedShiftTemplate)
                 setFilteredEmployees(employees)
                 setIsPublish(false)
                 setSelectedShiftTemplate(undefined)
@@ -223,22 +224,14 @@ const Home = () => {
                             </Col>
                         ) : (
                             <Col
-                                className={`${selectedShiftTemplate ? "cursor" : ""} px-12 py-10 h-full w-full`}
+                                className={`cursor-pointer h-full w-full`}
                                 onClick={() => {
-                                    handleAddingShift({
-                                        date: data.date, employeeId: data.userData.id, position: data.userData.position
-                                    })
+                                    handleAddingShift(data.userData, data.date)
                                 }}>
                                 {!selectedShiftTemplate && (
                                     <Icon
-                                        onMouseEnter={({target}) => {
-                                            target.setAttribute('class', 'cursor-pointer align-center justify-center flex-row opacity-100')
-                                        }}
-                                        onMouseLeave={({target}) => {
-                                            target.setAttribute('class', 'opacity-0')
-                                        }}
                                         onClick={() => setIsDialogOpen(true)}
-                                        className={`cursor align-center justify-center flex-row opacity-0`}
+                                        className={`cursor align-center justify-center flex-row ${style.addShiftIcon}`}
                                         width="100%" height="100%" size={20} color="#515151">
                                         <IconRiAddCircleLine/>
                                     </Icon>
@@ -258,4 +251,4 @@ const Home = () => {
     )
 }
 
-export default Home;
+export default Home

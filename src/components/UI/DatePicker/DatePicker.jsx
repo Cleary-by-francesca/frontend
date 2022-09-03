@@ -11,7 +11,7 @@ import YearPicker from "./YearPicker.jsx";
 import MonthPicker from "./MonthPicker.jsx";
 import DayPicker from "./DayPicker.jsx";
 import DatePickerHeader from "./DatePickerHeader.jsx";
-import {monthsList} from "../../../Util/Time.js";
+import {monthsList} from "../../../util/Time.js";
 import RelativePortal from "../Portal/RelativePortal.jsx";
 
 /**

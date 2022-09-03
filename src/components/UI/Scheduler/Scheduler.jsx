@@ -1,6 +1,6 @@
 import {Row, Typography} from "./..";
 import style from './Scheduler.module.css';
-import {filterDate, generateDates} from "../../../Util/Time";
+import {filterDate, generateDates} from "../../../util/Time";
 import {motion, AnimatePresence} from "framer-motion";
 import {fadeInOutAnimation} from "../Utils/utils.js"
 import { useEffect, useState } from "react";
