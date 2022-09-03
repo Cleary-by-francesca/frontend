@@ -55,7 +55,7 @@ const colorForPosition = {
 const orderByObject = (data, object) => produce(data, draft => draft.sort((a, b) => object[a.status] - object[b.status]))
 
 const Employees = () => {
-    const {employees}         = useEmployeesContext()
+    const {employees}                                           = useEmployeesContext()
     const [search, setSearch]                                   = useState('')
     const [filteredEmployees, setFilteredEmployees]             = useState(orderByObject(employees, statusOrder))
     const [isArchiveDialogOpen, setIsArchiveDialogOpen]         = useState(false)
@@ -64,7 +64,7 @@ const Employees = () => {
     const [employeeToEdit, setEmployeeToEdit]                   = useState({})
 
     const handleSearchEmployees = (searchValue) => {
-        const filteredEmployees       = employees.filter(({firstName, lastName}) => {
+        const filteredEmployees = employees.filter(({firstName, lastName}) => {
             return `${firstName} ${lastName}`.toLowerCase().includes(searchValue.toLowerCase())
         })
 
@@ -101,34 +101,31 @@ const Employees = () => {
             className="h-full w-full">
 
             <AnimatePresence>
-                {
-                    isArchiveDialogOpen && (
-                        <Dialog onBackdropClick={() => setIsArchiveDialogOpen(false)} width={670} height={500}>
-                            <ArchiveEmployeeDialog
-                                closeDialogAction={() => setIsArchiveDialogOpen(false)}
-                                employee={employeeToArchive}/>
-                        </Dialog>
-                    )
-                }
+                {isArchiveDialogOpen && (
+                    <Dialog onBackdropClick={() => setIsArchiveDialogOpen(false)} width={670} height={500}>
+                        <ArchiveEmployeeDialog
+                            closeDialogAction={() => setIsArchiveDialogOpen(false)}
+                            employee={employeeToArchive}/>
+                    </Dialog>
+                )}
             </AnimatePresence>
 
             <AnimatePresence>
-                {
-                    isAddEmployeeDialogOpen && (
-                        <Dialog
-                            noBackdrop
-                            showAppBar
-                            animationDirection="right"
-                            animationDuration={0.4}
-                            onBackdropClick={() => setIsAddEmployeeDialogOpen(false)}
-                            width={'100%'}
-                            height={'100%'}>
-                            <EmployeeDialog
-                                initialData={employeeToEdit}
-                                closeDialogAction={() => setIsAddEmployeeDialogOpen(false)}/>
-                        </Dialog>
-                    )
-                }
+                {isAddEmployeeDialogOpen && (
+                    <Dialog
+                        noBackdrop
+                        showAppBar
+                        animationDirection="right"
+                        animationDuration={0.4}
+                        onBackdropClick={() => setIsAddEmployeeDialogOpen(false)}
+                        width={'100%'}
+                        height={'100%'}>
+                        <EmployeeDialog
+                            employeeId={employeeToEdit.id}
+                            initialData={employeeToEdit}
+                            closeDialogAction={() => setIsAddEmployeeDialogOpen(false)}/>
+                    </Dialog>
+                )}
             </AnimatePresence>
 
             <Row className={style.employeesPageHeader}>
@@ -157,7 +154,7 @@ const Employees = () => {
 
             <Row className={style.employeesPageTable}>
                 <Table
-                    actionsWidth={120}
+                    actionsWidth={40}
                     hasActions
                     actionsComp={(item) => (
                         <Row className="justify-center">

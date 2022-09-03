@@ -5,6 +5,7 @@ import {LinkProps} from "react-router-dom";
 
 interface ButtonProps extends DetailedHTMLProps<ButtonHTMLAttributes<HTMLButtonElement>, HTMLButtonElement> {
 	rounded?: CSSProperties["borderRadius"]
+	removePadding?: boolean
 	noShadow?: boolean
 	icon?: boolean
 	size?: CSSProperties["fontSize"]
@@ -140,7 +141,7 @@ export interface SchedulerProps {
 }
 
 
-interface ModalProps extends HTMLMotionProps<"div"> {
+interface DialogProps extends HTMLMotionProps<"div"> {
 	height?: CSSProperties['height']
 	width?: CSSProperties['width']
 	animationDirection?: 'left' | 'right' | 'up' | 'down'
@@ -253,7 +254,7 @@ interface MenuProps {
 }
 
 
-interface RelativePortalProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+interface RelativePortalProps {
 	children: ReactNode
 	portalDivProps?: Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, 'children'>
 	elementWrapperProps?: Omit<DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement>, 'children'>
@@ -266,3 +267,10 @@ interface RelativePortalProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivEl
 	portalContent: ReactNode
 }
 
+interface BottomSheetProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+	height?: CSSProperties['height']
+	width?: CSSProperties['width']
+	noBackdrop?: boolean
+	onBackdropClick?: () => void
+	animationDuration?: number
+}

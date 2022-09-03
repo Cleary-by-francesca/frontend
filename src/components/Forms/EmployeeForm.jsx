@@ -13,9 +13,9 @@ const yearsList = Array.from({length: 200}, (v, k) => ({label: `${2022 - k}`, va
  * @constructor
  */
 const EmployeeForm = (props) => {
-    const {initialData, onClose, onSubmit} = props
+    const {employeeId, initialData, onClose, onSubmit} = props
 
-    const {addEmployee} = useEmployeesContext()
+    const {addEmployee, updateEmployee} = useEmployeesContext()
 
     const [rolesOptions, setRolesOptions] = useState([])
     const [isLoading, setIsLoading]       = useState(true)
@@ -28,6 +28,19 @@ const EmployeeForm = (props) => {
     const [email, setEmail]               = useState(initialData.email || '')
 
     const submitForm = () => {
+        if (employeeId) {
+            updateEmployee(employeeId, {
+                firstName,
+                lastName,
+                dateOfBirth,
+                position: role.value,
+                phone:    mobileNumber,
+                email
+            })
+            if (onSubmit) onSubmit()
+            return
+        }
+
         addEmployee({
             firstName,
             lastName,
@@ -36,7 +49,6 @@ const EmployeeForm = (props) => {
             phone:    mobileNumber,
             email
         })
-
         onSubmit()
     }
 

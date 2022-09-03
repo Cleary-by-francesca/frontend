@@ -51,13 +51,13 @@ const employeesData = [
             {date: moment(Date.now()).add(0, 'days').toISOString()},
             {date: moment(Date.now()).add(1, 'days').toISOString()},
             {
-                date:     moment(Date.now()).add(2, 'days').toISOString(), status: 'added', time: '9:00 - 11:00',
+                date:     moment(Date.now()).add(2, 'days').toISOString(), status: 'published', time: '9:00 - 11:00',
                 shift:    'Morning',
                 position: 'Chef'
             },
             {date: moment(Date.now()).add(3, 'days').toISOString()},
             {
-                date:     moment(Date.now()).add(4, 'days').toISOString(), status: 'added', time: '9:00 - 11:00',
+                date:     moment(Date.now()).add(4, 'days').toISOString(), status: 'published', time: '9:00 - 11:00',
                 shift:    'Morning',
                 position: 'Chef'
             },
@@ -83,7 +83,7 @@ const employeesData = [
             {date: moment(Date.now()).add(1, 'days').toISOString()},
             {date: moment(Date.now()).add(2, 'days').toISOString()},
             {
-                date:     moment(Date.now()).add(3, 'days').toISOString(), status: 'added', time: '16:00 - 21:00',
+                date:     moment(Date.now()).add(3, 'days').toISOString(), status: 'published', time: '16:00 - 21:00',
                 shift:    'Evning',
                 position: 'Bartender'
             },
@@ -108,14 +108,14 @@ const employeesData = [
         dates:       [
             {date: moment(Date.now()).add(0, 'days').toISOString()},
             {
-                date:     moment(Date.now()).add(1, 'days').toISOString(), status: 'added', time: '9:00 - 15:00',
+                date:     moment(Date.now()).add(1, 'days').toISOString(), status: 'published', time: '9:00 - 15:00',
                 shift:    'Morning',
                 position: 'Host'
             },
             {date: moment(Date.now()).add(2, 'days').toISOString()},
             {date: moment(Date.now()).add(3, 'days').toISOString()},
             {
-                date:     moment(Date.now()).add(4, 'days').toISOString(), status: 'added', time: '9:00 - 15:00',
+                date:     moment(Date.now()).add(4, 'days').toISOString(), status: 'published', time: '9:00 - 15:00',
                 shift:    'Morning',
                 position: 'Host'
             },
@@ -141,7 +141,7 @@ const employeesData = [
             {date: moment(Date.now()).add(1, 'days').toISOString()},
             {date: moment(Date.now()).add(2, 'days').toISOString()},
             {
-                date:     moment(Date.now()).add(3, 'days').toISOString(), status: 'added', time: '16:00 - 21:00',
+                date:     moment(Date.now()).add(3, 'days').toISOString(), status: 'published', time: '16:00 - 21:00',
                 shift:    'Morning',
                 position: 'Chef'
             },
@@ -188,19 +188,19 @@ const employeesData = [
         dates:     [
             {date: moment(Date.now()).add(0, 'days').toISOString()},
             {
-                date:     moment(Date.now()).add(1, 'days').toISOString(), status: 'added', time: '9:00 - 16:00',
+                date:     moment(Date.now()).add(1, 'days').toISOString(), status: 'published', time: '9:00 - 16:00',
                 shift:    'Morning',
                 position: 'Waiter'
             },
             {date: moment(Date.now()).add(2, 'days').toISOString()},
             {
-                date:     moment(Date.now()).add(3, 'days').toISOString(), status: 'added', time: '9:00 - 16:00',
+                date:     moment(Date.now()).add(3, 'days').toISOString(), status: 'published', time: '9:00 - 16:00',
                 shift:    'Morning',
                 position: 'Waiter'
             },
             {date: moment(Date.now()).add(4, 'days').toISOString()},
             {
-                date:     moment(Date.now()).add(5, 'days').toISOString(), status: 'added', time: '9:00 - 16:00',
+                date:     moment(Date.now()).add(5, 'days').toISOString(), status: 'published', time: '9:00 - 16:00',
                 shift:    'Morning',
                 position: 'Waiter'
             },
@@ -210,11 +210,12 @@ const employeesData = [
 ]
 
 /** @typedef {{
- *  employees: Employee[],
- *  addShift: () => void,
- *  addEmployee: (employee: Employee) => void,
- * getEmployees: () => Promise<Employee[]>,
- * updateEmployees: (employees: Employee[]) => void,
+ * employees: Employee[],
+ * addShift: () => void,
+ * addEmployee: (employee: Employee) => void,
+ * getEmployee: (employee: Employee) => Employee,
+ * updateEmployee: (employees: Employee[]) => void,
+ * publishShifts: () => void,
  * archiveEmployee: (id: string) => void
 }} EmployeesContext */
 
@@ -253,6 +254,17 @@ const EmployeesProvider = ({children}) => {
         setEmployees([...employees, newEmployee])
     }
 
+    const updateEmployee = (employeeId, employee) => {
+        const employeeIndex = employees.findIndex(employee => employee.id === employeeId)
+
+        setEmployees(produce(employees, draft => {
+            draft[employeeIndex] = {
+                ...draft[employeeIndex],
+                ...employee
+            }
+        }))
+    }
+
     const addShift = (employeeId, shiftDate, shift) => {
         const employeeIndex = employees.findIndex(employee => employee.id === employeeId)
         const dateIndex     = employees[employeeIndex].dates.findIndex(date => date.date === shiftDate)
@@ -267,14 +279,22 @@ const EmployeesProvider = ({children}) => {
         return _employees
     }
 
+    const publishShifts = () => {
+        const _employees = employees.map(({dates, ...restData}) => ({
+            ...restData,
+            dates: dates.map(({status, ...restDate}) => ({
+                ...restDate,
+                status: status === 'added' ? status = "published" : ''
+            }))
+        }))
+
+        setEmployees(_employees)
+    }
 
     const getEmployees = (startDate) => {
         setEmployees(employees)
     }
 
-    const updateEmployees = (employees) => {
-        setEmployees(employees);
-    }
 
     const archiveEmployee = (id) => {
         const newEmployees = employees.map(employee => {
@@ -289,9 +309,10 @@ const EmployeesProvider = ({children}) => {
     return <EmployeesContext.Provider value={{
         employees,
         addShift,
+        publishShifts,
         addEmployee,
         getEmployees,
-        updateEmployees,
+        updateEmployee,
         archiveEmployee
     }}>{children}</EmployeesContext.Provider>
 }
