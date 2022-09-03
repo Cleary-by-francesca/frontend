@@ -35,6 +35,7 @@ const Button = (props) => {
     if (icon) classes.push(cssStyle.icon)
 
     if (!icon) {
+        classes.push('px-20')
         if (outlined) classes.push(disabled ? cssStyle.buttonOutlinedDisabled : outlinedVariants[variant])
         if (!outlined) classes.push(disabled ? cssStyle.buttonDisabled : variants[variant])
     }

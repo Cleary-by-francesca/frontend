@@ -10,7 +10,7 @@ import EmployeeForm from "../Forms/EmployeeForm.jsx";
  * @constructor
  */
 const EmployeeDialog = (props) => {
-    const {closeDialogAction, initialData} = props
+    const {employeeId, closeDialogAction, initialData} = props
 
     const isEditingMode = Object.keys(initialData).length > 0
 
@@ -42,6 +42,7 @@ const EmployeeDialog = (props) => {
                 </Row>
 
                 <EmployeeForm
+                    employeeId={employeeId}
                     initialData={initialData}
                     onSubmit={closeDialogAction}
                     onClose={closeDialogAction}/>
