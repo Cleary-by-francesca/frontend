@@ -145,6 +145,7 @@ interface DialogProps extends HTMLMotionProps<"div"> {
 	height?: CSSProperties['height']
 	width?: CSSProperties['width']
 	animationDirection?: 'left' | 'right' | 'up' | 'down'
+	fullScreen?: boolean
 	showAppBar?: boolean
 	noBackdrop?: boolean
 	onBackdropClick?: () => void
@@ -170,6 +171,8 @@ interface SelectProps extends StateManagerProps {
 	dropdownIconColor?: `#${string}`,
 	dropdownIconSize?: CSSProperties['fontSize'],
 	menuAnchorPoint?: 'left' | 'right'
+	width?: CSSProperties['width']
+	height?: CSSProperties['height']
 	menuWidth?: CSSProperties['width']
 	isSelectable?: boolean,
 	noBorder?: boolean

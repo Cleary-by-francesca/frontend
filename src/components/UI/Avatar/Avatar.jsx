@@ -8,10 +8,12 @@ import style from './Avatar.module.css';
  * @constructor
  */
 const Avatar = (props) => {
-    const {src, alt, size, borderWidth, hasIndicator, borderColor} = props;
+    const {src, alt, size, borderWidth, hasIndicator, borderColor, className} = props;
 
     return (
-        <div className="relative">
+        <div
+            style={{width: size, height: size}}
+            className={`relative ${className}`}>
             <img
                 className={style.avatar}
                 src={src}

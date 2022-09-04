@@ -17,6 +17,7 @@ const Dialog = (props) => {
               className, animationDirection,
               animationDuration, centered,
               height, width, onBackdropClick,
+              fullScreen,
               ...restProps
           } = props
 
@@ -49,8 +50,8 @@ const Dialog = (props) => {
                     className={`h-full flex-col relative justify-center items-center`}>
                     <Card
                         {...restProps}
-                        height={height}
-                        width={width}
+                        height={fullScreen ? '100%' : height}
+                        width={fullScreen ? '100%' : width}
                         style={{
                             zIndex: 1300,
                             margin: 'auto'
@@ -69,6 +70,7 @@ Dialog.defaultProps = {
     width:              "400px",
     showAppBar:         false,
     animationDirection: 'up',
+    fullScreen:         false,
     onBackdropClick:    () => {
     },
     centered:           false,

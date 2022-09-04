@@ -7,7 +7,11 @@ import {
     Profile,
     Button,
     TextField,
-    Select, Dialog, Drawer, DatePicker, Icon, BottomSheet
+    Select,
+    Drawer,
+    DatePicker,
+    Icon,
+    BottomSheet
 } from "../../components/UI/index.jsx"
 import {useEffect, useState} from "react";
 import ShiftCard from "../../components/ShiftCard.jsx";
@@ -16,6 +20,7 @@ import {fadeInOutAnimation} from "../../components/UI/Utils/utils.js";
 import {getRoles} from "../../services/Roles/Roles.js";
 import style from "./Home.module.scss";
 import {AnimatePresence} from "framer-motion";
+import ShiftSheet from "../../components/BottomSheets/ShiftSheet.jsx";
 
 const shiftsTemplates = [
     {time: '9:00 - 11:00', position: 'Chef', shift: 'Morning'},
@@ -54,19 +59,21 @@ const Home = () => {
     const [isRolesSheetOpen, setIsRolesSheetOpen]               = useState(false)
     const [isShiftEditingSheetOpen, setIsShiftEditingSheetOpen] = useState(false)
     const [isLoading, setIsLoading]                             = useState(true)
-    const {employees, addShift, publishShifts}                  = useEmployeesContext()
-    const [startDate, setStartDate]                             = useState(new Date().toISOString())
-    const [filteredEmployees, setFilteredEmployees]             = useState(employees)
-    const [isPublish, setIsPublish]                             = useState(true)
-    const [selectedShiftTemplate, setSelectedShiftTemplate]     = useState()
     const [rolesList, setRolesList]                             = useState([])
+    const {employees, addShift, publishShifts}                  = useEmployeesContext()
+    const [filteredEmployees, setFilteredEmployees]             = useState(employees)
     const [search, setSearch]                                   = useState('')
+    const [startDate, setStartDate]                             = useState(new Date().toISOString())
+    const [selectedShiftTemplate, setSelectedShiftTemplate]     = useState()
+    const [isPublish, setIsPublish]                             = useState(true)
+    const [shiftToEditPayload, setShiftToEditPayload]           = useState()
 
 
     const handleSearchEmployees = (searchValue) => {
         const filtered = employees.filter(({firstName, lastName}) => {
             return `${firstName} ${lastName}`.toLowerCase().includes(searchValue.toLowerCase())
         })
+
         setFilteredEmployees(filtered)
     }
 
@@ -86,9 +93,6 @@ const Home = () => {
                 setFilteredEmployees(employees)
                 setIsPublish(false)
                 setSelectedShiftTemplate(undefined)
-            } else {
-                alert("Please select appropriate position")
-                setSelectedShiftTemplate(undefined)
             }
         }
     }
@@ -105,176 +109,184 @@ const Home = () => {
         handleSearchEmployees(search)
     }, [employees])
 
-    return (
-        isLoading ? <div>Loading...</div> : (
-            <Col
-                initial={false}
-                {...fadeInOutAnimation}
-                className="h-full w-full">
+    return isLoading ? <div>Loading...</div> : (
+        <Col
+            initial={false}
+            {...fadeInOutAnimation}
+            className="h-full w-full">
 
-                <AnimatePresence>
-                    {isRolesSheetOpen && (
-                        <BottomSheet onBackdropClick={() => setIsRolesSheetOpen(false)}>
+            <AnimatePresence>
+                {isRolesSheetOpen && (
+                    <BottomSheet onBackdropClick={() => setIsRolesSheetOpen(false)}>
+                    </BottomSheet>
+                )}
+            </AnimatePresence>
 
-                        </BottomSheet>
-                    )}
-                </AnimatePresence>
+            <AnimatePresence>
+                {isShiftEditingSheetOpen && (
+                    <BottomSheet
+                        height={480}
+                        onBackdropClick={() => setIsShiftEditingSheetOpen(false)}>
+                        <ShiftSheet
+                            employee={shiftToEditPayload?.employee}
+                            initialData={shiftToEditPayload?.shift}
+                            date={shiftToEditPayload?.date}
+                        />
+                    </BottomSheet>
+                )}
+            </AnimatePresence>
 
-                <AnimatePresence>
-                    {isShiftEditingSheetOpen && (
-                        <BottomSheet onBackdropClick={() => setIsShiftEditingSheetOpen(false)}>
 
-                        </BottomSheet>
-                    )}
-                </AnimatePresence>
+            <Drawer
+                labelContent="Shifts Templates"
+                position="right"
+                top={185}
+                height={600}
+                onLabelClick={() => setIsDrawerOpen(!isDrawerOpen)}
+                isOpen={isDrawerOpen}>
 
+                <Typography className="pl-24 pr-14 pt-14 pb-2"
+                            spacing={0.1}
+                            variant={'button1'}
+                            color={'#515151'}>
+                    Drag and drop temlates
+                    to the schedule
+                </Typography>
 
-                <Drawer
-                    labelContent="Shifts Templates"
-                    position="right"
-                    top={185}
-                    height={600}
-                    onLabelClick={() => setIsDrawerOpen(!isDrawerOpen)}
-                    isOpen={isDrawerOpen}>
-
-                    <Typography className="pl-24 pr-14 pt-14 pb-2"
-                                spacing={0.1}
-                                variant={'button1'}
-                                color={'#515151'}>
-                        Drag and drop temlates
-                        to the schedule
-                    </Typography>
-
-                    {shiftsTemplates.map(({shift, position, time}, index) => (
-                        <Col
-                            className="ml-18 mr-10 mt-22"
-                            style={{height: 56}}
-                            key={index}>
-                            <ShiftCard
-                                className="cursor-pointer"
-                                onClick={() => handleSelectShiftTemplate({position, time, shift})}
-                                shift={shift}
-                                positionColor={rolesList[rolesList.findIndex(role => role.title === position)].color}
-                                employeePosition={position}
-                                time={time}
-                                key={index}/>
-                        </Col>
-                    ))}
-                </Drawer>
-
-                <Card
-                    className="flex-row mt-24 ml-60 mr-80 pl-20 align-center justify-between"
-                    height={68}
-                    width="auto">
-                    <Typography
-                        className="font-bold"
-                        variant={'h4'}>
-                        Bella Italia
-                    </Typography>
-
-                    <Col className="pr-26">
-                        <Select
-                            blurInputOnSelect={true}
-                            isSelectable={false}
-                            isSearchable={false}
-                            menuAnchorPoint="right"
-                            menuWidth={220}
-                            onChange={(option) => option.action()}
-                            options={[
-                                {
-                                    label:  "Edit tasks",
-                                    value:  "editTask",
-                                    action: () => ''
-                                },
-                                {
-                                    label:  "Manage Shift Templates",
-                                    value:  "manageShiftTemplates",
-                                    action: () => ''
-                                },
-                                {
-                                    label:  "Manage Roles",
-                                    value:  "manageRoles",
-                                    action: () => setIsRolesSheetOpen(true)
-                                }
-                            ]}
-                            value={{label: "Options", value: ""}}/>
+                {shiftsTemplates.map(({shift, position, time}, index) => (
+                    <Col
+                        className="ml-18 mr-10 mt-22"
+                        style={{height: 56}}
+                        key={index}>
+                        <ShiftCard
+                            className="cursor-pointer"
+                            onClick={() => handleSelectShiftTemplate({position, time, shift})}
+                            shift={shift}
+                            positionColor={rolesList[rolesList.findIndex(role => role.title === position)].color}
+                            employeePosition={position}
+                            time={time}
+                            key={index}/>
                     </Col>
-                </Card>
+                ))}
+            </Drawer>
 
-                <Row className="mt-36 mb-16 ml-60 mr-80 justify-between">
-                    <Row>
-                        <TextField
-                            type="search"
-                            beforeIcon={<IconRiSearchLine/>}
-                            placeholder='Search Employees'
-                            onChange={({target}) => {
-                                setSearch(target.value)
-                                handleSearchEmployees(target.value)
-                            }}
-                            beforeIconSize={20}
-                            width={270}>
-                        </TextField>
+            <Card
+                className="flex-row mt-24 ml-60 mr-80 pl-20 align-center justify-between"
+                height={68}
+                width="auto">
+                <Typography
+                    className="font-bold"
+                    variant={'h4'}>
+                    Bella Italia
+                </Typography>
 
-                        <Col className="ml-24">
-                            <DatePicker
-                                yearsOptions={yearsList}
-                                currentDate={startDate}
-                                width={175}
-                                height={38}
-                                daysToEndDate={6}
-                                onSet={(startDate) => setStartDate(startDate)}/>
+                <Col className="pr-26">
+                    <Select
+                        blurInputOnSelect={true}
+                        isSelectable={false}
+                        isSearchable={false}
+                        menuAnchorPoint="right"
+                        menuWidth={220}
+                        onChange={(option) => option.action()}
+                        options={[
+                            {
+                                label:  "Edit tasks",
+                                value:  "editTask",
+                                action: () => ''
+                            },
+                            {
+                                label:  "Manage Shift Templates",
+                                value:  "manageShiftTemplates",
+                                action: () => ''
+                            },
+                            {
+                                label:  "Manage Roles",
+                                value:  "manageRoles",
+                                action: () => setIsRolesSheetOpen(true)
+                            }
+                        ]}
+                        value={{label: "Options", value: ""}}/>
+                </Col>
+            </Card>
+
+            <Row className="mt-36 mb-16 ml-60 mr-80 justify-between">
+                <Row>
+                    <TextField
+                        type="search"
+                        beforeIcon={<IconRiSearchLine/>}
+                        placeholder='Search Employees'
+                        onChange={({target}) => {
+                            setSearch(target.value)
+                            handleSearchEmployees(target.value)
+                        }}
+                        beforeIconSize={20}
+                        width={270}>
+                    </TextField>
+
+                    <Col className="ml-24">
+                        <DatePicker
+                            yearsOptions={yearsList}
+                            currentDate={startDate}
+                            width={175}
+                            height={38}
+                            daysToEndDate={6}
+                            onSet={(startDate) => setStartDate(startDate)}/>
+                    </Col>
+                </Row>
+
+                <Button
+                    disabled={isPublish}
+                    onClick={handlePublish}
+                    variant="primary">
+                    <Typography variant={'button1'} color="white">
+                        Publish
+                    </Typography>
+                </Button>
+            </Row>
+
+            <Row className="ml-60 mr-80 pb-30 overflow-y-hidden">
+                <Scheduler
+                    startDate={startDate}
+                    data={filteredEmployees}
+                    tdContentComp={({date, userData, shift, status, time, position}) => time && position ? (
+                        <Col className="px-12 py-11 h-full w-full">
+                            <ShiftCard
+                                shift={shift}
+                                status={status}
+                                positionColor={rolesList[rolesList.findIndex(role => role.title === position)].color}
+                                time={time}
+                                employeePosition={position}/>
                         </Col>
-                    </Row>
-
-                    <Button
-                        disabled={isPublish}
-                        onClick={handlePublish}
-                        variant="primary">
-                        <Typography variant={'button1'} color="white">
-                            Publish
-                        </Typography>
-                    </Button>
-                </Row>
-
-                <Row className="ml-60 mr-80 pb-30 overflow-y-hidden">
-                    <Scheduler
-                        startDate={startDate}
-                        data={filteredEmployees}
-                        tdContentComp={(data) => (data && data.time && data.position) ? (
-                            <Col className="px-12 py-11 h-full w-full">
-                                <ShiftCard
-                                    shift={data.shift}
-                                    status={data.status}
-                                    positionColor={rolesList[rolesList.findIndex(role => role.title === data.position)].color}
-                                    time={data.time}
-                                    employeePosition={data.position}/>
-                            </Col>
-                        ) : (
-                            <Col
-                                className={`cursor-pointer h-full w-full`}
-                                onClick={() => {
-                                    handleAddingShift(data.userData, data.date)
-                                }}>
-                                {!selectedShiftTemplate && (
-                                    <Icon
-                                        onClick={() => setIsShiftEditingSheetOpen(true)}
-                                        className={`cursor align-center justify-center flex-row ${style.addShiftIcon}`}
-                                        width="100%" height="100%" size={20} color="#515151">
-                                        <IconRiAddCircleLine/>
-                                    </Icon>
-                                )}
-                            </Col>
-                        )}
-                        profileComp={({firstName, lastName, rating, image, position}) => (
-                            <Profile
-                                {...{name: `${firstName} ${lastName}`, rating, image}}
-                                ratingScale={20}
-                                indicatorColor={rolesList[rolesList.findIndex(role => role.title === position)].color}
-                                className="pl-22 pr-6 py-20 overflow-x-hidden"/>
-                        )}/>
-                </Row>
-            </Col>
-        )
+                    ) : (
+                        <Col
+                            className={`cursor-pointer h-full w-full`}
+                            onClick={() => {
+                                handleAddingShift(userData, date)
+                            }}>
+                            {!selectedShiftTemplate && (
+                                <Icon
+                                    onClick={() => {
+                                        setShiftToEditPayload({
+                                            employee: userData, date,
+                                        })
+                                        setIsShiftEditingSheetOpen(true)
+                                    }}
+                                    className={`cursor align-center justify-center flex-row ${style.addShiftIcon}`}
+                                    width="100%" height="100%" size={20} color="#515151">
+                                    <IconRiAddCircleLine/>
+                                </Icon>
+                            )}
+                        </Col>
+                    )}
+                    profileComp={({firstName, lastName, rating, image, position}) => (
+                        <Profile
+                            {...{name: `${firstName} ${lastName}`, rating, image}}
+                            ratingScale={20}
+                            indicatorColor={rolesList[rolesList.findIndex(role => role.title === position)].color}
+                            className="pl-22 pr-6 py-20 overflow-x-hidden"/>
+                    )}/>
+            </Row>
+        </Col>
     )
 }
 

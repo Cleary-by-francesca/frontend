@@ -144,7 +144,7 @@ const MenuList = (props) => {
  */
 const AppSelect = (props) => {
     const {
-              components, menuWidth, menuAnchorPoint, className,
+              components, width, height, menuWidth, menuAnchorPoint, className,
               singleValueVariant, singleValueColor, singleValueWeight,
               singleValueFontFamily, singleValueSize, singleValueSpacing,
               isSelectable, dropdownIconColor, dropdownIconSize, noBorder, label,
@@ -181,7 +181,9 @@ const AppSelect = (props) => {
     }
 
     return (
-        <section className={`flex-col relative h-full ${className}`}>
+        <section
+            style={{width, height}}
+            className={`flex-col relative h-full ${className}`}>
             {label && (
                 <AnimatePresence>
                     {props.value?.label && (
@@ -228,13 +230,14 @@ const AppSelect = (props) => {
 }
 
 AppSelect.defaultProps = {
-    className:           '',
+    className:          '',
     singleValueVariant: 'button1',
     singleValueColor:   '#515151',
     dropdownIconColor:  '#515151',
     dropdownIconSize:   16,
     noBorder:           false,
     isSelectable:       true,
+    height:             '100%',
     menuWidth:          '100%',
     menuAnchorPoint:    'left',
 }
