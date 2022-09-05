@@ -14,10 +14,9 @@ const Employee = ( {name, position, selected, onSelect}) => {
             <div className={`${style.employee} ${selected? style.selected: ''}`}>
             <Row>
             <button className={`${style.btn}`} onClick={onSelect}>  
-                <Icon color="#515151"
+                <Icon color="#515151" backgroundColor="#FFFFFF"
                     size={20}>
-                    <IconIcBaselineAddCircleOutline/>
-                    <IconMdiCheckboxMarkedCircleOutline/>
+                   { selected ? <IconMdiCheckboxMarkedCircleOutline/> : <IconIcBaselineAddCircleOutline/> }
                 </Icon>
             </button>
             <Typography className={`${style.title}`} variant={'body1'}>

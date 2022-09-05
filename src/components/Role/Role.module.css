@@ -17,22 +17,26 @@
     border-color: #643D80;
     background-color: #643D80;
     border-radius: 8px;
+    color: #E8E8E8;
 }
 
 .selected {
     background-color: #643D80;
+    color: #E8E8E8;
+}
+
+.selected .btn {
+    color: #E8E8E8;
 }
 
 .title {
     align-items: center;
-    font-weight: 400;
 }
 
 .edit {
     width: 40px;
     height: 36px; 
     margin-right: 32px;
-    font-weight: 400;
 }
 
 .btn {

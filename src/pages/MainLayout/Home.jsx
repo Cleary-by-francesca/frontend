@@ -58,17 +58,24 @@ const yearsList = [
 ]
 
 const employeesList = [
-    { name: 'Suzanna Vatik', position: 'Waiter', selected: false},
-    { name: 'Ross Geller', position: 'Chef', selected: false},
-    { name: 'Suffi Gussee', position: 'Bartender', selected: false},
-    { name: 'Luna Arenna', position: 'Host', selected: false},
-    { name: 'Skyler Kaufman', position: 'Bartender', selected: false},
-    { name: 'Soi Rio', position: 'Waiter', selected: false},
-    { name: 'Sofia Ashtamker', position: 'Waiter', selected: false},
-    { name: 'Fred Vereceloni', position: 'Waiter', selected: false},
+    {name: 'Suzanna Vatik', position: 'Waiter', selected: false},
+    {name: 'Ross Geller', position: 'Chef', selected: false},
+    {name: 'Suffi Gussee', position: 'Bartender', selected: false},
+    {name: 'Luna Arenna', position: 'Host', selected: false},
+    {name: 'Skyler Kaufman', position: 'Bartender', selected: false},
+    {name: 'Soi Rio', position: 'Waiter', selected: false},
+    {name: 'Sofia Ashtamker', position: 'Waiter', selected: false},
+    {name: 'Fred Vereceloni', position: 'Waiter', selected: false},
 ]
 
-
+const roleColorsOptions = [
+    {label: "Maximum Yellow", value: "#EEF33D"},
+    {label: "Light Sea Green", value: "#1CB2B2"},
+    {label: "Brilliant Lavender", value: "#FFC6FF"},
+    {label: "Ceil", value: "#998FD7"},
+    {label: "Waterspou", value: "#9BF6FF"},
+    {label: "Rajah", value: "#FFB864"}
+]
 
 const Home = () => {
     const [isDrawerOpen, setIsDrawerOpen]                       = useState(false)
@@ -83,9 +90,10 @@ const Home = () => {
     const [selectedShiftTemplate, setSelectedShiftTemplate]     = useState()
     const [isPublish, setIsPublish]                             = useState(true)
     const [shiftToEditPayload, setShiftToEditPayload]           = useState()
-    const [filteredRoles, setFilteredRoles]         = useState()
-    const [selectedRole, setSelectedRole]           = useState({})
-    const [filteredEmployeesList, setFilteredEmployeesList] = useState(employeesList)
+    const [filteredRoles, setFilteredRoles]                     = useState()
+    const [selectedRole, setSelectedRole]                       = useState({})
+    const [employeesList, setEmployeesList]                     = useState([...employees])
+    const [filteredEmployeesList, setFilteredEmployeesList]     = useState(employeesList)
 
     const handleSearchEmployees = (searchValue) => {
         const filtered = employees.filter(({firstName, lastName}) => {
@@ -97,12 +105,12 @@ const Home = () => {
 
     const handleSearchRoles = (searchValue) => {
         const filtered = rolesList.filter(role => role.position.toLowerCase().includes(searchValue.toLowerCase()))
-        setFilteredRoles(filtered);
+        setFilteredRoles(filtered)
     }
 
     const handleSearchEmployeesList = (searchValue) => {
         const filtered = employeesList.filter(employee => employee.name.toLowerCase().includes(searchValue.toLowerCase()))
-        setFilteredEmployeesList(filtered)
+        setFilteredEmployeesList(filtered);
     }
 
     const handlePublish = () => {
@@ -157,8 +165,7 @@ const Home = () => {
                                         variant="h5">
                                         Role
                                     </Typography>
-                                    <Icon
-                                        className="ml-22"
+                                    <Icon className="ml-22"
                                           color="#515151"
                                           size={12}>
                                         <IconIonChevronRight/>
@@ -185,8 +192,8 @@ const Home = () => {
                                     </Button>
                                 </Row>
                                 <div className="mt-38">
-                                    { filteredRoles.map((role) => (
-                                        <Row key={role.title} className="mt-14">
+                                    {filteredRoles.map((role) => (
+                                        <Row key={role.id} className="mt-14">
                                             <Role
                                                 title={role.title}
                                                 roleColor={role.color}
@@ -196,7 +203,7 @@ const Home = () => {
                                     ))}
                                 </div>
                             </Col>
-                            {selectedRole.title && (<Col>
+                            {Object.keys(selectedRole).length > 0 && (<Col>
                                 <div className="ml-74 mt-90">
                                     <Row className="ml-92">
                                         <Typography
@@ -228,7 +235,21 @@ const Home = () => {
                                                 variant="h5">
                                                 Color
                                             </Typography>
-                                            <p className="mt-20">Color Picker</p>
+                                            <Select className="mt-20"
+                                                    blurInputOnSelect={true}
+                                                    isSearchable={false}
+                                                    menuWidth={180}
+                                                    height={40}
+                                                    singleValueWeight={600}
+                                                    singleValueSize={16}
+                                                    singleValueFontFamily={'Inter'}
+                                                    singleValueSpacing={'0.38px'}
+                                                    singleValueColor={'#000000'}
+                                                    dropdownIconColor={'#94a3b8'}
+                                                    value={"red"}
+                                                    onChange={() => {
+                                                    }}
+                                                    options={roleColorsOptions}/>
                                         </Col>
                                         <Col className="ml-70">
                                             <Typography
@@ -252,12 +273,34 @@ const Home = () => {
                                                 >
                                                 </TextField>
                                             </Row>
-                                            <div style={{borderColor:"black", borderWidth:"1px", borderStyle:"solid"}}>
-                                                { filteredEmployeesList.map((e) => (
-                                                    <Row key={e.name} className="mt-14">
+                                            <div style={{
+                                                borderColor: "black", borderWidth: "1px", borderStyle: "solid"
+                                            }}>
+                                                {filteredEmployeesList.map((e) => (
+                                                    <Row key={e.id} className="mt-14">
                                                         <Employee
-                                                            name={e.name}
-                                                            position={e.position} />
+                                                            name={`${e.firstName} ${e.lastName}`}
+                                                            position={e.position}
+                                                            selected={e.position == selectedRole.title}
+                                                            onSelect={() => {
+                                                                setEmployeesList(prev => {
+                                                                    return prev.map(prevEmployee => {
+                                                                        if (prevEmployee.name === e.name) {
+                                                                            if (e.position === selectedRole.position) {
+                                                                                return {
+                                                                                    ...e,
+                                                                                    position: employees.find(em => em.name === e.name).position
+                                                                                }
+                                                                            }
+                                                                            return {
+                                                                                ...e, position: selectedRole.position
+                                                                            }
+                                                                        }
+                                                                        return prevEmployee
+                                                                    })
+                                                                })
+                                                            }}
+                                                        />
                                                     </Row>
                                                 ))}
                                             </div>
@@ -273,7 +316,7 @@ const Home = () => {
                                                     variant="default" outlined className="ml-16">
                                                 <Row className="justify-center align-center">
                                                     <Typography variant={'button1'} color="black">
-                                                        Delete Job
+                                                        Delete Role
                                                     </Typography>
                                                     <Icon className="ml-4"
                                                           color="#515151"
