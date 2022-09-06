@@ -19,10 +19,6 @@
     cursor: pointer !important;
 }
 
-.selectMenu {
-    z-index: 200 !important;
-}
-
 .selectMenuList::-webkit-scrollbar-thumb {
     background: #afafaf;
     border-radius: 60px;

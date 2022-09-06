@@ -33,3 +33,11 @@ interface AddEmployeeFormProps {
 	onSubmit: () => void
 	onClose: () => void
 }
+
+interface RoleProps {
+	title: string
+	roleColor: string
+	height: CSSProperties['height']
+	selected: boolean
+	onSelect: () => void
+}

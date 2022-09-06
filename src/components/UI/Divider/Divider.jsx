@@ -2,7 +2,7 @@ import style from './Divider.module.css';
 
 /**
  *
- * @param props {HRProps}
+ * @param props {import("UI").HRProps}
  * @returns {JSX.Element}
  * @constructor
  */

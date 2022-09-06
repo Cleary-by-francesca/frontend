@@ -96,7 +96,11 @@ export interface TextFieldProps extends DetailedHTMLProps<HTMLAttributes<HTMLInp
 	beforeIconSize?: CSSProperties['fontSize']
 	beforeIconColor?: CSSProperties['color']
 	rounded?: CSSProperties['borderRadius']
-	hasBorder?: boolean
+	noBorder?: boolean
+	color?: CSSProperties['color']
+	fontSize?: CSSProperties['fontSize']
+	fontWeight?: CSSProperties['fontWeight']
+	letterSpacing?: CSSProperties['letterSpacing']
 	borderColor?: CSSProperties['borderColor']
 	borderWidth?: CSSProperties['borderWidth']
 }
@@ -176,6 +180,19 @@ interface SelectProps extends StateManagerProps {
 	menuWidth?: CSSProperties['width']
 	isSelectable?: boolean,
 	noBorder?: boolean
+}
+
+interface SelectWithSearchProps extends DetailedHTMLProps<HTMLAttributes<HTMLDivElement>, HTMLDivElement> {
+	onSearchChange: (value: string) => void
+	options: any[]
+	selectContentComp: (data: any) => ReactNode
+	borderWidth?: CSSProperties['borderWidth']
+	borderColor?: CSSProperties['borderColor']
+	searchHeight?: CSSProperties['height']
+	width?: CSSProperties['width']
+	height?: CSSProperties['height']
+	placeholder?: string
+	hasShadow?: boolean
 }
 
 

@@ -213,8 +213,9 @@ const employeesData = [
  * employees: Employee[],
  * addShift: () => void,
  * addEmployee: (employee: Employee) => void,
- * getEmployee: (employee: Employee) => Employee,
+ * getEmployees: (employee: Employee) => Employee,
  * updateEmployee: (employees: Employee[]) => void,
+ * updateEmployeeRole: (employeeId: string, role: string) => void,
  * publishShifts: () => void,
  * archiveEmployee: (id: string) => void
 }} EmployeesContext */
@@ -291,8 +292,18 @@ const EmployeesProvider = ({children}) => {
         setEmployees(_employees)
     }
 
-    const getEmployees = (startDate) => {
-        setEmployees(employees)
+    const getEmployees = (title) => {
+        return employees.filter(({firstName, lastName}) => {
+            return `${firstName} ${lastName}`.toLowerCase().includes(title.toLowerCase())
+        })
+    }
+
+    const updateEmployeeRole = (employeeId, role) => {
+        const employeeIndex = employees.findIndex(employee => employee.id === employeeId)
+
+        setEmployees(produce(employees, draft => {
+            draft[employeeIndex].position = role
+        }))
     }
 
 
@@ -314,6 +325,7 @@ const EmployeesProvider = ({children}) => {
         addEmployee,
         getEmployees,
         updateEmployee,
+        updateEmployeeRole,
         archiveEmployee
     }}>{children}</EmployeesContext.Provider>
 }

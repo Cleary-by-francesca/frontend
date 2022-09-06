@@ -21,6 +21,8 @@ import {getRoles} from "../../services/Roles/Roles.js";
 import style from "./Home.module.scss";
 import {AnimatePresence} from "framer-motion";
 import ShiftSheet from "../../components/BottomSheets/ShiftSheet.jsx";
+import RolesSheet from "../../components/BottomSheets/RolesSheet.jsx";
+
 
 const shiftsTemplates = [
     {time: '9:00 - 11:00', position: 'Chef', shift: 'Morning'},
@@ -54,6 +56,7 @@ const yearsList = [
     {label: "2032", value: "2032"},
 ]
 
+
 const Home = () => {
     const [isDrawerOpen, setIsDrawerOpen]                       = useState(false)
     const [isRolesSheetOpen, setIsRolesSheetOpen]               = useState(false)
@@ -67,7 +70,6 @@ const Home = () => {
     const [selectedShiftTemplate, setSelectedShiftTemplate]     = useState()
     const [isPublish, setIsPublish]                             = useState(true)
     const [shiftToEditPayload, setShiftToEditPayload]           = useState()
-
 
     const handleSearchEmployees = (searchValue) => {
         const filtered = employees.filter(({firstName, lastName}) => {
@@ -88,12 +90,10 @@ const Home = () => {
 
     const handleAddingShift = ({id, position}, date) => {
         if (selectedShiftTemplate) {
-            if (selectedShiftTemplate?.position === position) {
-                const employees = addShift(id, date, selectedShiftTemplate)
-                setFilteredEmployees(employees)
-                setIsPublish(false)
-                setSelectedShiftTemplate(undefined)
-            }
+            const employees = addShift(id, date, selectedShiftTemplate)
+            setFilteredEmployees(employees)
+            setIsPublish(false)
+            setSelectedShiftTemplate(undefined)
         }
     }
 
@@ -117,7 +117,10 @@ const Home = () => {
 
             <AnimatePresence>
                 {isRolesSheetOpen && (
-                    <BottomSheet onBackdropClick={() => setIsRolesSheetOpen(false)}>
+                    <BottomSheet
+                        height={600}
+                        onBackdropClick={() => setIsRolesSheetOpen(false)}>
+                        <RolesSheet/>
                     </BottomSheet>
                 )}
             </AnimatePresence>
@@ -130,8 +133,7 @@ const Home = () => {
                         <ShiftSheet
                             employee={shiftToEditPayload?.employee}
                             initialData={shiftToEditPayload?.shift}
-                            date={shiftToEditPayload?.date}
-                        />
+                            date={shiftToEditPayload?.date}/>
                     </BottomSheet>
                 )}
             </AnimatePresence>
@@ -176,7 +178,8 @@ const Home = () => {
                 width="auto">
                 <Typography
                     className="font-bold"
-                    variant={'h4'}>
+                    color={'#2C2C2C'}
+                    variant={'h5'}>
                     Bella Italia
                 </Typography>
 

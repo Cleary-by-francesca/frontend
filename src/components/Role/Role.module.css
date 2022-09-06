@@ -1,0 +1,46 @@
+.dot {
+    height: 14px;
+    width: 14px;
+    border-radius: 100%;
+    margin: auto;
+}
+
+.role {
+    border-color: black;
+    border-width: 1px;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
+}
+
+.role h6 {
+    color: #515151;
+}
+
+.role:hover {
+    border: none;
+    background-color: #643D80;
+}
+
+.role:hover h6 {
+    color: #E8E8E8;
+}
+
+.role:active {
+    border: none;
+    background-color: #381C4F;
+}
+
+.role:active h6 {
+    color: #E8E8E8;
+}
+
+
+.selected {
+    border: none;
+    background-color: #53326C;
+}
+
+.selected h6 {
+    color: #E8E8E8;
+}
