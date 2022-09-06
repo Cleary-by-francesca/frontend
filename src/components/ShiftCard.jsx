@@ -33,6 +33,7 @@ const ShiftCard = (props) => {
                     rounded={8}
                     width={20}
                     height={'100%'}>
+
                 </Card>
             )}
             <Card

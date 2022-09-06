@@ -14,9 +14,7 @@ import {openAnimation} from "../Utils/utils.js";
  * @constructor
  */
 const Menu = (props) => {
-    const {
-              children, menuPlacement, onSelect, options, offsetX, offsetY, itemHeight, width, borderRadius, openOnClick
-          } = props;
+    const {children, menuPlacement, onSelect, options, offsetX, offsetY, itemHeight, width, borderRadius, openOnClick} = props;
 
     const [isOpen, setIsOpen] = useState(false);
 
