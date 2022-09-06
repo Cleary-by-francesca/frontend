@@ -2,54 +2,45 @@
     height: 14px;
     width: 14px;
     border-radius: 100%;
-    margin-left: 16.56px;
-    margin-top: 13px;
+    margin: auto;
 }
 
 .role {
     border-color: black;
     border-width: 1px;
-    border-radius: 8px;   
-    background: #FFFFFF;
+    border-radius: 8px;
+    background-color: #fff;
+    cursor: pointer;
 }
 
-.role :hover {
-    border-color: #643D80;
+.role h6 {
+    color: #515151;
+}
+
+.role:hover {
+    border: none;
     background-color: #643D80;
-    border-radius: 8px;
+}
+
+.role:hover h6 {
     color: #E8E8E8;
 }
+
+.role:active {
+    border: none;
+    background-color: #381C4F;
+}
+
+.role:active h6 {
+    color: #E8E8E8;
+}
+
 
 .selected {
-    background-color: #643D80;
+    border: none;
+    background-color: #53326C;
+}
+
+.selected h6 {
     color: #E8E8E8;
-}
-
-.selected .btn {
-    color: #E8E8E8;
-}
-
-.title {
-    align-items: center;
-}
-
-.edit {
-    width: 40px;
-    height: 36px; 
-    margin-right: 32px;
-}
-
-.btn {
-    width: 386px;
-    border-color: black;
-    border-width: 2px;
-    border-radius: 8px;
-    display: inline-flex;
-    flex-direction: row;
-    justify-content: space-between;
-    background-color: transparent;
-}
-
-.position {
-    display: inline-flex;
 }

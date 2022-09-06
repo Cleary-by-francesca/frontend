@@ -1,6 +1,12 @@
 .boxBorder {
     border-top: 1px #E8E8E8 solid;
     border-bottom: 1px #E8E8E8 solid;
+
+}
+
+.boxBorder p {
+    text-overflow: ellipsis;
+    overflow-x: hidden;
 }
 
 .schedulerMain {

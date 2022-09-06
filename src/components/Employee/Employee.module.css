@@ -1,17 +1,5 @@
 .btn {
     background-color: #FFFFFF;
+    border: none;
 }
 
-.employee {
-
-}
-
-.title {
-
-}
-
-.employeeList{
-    border-color: "black";
-    border-width: "1px";
-    border-style: "solid";
-}

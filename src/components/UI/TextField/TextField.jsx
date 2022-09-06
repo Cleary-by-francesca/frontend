@@ -13,13 +13,15 @@ import {fadeInOutAndDownToTop} from "../Utils/utils.js";
 
 const TextField = (props) => {
     const {
-              style, children, className, beforeIcon, beforeIconSize, beforeIconColor, rounded, height, width,
-              hasBorder, borderColor, borderWidth, label, ...restProps
+              style, children, className, beforeIcon, beforeIconSize,
+              beforeIconColor, rounded, height, width, color,
+              noBorder, borderColor, borderWidth, label,fontSize,
+              fontWeight, letterSpacing, ...restProps
           } = props;
 
 
     /** @type {CSSProperties | {}} */
-    const borderStyle = hasBorder ? {borderColor, borderWidth, borderStyle: 'solid'} : {}
+    const borderStyle = noBorder ? {} : {borderColor, borderWidth, borderStyle: 'solid'}
 
     return (
         <section className={`flex-col relative ${className}`}>
@@ -60,7 +62,14 @@ const TextField = (props) => {
                 )}
                 <input
                     className={`${cssStyle.textFieldInput}  ${!beforeIcon ? 'pl-10' : ''}`}
-                    {...restProps}/>
+                    {...restProps}
+                    style={{
+                        fontSize,
+                        fontWeight,
+                        letterSpacing,
+                        color,
+                        ...style
+                    }}/>
             </div>
         </section>
     )
@@ -71,7 +80,11 @@ TextField.defaultProps = {
     width:           'auto',
     height:          40,
     rounded:         5,
-    hasBorder:       true,
+    noBorder:        false,
+    fontSize:        14,
+    fontWeight:      500,
+    letterSpacing:   0.1,
+    color:           '#515151',
     borderColor:     '#6F6F6F',
     beforeIconColor: '#515151',
     beforeIconSize:  24,

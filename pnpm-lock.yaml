@@ -1,6 +1,7 @@
 lockfileVersion: 5.4
 
 specifiers:
+  '@formkit/auto-animate': 1.0.0-beta.3
   '@iconify/json': ^1.1.447
   '@svgr/core': ^5.5.0
   '@types/react': ^18.0.17
@@ -21,6 +22,7 @@ specifiers:
   vite: ^3.0.7
 
 dependencies:
+  '@formkit/auto-animate': 1.0.0-beta.3
   framer-motion: 7.2.0_biqbaboplfbrettd7655fr4n2y
   immer: 9.0.15
   moment: 2.29.4
@@ -504,6 +506,10 @@ packages:
     requiresBuild: true
     dev: true
     optional: true
+
+  /@formkit/auto-animate/1.0.0-beta.3:
+    resolution: {integrity: sha512-glsi+ytwQpxT/Ctr9GtcIfVr4dO6mJ04mQbNU8MFSdCdqMopHtyfU5Fib0+9lNFIeR0luY4/0NW95/2R5pKsag==}
+    dev: false
 
   /@iconify/json/1.1.461:
     resolution: {integrity: sha512-9Y41Tk9s3LDt4WI20XySNhNX6qTJ/WOBeE3O2iyoV9LJ6gFEDjp0uTPzfRU9NUx7D6VkvQ/htJEuRe9LmyMqUA==}

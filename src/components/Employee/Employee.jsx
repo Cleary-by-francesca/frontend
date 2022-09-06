@@ -7,22 +7,22 @@ import style from './Employee.module.css';
  * @returns {JSX.Element}
  * @constructor
  */
-const Employee = ( {name, position, selected, onSelect}) => {
+const Employee = ({name, position, selected, onSelect}) => {
 
     return (
-        <div className={`flex-row` }>
-            <div className={`${style.employee} ${selected? style.selected: ''}`}>
-            <Row>
-            <button className={`${style.btn}`} onClick={onSelect}>  
-                <Icon color="#515151" backgroundColor="#FFFFFF"
-                    size={20}>
-                   { selected ? <IconMdiCheckboxMarkedCircleOutline/> : <IconIcBaselineAddCircleOutline/> }
-                </Icon>
-            </button>
-            <Typography className={`${style.title}`} variant={'body1'}>
-                {name}
-            </Typography>
-            </Row>
+        <div className={`flex-row cursor-pointer`} onClick={onSelect}>
+            <div className={`${selected ? style.selected : ''}`}>
+                <Row>
+                    <Icon color="#515151"
+                          size={20}>
+                        {selected ? <IconMdiCheckboxMarkedCircleOutline/> : <IconIcBaselineAddCircleOutline/>}
+                    </Icon>
+                    <Typography
+                        className="ml-12"
+                        variant={'body1'}>
+                        {name}
+                    </Typography>
+                </Row>
             </div>
         </div>
     )
