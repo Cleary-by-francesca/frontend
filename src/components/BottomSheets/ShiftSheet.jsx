@@ -6,8 +6,11 @@ import ShiftForm from "../Forms/ShiftForm.jsx";
 
 const ShiftSheet = (props) => {
     const {
-              date, employee,
+              date,
+              employee,
               initialData,
+              onSubmit,
+              isOpen
           } = props
 
     const [rolesList, setRolesList] = useState([])
@@ -75,10 +78,15 @@ const ShiftSheet = (props) => {
                     </Row>
 
                     <Col className="pt-60 h-full w-full">
-                        <ShiftForm initialData={{
-                            ...initialData,
-                            position: employee.position
-                        }}/>
+                        <ShiftForm
+                            initialData={{
+                                ...initialData,
+                                date,
+                                id: employee.id,
+                                position: initialData?.position || employee.position
+                            }}
+                            isOpen={isOpen}
+                            onSubmit={onSubmit}/>
                     </Col>
                 </Col>
             </Row>

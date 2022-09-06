@@ -1,5 +1,5 @@
 import {Button, Col, Row, Select, TextField, Typography} from "../UI/index.jsx";
-import {useState} from "react";
+import {useState, useEffect} from "react";
 import {useEmployeesContext} from "../../context/EmployeesContext.jsx";
 import moment from "moment";
 
@@ -8,7 +8,7 @@ const shiftOptions    = [
     {label: "Noon Shift", value: "Noon"},
     {label: "Evning Shift", value: "Evning"},
     {label: "Between Shift", value: "Between"},
-    {label: "Something Else", value: "Something Else"}
+    {label: "Something Else", value: "Other"}
 ]
 const positionOptions = [
     {label: "Shift Manager", value: "Manager"},
@@ -18,16 +18,18 @@ const positionOptions = [
     {label: "Shift Chef", value: "Chef"}
 ]
 
-const hourOptions    = []
-const minutesOptions = [{label: "00", value: "00"},]
+const _hoursOptions = []
 
 for (let i = 0; i <= 23; i++) {
-    hourOptions.push({label: i.toString(), value: i.toString()})
+    _hoursOptions.push({label: i.toString(), value: i.toString()})
 }
 
+const _minutesOptions = [{label: "00", value: "00"},]
+
 for (let i = 1; i < 12; i++) {
-    minutesOptions.push({label: (i * 5).toString(), value: (i * 5).toString()})
+    _minutesOptions.push({label: (i * 5).toString(), value: (i * 5).toString()})
 }
+
 
 /**
  *
@@ -36,33 +38,60 @@ for (let i = 1; i < 12; i++) {
  * @constructor
  */
 const ShiftForm = (props) => {
-    const {initialData, isOpen, setFilteredEmployees, setIsPublish, setSelectedShiftTemplate} = props
+    const {initialData, onSubmit, isOpen} = props
+    
+    let time;
+    let untilTime;
+    let _hours = _hoursOptions[9].value
+    let _minutes = _minutesOptions[0].value
+    let _untilHours = _hoursOptions[14].value
+    let _untilMinutes = _minutesOptions[6].value
 
-    const [hours, setHours]               = useState(hourOptions[9])
-    const [minutes, setMinutes]           = useState(minutesOptions[6])
-    const [untilHours, setUntilHours]     = useState(hourOptions[14])
-    const [untilMinutes, setUntilMinutes] = useState(minutesOptions[6])
+    if (initialData.time) {
+        time = (initialData.time).split('-')[0].trim()
+        untilTime = (initialData.time).split('-')[1].trim()
+        _hours = time.split(':')[0]
+        _minutes = time.split(':')[1]
+        _untilHours = untilTime.split(':')[0]
+        _untilMinutes = untilTime.split(':')[1]    
+    }    
+
+
+    const [hours, setHours]               = useState({label: _hours, value: _hours})
+    const [minutes, setMinutes]           = useState({label: _minutes, value: _minutes})
+    const [untilHours, setUntilHours]     = useState({label: _untilHours, value: _untilHours})
+    const [untilMinutes, setUntilMinutes] = useState({label: _untilMinutes, value: _untilMinutes})
     const [shift, setShift]               = useState(initialData?.shift || "Morning")
     const [position, setPosition]         = useState(initialData.position)
     const {addShift}                      = useEmployeesContext()
+    const [hoursOptions, setHoursOptions] = useState([])
+    const [untilHoursOptions, setUntilHoursOptions] = useState([])
+    
+
+    useEffect(() => {
+        setHoursOptions(_hoursOptions)
+        setUntilHoursOptions(_hoursOptions.filter(({value}) => +value > hours.value))
+    }, [])
+
 
     const createShift = (event) => {
         event.preventDefault()
-        const employees = addShift(employeeDetails.employee.id, employeeDetails.date, ({
-            position: position, time: (`${hours.value}:${minutes.value}-${untilHours.value}:${untilMinutes.value}`),
-            shift:    shift
-        }))
-
-
-        setFilteredEmployees(employees)
-        setIsPublish(false)
-        setSelectedShiftTemplate(undefined)
-        isOpen(false)
+        const employees = addShift(
+            initialData.id,
+            initialData.date,
+            ({
+                position: position,
+                time: (`${hours.value}:${minutes.value}-${untilHours.value}:${untilMinutes.value}`),
+                shift:    shift
+            })
+        )
+        isOpen()
+        onSubmit(employees);
     }
 
     const generateTime = () => {
-        const startTime = moment(`${hours.value}:${minutes.value} am`, "HH:mm a")
-        const endTime   = moment(`${untilHours.value}:${untilMinutes.value} pm`, "HH:mm a")
+        const startTime = moment(`${hours.value}:${minutes.value}`, "HH:mm a")
+        const endTime   = moment(`${untilHours.value}:${untilMinutes.value}`, "HH:mm a")
         const duration  = moment.duration(endTime.diff(startTime))
 
         return duration.asHours()
@@ -85,10 +114,12 @@ const ShiftForm = (props) => {
                                         menuAnchorPoint="right"
                                         menuWidth={75}
                                         width={75}
-                                        options={hourOptions}
+                                        options={hoursOptions}
                                         value={hours}
                                         onChange={(option) => {
                                             setHours(option)
+                                            setUntilHours({label: +option.value, value: +option.value})
+                                            setUntilHoursOptions(_hoursOptions.filter(({value}) => +value > option.value))
                                         }}/>
 
                                     <Typography className="font-semibold mx-2" color="#515151"
@@ -99,9 +130,11 @@ const ShiftForm = (props) => {
                                         menuAnchorPoint="right"
                                         menuWidth={75}
                                         width={75}
-                                        options={minutesOptions}
+                                        options={_minutesOptions}
                                         value={minutes}
-                                        onChange={(option) => setMinutes(option)}/>
+                                        onChange={(option) => {
+                                            setMinutes(option)
+                                        }}/>
 
                                     <Typography className="font-semibold mx-6" color="#515151"
                                                 variant="button1">Until</Typography>
@@ -111,7 +144,7 @@ const ShiftForm = (props) => {
                                         menuAnchorPoint="right"
                                         menuWidth={75}
                                         width={75}
-                                        options={hourOptions}
+                                        options={untilHoursOptions}
                                         value={untilHours}
                                         onChange={(option) => setUntilHours(option)}/>
 
@@ -123,7 +156,7 @@ const ShiftForm = (props) => {
                                         menuAnchorPoint="right"
                                         menuWidth={75}
                                         width={75}
-                                        options={minutesOptions}
+                                        options={_minutesOptions}
                                         value={untilMinutes}
                                         onChange={(option) => setUntilMinutes(option)}/>
 
@@ -151,7 +184,7 @@ const ShiftForm = (props) => {
                                 menuWidth={360}
                                 width={360}
                                 options={shiftOptions}
-                                value={{label: `${shift} Shift`, value: shift}}
+                                value={shiftOptions.find(s => s.value === shift)}
                                 onChange={(option) => setShift(option.value)}/>
                         </Col>
                     </Col>

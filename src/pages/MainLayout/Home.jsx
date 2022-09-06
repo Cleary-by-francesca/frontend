@@ -56,20 +56,20 @@ const yearsList = [
     {label: "2032", value: "2032"},
 ]
 
-
 const Home = () => {
     const [isDrawerOpen, setIsDrawerOpen]                       = useState(false)
     const [isRolesSheetOpen, setIsRolesSheetOpen]               = useState(false)
     const [isShiftEditingSheetOpen, setIsShiftEditingSheetOpen] = useState(false)
     const [isLoading, setIsLoading]                             = useState(true)
     const [rolesList, setRolesList]                             = useState([])
-    const {employees, addShift, publishShifts}                  = useEmployeesContext()
+    const {employees, addShift, deleteShift, publishShifts}                  = useEmployeesContext()
     const [filteredEmployees, setFilteredEmployees]             = useState(employees)
     const [search, setSearch]                                   = useState('')
     const [startDate, setStartDate]                             = useState(new Date().toISOString())
     const [selectedShiftTemplate, setSelectedShiftTemplate]     = useState()
     const [isPublish, setIsPublish]                             = useState(true)
     const [shiftToEditPayload, setShiftToEditPayload]           = useState()
+
 
     const handleSearchEmployees = (searchValue) => {
         const filtered = employees.filter(({firstName, lastName}) => {
@@ -95,6 +95,17 @@ const Home = () => {
             setIsPublish(false)
             setSelectedShiftTemplate(undefined)
         }
+    }
+
+    const handleDeletingShift = ({id, date}) => {
+        const employees = deleteShift(id, date)
+        setFilteredEmployees(employees)
+    }
+
+    const onSubmit = (employees) => {
+        setFilteredEmployees(employees)
+        setIsPublish(false)
+        setSelectedShiftTemplate(undefined)
     }
 
     useEffect(() => {
@@ -133,7 +144,10 @@ const Home = () => {
                         <ShiftSheet
                             employee={shiftToEditPayload?.employee}
                             initialData={shiftToEditPayload?.shift}
-                            date={shiftToEditPayload?.date}/>
+                            date={shiftToEditPayload?.date}
+                            onSubmit={(employees) => onSubmit(employees)}
+                            isOpen={() => setIsShiftEditingSheetOpen(false)}
+                        />
                     </BottomSheet>
                 )}
             </AnimatePresence>
@@ -254,11 +268,16 @@ const Home = () => {
                     tdContentComp={({date, userData, shift, status, time, position}) => time && position ? (
                         <Col className="px-12 py-11 h-full w-full">
                             <ShiftCard
+                                employee={userData}
                                 shift={shift}
                                 status={status}
                                 positionColor={rolesList[rolesList.findIndex(role => role.title === position)].color}
                                 time={time}
-                                employeePosition={position}/>
+                                date={date}
+                                employeePosition={position}
+                                isOpen={() => setIsShiftEditingSheetOpen(true)}
+                                shiftToEdit={(shiftPayload) => setShiftToEditPayload(shiftPayload)}
+                                shiftToDelete={(shift) => handleDeletingShift(shift)}/>
                         </Col>
                     ) : (
                         <Col

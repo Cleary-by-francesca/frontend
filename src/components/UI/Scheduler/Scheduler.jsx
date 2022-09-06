@@ -17,7 +17,7 @@ const Scheduler = (props) => {
 
     useEffect(() => {
         setGeneratedDates(generateDates(startDate))
-    }, [data])
+    }, [data, startDate])
 
     return (
         <Row
