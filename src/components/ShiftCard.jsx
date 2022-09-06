@@ -32,6 +32,7 @@ const ShiftCard = (props) => {
                 style={{
                     zIndex: 10,
                 }}
+                hasShadow={false}
                 borderWidth={2}
                 hasBorder={status === "published"}
                 backgroundColor={'#F8F8F8'}

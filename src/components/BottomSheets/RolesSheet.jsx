@@ -13,8 +13,9 @@ import {
 import Role from "../Role/Role.jsx";
 import {useEffect, useState} from "react";
 import {useEmployeesContext} from "../../context/EmployeesContext.jsx";
-import {getRoles} from "../../services/Roles/Roles.js";
+import {getRoles, updateRole} from "../../services/Roles/Roles.js";
 import Employee from "../Employee/Employee.jsx";
+import produce from "immer";
 
 const roleColorsOptions = [
     {label: "#EEF33D", value: "#EEF33D"},
@@ -31,36 +32,64 @@ const roleColorsOptions = [
     {label: "#BB2765", value: "#BB2765"}
 ]
 
-const RolesSheet = () => {
-    const {employees}                                       = useEmployeesContext()
-    const [rolesList, setRolesList]                         = useState([])
-    const [filteredRoles, setFilteredRoles]                 = useState()
-    const [selectedRole, setSelectedRole]                   = useState({})
-    const [employeesList, setEmployeesList]                 = useState(employees)
-    const [filteredEmployeesList, setFilteredEmployeesList] = useState(employees)
-    const [isLoading, setIsLoading]                         = useState(true)
 
-    const handleSearchRoles = (searchValue) => {
-        const filtered = rolesList.filter(role => role.position.toLowerCase().includes(searchValue.toLowerCase()))
-        setFilteredRoles(filtered)
+const RolesSheet = () => {
+    const {employees, getEmployees, updateEmployeeRole}       = useEmployeesContext()
+    const [filteredRoles, setFilteredRoles]                   = useState([])
+    const [selectedRole, setSelectedRole]                     = useState({})
+    const [filteredEmployeesList, setFilteredEmployeesList]   = useState(employees)
+    const [isLoading, setIsLoading]                           = useState(true)
+    const [employeesRolesToChange, setEmployeesRolesToChange] = useState([])
+    const [search, setSearch]                                 = useState("")
+
+    const handleSearchRoles = async (searchValue) => {
+        const roles = await getRoles(searchValue)
+        setFilteredRoles(roles)
+    }
+
+    const handleRoleChange = (employee) => {
+        setEmployeesRolesToChange(produce(employeesRolesToChange, draft => {
+            const _employee = employeesRolesToChange.find(({id}) => id === employee.id)
+
+            if (_employee && _employee.role === "NoRole")
+                return draft.filter(({id}) => id !== employee.id)
+
+            if (employee.position === selectedRole.title)
+                return [...draft, {role: "NoRole", id: employee.id}]
+
+            if (employeesRolesToChange.length > 0 && _employee)
+                return draft.filter(({id}) => id !== employee.id)
+
+
+            return [...draft, {role: selectedRole.title, id: employee.id}]
+        }))
     }
 
     const handleSearchEmployeesList = (searchValue) => {
-        const filtered = employees.filter(({firstName, lastName}) => {
-            return `${firstName} ${lastName}`.toLowerCase().includes(searchValue.toLowerCase())
-        })
-        setFilteredEmployeesList(filtered);
+        setSearch(searchValue)
+        const employees = getEmployees(searchValue)
+        setFilteredEmployeesList(employees);
+    }
+
+    const handleSaveChanges = async () => {
+        employeesRolesToChange.forEach(({id, role}) => updateEmployeeRole(id, role))
+        await updateRole(selectedRole.id, selectedRole)
+        const roles = await getRoles()
+        setFilteredRoles(roles)
     }
 
     useEffect(() => {
         (async () => {
             const roles = await getRoles()
-            setRolesList(roles)
             setFilteredRoles(roles)
             setIsLoading(false)
         })()
     }, [])
 
+    useEffect(() => {
+        const employees = getEmployees(search)
+        setFilteredEmployeesList(employees)
+    }, [employees])
 
     return isLoading ? <div>Loading...</div> : (
         <Row className="pt-70 pb-60">
@@ -100,15 +129,19 @@ const RolesSheet = () => {
                     </Button>
                 </Row>
                 <div className="mt-38">
-                    {filteredRoles.map((role) => (
-                        <Row key={role.id} className="mt-14">
-                            <Role
-                                title={role.title}
-                                roleColor={role.color}
-                                selected={role.title === selectedRole.title}
-                                onSelect={() => setSelectedRole(role)}/>
-                        </Row>
-                    ))}
+                    {filteredRoles.map((role) => role.title !== "NoRole" && (
+                            <Row key={role.id} className="mt-14">
+                                <Role
+                                    title={role.title}
+                                    roleColor={role.color}
+                                    selected={role.title === selectedRole.title}
+                                    onSelect={() => {
+                                        if (selectedRole.title !== role.title) setEmployeesRolesToChange([])
+                                        setSelectedRole(role)
+                                    }}/>
+                            </Row>
+                        )
+                    )}
                 </div>
             </Col>
 
@@ -133,21 +166,14 @@ const RolesSheet = () => {
                             <IconIonChevronRight/>
                         </Icon>
 
-                        <TextField
-                            type="search"
-                            noBorder
-                            autoFocus
-                            placeholder="Add New Role"
+
+                        <Typography
+                            className="text-center"
+                            color={'#515151'}
                             fontWeight={500}
-                            fontSize={24}
-                            letterSpacing={0}
-                            value={selectedRole.title}
-                            onChange={({target}) => setSelectedRole({...selectedRole, title: target.value})}
-                            beforeIconSize={20}
-                            width={266}
-                            height={40}
-                            radius={32}>
-                        </TextField>
+                            variant={'h5'}>
+                            {selectedRole.title}
+                        </Typography>
                     </Row>
 
                     <Row className="ml-92 mt-68 justify-between h-full">
@@ -198,31 +224,14 @@ const RolesSheet = () => {
                                     placeholder="Search Employees"
                                     onSearchChange={handleSearchEmployeesList}
                                     selectContentComp={(employee) => (
-                                        <Row key={employee.id} className="mt-14">
-                                            <Employee
-                                                name={`${employee.firstName} ${employee.lastName}`}
-                                                position={employee.position}
-                                                selected={employee.position === selectedRole.title}
-                                                onSelect={() => {
-                                                    setEmployeesList(prev => {
-                                                        return prev.map(prevEmployee => {
-                                                            if (prevEmployee.name === employee.name) {
-                                                                if (employee.position === selectedRole.title) {
-                                                                    return {
-                                                                        ...employee,
-                                                                        position: employees.find(_employee => _employee.name === employee.name).position
-                                                                    }
-                                                                }
-                                                                return {
-                                                                    ...employee, position: selectedRole.title
-                                                                }
-                                                            }
-                                                            return prevEmployee
-                                                        })
-                                                    })
-                                                }}
-                                            />
-                                        </Row>
+                                        <Employee
+                                            key={employee.id}
+                                            name={`${employee.firstName} ${employee.lastName}`}
+                                            position={employee.position}
+                                            selected={((employee.position === selectedRole.title) || employeesRolesToChange.find(({id}) => id === employee.id)) && employeesRolesToChange.find(({id}) => id === employee.id)?.role !== "NoRole"}
+                                            onSelect={() => {
+                                                handleRoleChange(employee)
+                                            }}/>
                                     )}/>
                             </Col>
                         </Row>
@@ -233,6 +242,7 @@ const RolesSheet = () => {
                                     width={150}
                                     variant="primary"
                                     removePadding
+                                    onClick={handleSaveChanges}
                                     className="ml-588 mt-274">
 
                                     <Typography
