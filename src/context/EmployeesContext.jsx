@@ -36,7 +36,7 @@ const employeesData = [
     },
     {
         id:          '2',
-        status:      'Archived',
+        status:      'Active',
         firstName:   'Leonardo',
         lastName:    'Manacini',
         rating:      '19.5',
@@ -335,7 +335,8 @@ const EmployeesProvider = ({children}) => {
         setEmployees(produce(employees, draft => {
             draft.map(employee => {
                 if (employee.id === id) {
-                    employee.status = 'Archived'
+                    employee.status  = 'Archived'
+                    employee.lastDate = moment().toISOString()
                 }
                 return employee
             })

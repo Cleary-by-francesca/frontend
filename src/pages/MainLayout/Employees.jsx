@@ -226,7 +226,7 @@ const Employees = () => {
                                     spacing={0.1}
                                     variant={'button1'}
                                     color={'#515151'}>
-                                    {lastDate ? moment(lastDate).format('DD/MM/YYYY') : "Nol"}
+                                    {lastDate ? moment(lastDate).format('DD/MM/YYYY') : "\\\\"}
                                 </Typography>
                             )
                         },
