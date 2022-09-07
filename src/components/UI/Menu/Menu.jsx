@@ -14,7 +14,9 @@ import {openAnimation} from "../Utils/utils.js";
  * @constructor
  */
 const Menu = (props) => {
-    const {children, menuPlacement, onSelect, options, offsetX, offsetY, itemHeight, width, openOnClick} = props;
+    const {
+              children, menuPlacement, onSelect, options, offsetX, offsetY, itemHeight, width, borderRadius, openOnClick
+          } = props;
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -34,7 +36,9 @@ const Menu = (props) => {
                     offsetX={offsetX}
                     offsetY={offsetY}
                     elementWrapperProps={{
-                        onClick: () => {
+                        onMouseDown: (event) => event.stopPropagation(),
+                        onClick:     (event) => {
+                            event.stopPropagation()
                             openOnClick && setIsOpen(!isOpen)
                         },
                     }}
@@ -43,7 +47,7 @@ const Menu = (props) => {
                     portalContent={
                         <motion.div
                             {...openAnimation}
-                            style={{width}}
+                            style={{width, borderRadius}}
                             className={style.menu}>
                             {
                                 options.map((option, index) => (

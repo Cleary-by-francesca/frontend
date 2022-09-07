@@ -290,6 +290,20 @@ const EmployeesProvider = ({children}) => {
         return _employees
     }
 
+    const deleteShift = (employeeId, shiftDate) => {
+        const employeeIndex = employees.findIndex(employee => employee.id === employeeId)
+        const dateIndex     = employees[employeeIndex].dates.findIndex(date => date.date === shiftDate)
+
+        const _employees = produce(employees, (draft) => {
+            draft[employeeIndex].dates[dateIndex] = {
+                ...draft[employeeIndex].dates[dateIndex].date
+            }
+        })
+
+        setEmployees(_employees)
+        return _employees
+    }
+
     const publishShifts = () => {
         const _employees = employees.map(({dates, ...restData}) => ({
             ...restData,
@@ -331,6 +345,7 @@ const EmployeesProvider = ({children}) => {
     return <EmployeesContext.Provider value={{
         employees,
         addShift,
+        deleteShift,
         publishShifts,
         addEmployee,
         getEmployees,
