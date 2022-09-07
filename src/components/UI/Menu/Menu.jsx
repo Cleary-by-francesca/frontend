@@ -14,7 +14,9 @@ import {openAnimation} from "../Utils/utils.js";
  * @constructor
  */
 const Menu = (props) => {
-    const {children, menuPlacement, onSelect, options, offsetX, offsetY, itemHeight, width, borderRadius, openOnClick} = props;
+    const {
+              children, menuPlacement, onSelect, options, offsetX, offsetY, itemHeight, width, borderRadius, openOnClick
+          } = props;
 
     const [isOpen, setIsOpen] = useState(false);
 
@@ -47,38 +49,36 @@ const Menu = (props) => {
                             {...openAnimation}
                             style={{width, borderRadius}}
                             className={style.menu}>
-                            {
-                                options.map((option, index) => (
-                                    <div className="w-full" key={index}>
-                                        <div
-                                            onClick={() => {
-                                                onSelect(option)
-                                                setIsOpen(false)
-                                            }}
-                                            style={{height: itemHeight}}
-                                            className={`${style.menuItem} ${index === 0 ? style.firstMenuItem : ''} ${index === options.length - 1 ? style.lastMenuItem : ''}`}>
+                            {options.map((option, index) => (
+                                <div className="w-full" key={index}>
+                                    <div
+                                        onClick={() => {
+                                            onSelect(option)
+                                            setIsOpen(false)
+                                        }}
+                                        style={{height: itemHeight}}
+                                        className={`${style.menuItem} ${index === 0 ? style.firstMenuItem : ''} ${index === options.length - 1 ? style.lastMenuItem : ''}`}>
 
-                                            <Icon
-                                                flip={option.flipIcon}
-                                                size={20}
-                                                color={'#515151'}
-                                                className="pr-20">
-                                                {option.icon}
-                                            </Icon>
+                                        <Icon
+                                            flip={option.flipIcon}
+                                            size={20}
+                                            color={'#515151'}
+                                            className="pr-20">
+                                            {option.icon}
+                                        </Icon>
 
-                                            <Typography
-                                                variant={'body2'}>
-                                                {option.label}
-                                            </Typography>
-                                        </div>
-
-                                        {
-                                            index < options.length - 1 && (
-                                                <Divider horizontal color={'#E1E1E1'} opacity={0.25}/>)
-                                        }
+                                        <Typography
+                                            variant={'body2'}>
+                                            {option.label}
+                                        </Typography>
                                     </div>
-                                ))
-                            }
+
+                                    {
+                                        index < options.length - 1 && (
+                                            <Divider horizontal color={'#E1E1E1'} opacity={0.25}/>)
+                                    }
+                                </div>
+                            ))}
                         </motion.div>
                     }>
                     {children}

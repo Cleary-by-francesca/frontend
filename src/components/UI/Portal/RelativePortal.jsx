@@ -1,6 +1,7 @@
 import style from "./RelativePortal.module.scss"
 import {useEffect, useState, useRef} from "react";
 import Portal from "./Portal.jsx";
+import {AnimatePresence} from "framer-motion";
 
 /** @typedef {import("../index.jsx").Placement} Placement */
 
@@ -106,17 +107,17 @@ const RelativePortal = (props) => {
     return (
         <>
             <Portal>
-                {isOpen && (
-                    <div
-                        className={style.relativePortal}
-                        {...portalDivProps}
-                        style={{top, left}}
-                        ref={portalDivRef}>
-
-                        {portalContent}
-
-                    </div>
-                )}
+                <AnimatePresence>
+                    {isOpen && (
+                        <div
+                            className={style.relativePortal}
+                            {...portalDivProps}
+                            style={{top, left}}
+                            ref={portalDivRef}>
+                            {portalContent}
+                        </div>
+                    )}
+                </AnimatePresence>
             </Portal>
             <div
                 {...elementWrapperProps}
