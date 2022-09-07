@@ -10,7 +10,7 @@ import {Card, Typography, Icon, Col, Menu, Button} from "./UI/index.jsx"
 const ShiftCard = (props) => {
     const {
               positionColor, employee, date, time, status, employeePosition, shift, className, isOpen, shiftToEdit,
-              shiftToDelete, ...restProps
+              shiftToDelete, innerRef, ref, ...restProps
           } = props
 
     const editShift = () => {
@@ -24,16 +24,17 @@ const ShiftCard = (props) => {
 
     return (
         <div
+            ref={innerRef || ref}
             {...restProps}
             className={`${className} ${style.shiftCardWrapper}`}>
             {status !== "published" && (
                 <Card
                     className={style.shiftCardIndicator}
+                    hasShadow={false}
                     backgroundColor={positionColor}
                     rounded={8}
                     width={20}
                     height={'100%'}>
-
                 </Card>
             )}
             <Card

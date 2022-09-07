@@ -1,5 +1,6 @@
 import {motion} from "framer-motion";
 
+
 /**
  *
  * @param props {import("../UI").ColProps}
@@ -7,12 +8,13 @@ import {motion} from "framer-motion";
  * @constructor
  */
 const Col = (props) => {
-    const {children, className, cols, style, ...restProps} = props;
+    const {children, className, cols, style, innerRef, ref, ...restProps} = props;
 
     return (
         <motion.div
             {...restProps}
             className={`flex-col ${className}`}
+            ref={innerRef || ref}
             style={{
                 flex: cols,
                 ...style,
@@ -24,6 +26,7 @@ const Col = (props) => {
 
 Col.defaultProps = {
     className: '',
+    innerRef: ''
 }
 
 export default Col

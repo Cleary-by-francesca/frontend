@@ -39,34 +39,34 @@ for (let i = 1; i < 12; i++) {
  */
 const ShiftForm = (props) => {
     const {initialData, onSubmit, isOpen} = props
-    
+
     let time;
     let untilTime;
-    let _hours = _hoursOptions[9].value
-    let _minutes = _minutesOptions[0].value
-    let _untilHours = _hoursOptions[14].value
+    let _hours        = _hoursOptions[9].value
+    let _minutes      = _minutesOptions[0].value
+    let _untilHours   = _hoursOptions[14].value
     let _untilMinutes = _minutesOptions[6].value
 
     if (initialData.time) {
-        time = (initialData.time).split('-')[0].trim()
-        untilTime = (initialData.time).split('-')[1].trim()
-        _hours = time.split(':')[0]
-        _minutes = time.split(':')[1]
-        _untilHours = untilTime.split(':')[0]
-        _untilMinutes = untilTime.split(':')[1]    
-    }    
+        time          = (initialData.time).split('-')[0].trim()
+        untilTime     = (initialData.time).split('-')[1].trim()
+        _hours        = time.split(':')[0]
+        _minutes      = time.split(':')[1]
+        _untilHours   = untilTime.split(':')[0]
+        _untilMinutes = untilTime.split(':')[1]
+    }
 
 
-    const [hours, setHours]               = useState({label: _hours, value: _hours})
-    const [minutes, setMinutes]           = useState({label: _minutes, value: _minutes})
-    const [untilHours, setUntilHours]     = useState({label: _untilHours, value: _untilHours})
-    const [untilMinutes, setUntilMinutes] = useState({label: _untilMinutes, value: _untilMinutes})
-    const [shift, setShift]               = useState(initialData?.shift || "Morning")
-    const [position, setPosition]         = useState(initialData.position)
-    const {addShift}                      = useEmployeesContext()
-    const [hoursOptions, setHoursOptions] = useState([])
+    const [hours, setHours]                         = useState({label: _hours, value: _hours})
+    const [minutes, setMinutes]                     = useState({label: _minutes, value: _minutes})
+    const [untilHours, setUntilHours]               = useState({label: _untilHours, value: _untilHours})
+    const [untilMinutes, setUntilMinutes]           = useState({label: _untilMinutes, value: _untilMinutes})
+    const [shift, setShift]                         = useState(initialData?.shift || "Morning")
+    const [position, setPosition]                   = useState(initialData.position)
+    const {addShift}                                = useEmployeesContext()
+    const [hoursOptions, setHoursOptions]           = useState([])
     const [untilHoursOptions, setUntilHoursOptions] = useState([])
-    
+
 
     useEffect(() => {
         setHoursOptions(_hoursOptions)
@@ -76,15 +76,14 @@ const ShiftForm = (props) => {
 
     const createShift = (event) => {
         event.preventDefault()
-        const employees = addShift(
-            initialData.id,
-            initialData.date,
-            ({
-                position: position,
-                time: (`${hours.value}:${minutes.value}-${untilHours.value}:${untilMinutes.value}`),
-                shift:    shift
-            })
-        )
+
+        const shiftObject = {
+            position: position,
+            time:     (`${hours.value}:${minutes.value} - ${untilHours.value}:${untilMinutes.value}`),
+            shift:    shift
+        }
+
+        const employees = addShift(initialData.id, initialData.date, shiftObject)
         isOpen()
         onSubmit(employees);
     }
@@ -106,7 +105,8 @@ const ShiftForm = (props) => {
                     <Col>
                         <Row>
                             <Col>
-                                <Typography className="font-semibold mb-8 " color="#515151" variant="h5">Time</Typography>
+                                <Typography className="font-semibold mb-8 " color="#515151"
+                                            variant="h5">Time</Typography>
 
                                 <Row className="align-center">
                                     <Select

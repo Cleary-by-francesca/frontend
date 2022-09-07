@@ -11,9 +11,7 @@ const Main = () => {
     Plugins()
 
     return (
-        <React.StrictMode>
-            <App/>
-        </React.StrictMode>
+        <App/>
     )
 }
 

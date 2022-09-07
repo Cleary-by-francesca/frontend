@@ -1,5 +1,6 @@
 import cssStyle from './Drawer.module.css'
-import {Icon, Typography} from "../index.jsx"
+import { Icon, Typography } from "../index.jsx"
+import React from 'react'
 
 /**
  *
@@ -9,19 +10,20 @@ import {Icon, Typography} from "../index.jsx"
  */
 const Drawer = (props) => {
     const {
-              children, position, labelContent, onLabelClick, labelColor, top, height, className, isOpen, style,
-              ...restProps
-          } = props
+        children, position, labelContent, onLabelClick, labelColor, top, height, className, isOpen, style, innerRef, ref,
+        ...restProps
+    } = props
 
     /** @type {CSSProperties}*/
-    const positionStyle = position === 'left' ? {left: 0} : {right: 0}
+    const positionStyle = position === 'left' ? { left: 0 } : { right: 0 }
 
     /** @type {CSSProperties}*/
-    const labelPositionStyle = position === 'left' ? {left: 156} : {right: 156}
+    const labelPositionStyle = position === 'left' ? { left: 156 } : { right: 156 }
 
     return (
         <div className={`relative ${isOpen ? cssStyle.drawerWrapperOpen : cssStyle.drawerWrapperClosed}`}>
             <div
+                ref={innerRef || ref}
                 {...restProps}
                 className={`${cssStyle.drawer} ${className}`}
                 style={{
@@ -40,7 +42,7 @@ const Drawer = (props) => {
                 style={{
                     top: top + height / 2 - 20,
                     ...labelPositionStyle,
-                    color:    labelColor,
+                    color: labelColor,
                     fontSize: 14,
                 }}>
                 <Typography variant={'subtitle2'}>
@@ -51,7 +53,7 @@ const Drawer = (props) => {
                     size={18}
                     width={18}
                     height={18}>
-                    <IconMdiChevronDown/>
+                    <IconMdiChevronDown />
                 </Icon>
             </button>
         </div>
@@ -59,10 +61,11 @@ const Drawer = (props) => {
 }
 
 Drawer.defaultProps = {
-    className:  '',
-    top:        200,
-    height:     600,
-    position:   'left',
+    className: '',
+    top: 200,
+    height: 600,
+    innerRef: '',
+    position: 'left',
     labelColor: '#6F6F6F'
 }
 
