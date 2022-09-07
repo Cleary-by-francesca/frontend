@@ -143,28 +143,28 @@ const Login = () => {
                                 horizontal/>
                         </Row>
 
-                        <Button
-                            className="mt-22"
-                            variant={'default'}
-                            rounded={8}
-                            height={46}
-                            width={'100%'}
-                            outlined>
-                            <Row className="justify-center align-center">
-                                <Icon size={20}>
-                                    <IconLogosGoogleIcon/>
-                                </Icon>
-                                <Typography
-                                    className="pl-4"
-                                    color={'#515151'}
-                                    fontWeight={400}
-                                    size={16}
-                                    variant={'button1'}>
-                                    Continue with Google
-                                </Typography>
-                            </Row>
-                        </Button>
                     </form>
+                    <Button
+                        className="mt-22"
+                        variant={'default'}
+                        rounded={8}
+                        height={46}
+                        width={336}
+                        outlined>
+                        <Row className="justify-center align-center">
+                            <Icon size={20}>
+                                <IconLogosGoogleIcon/>
+                            </Icon>
+                            <Typography
+                                className="pl-4"
+                                color={'#515151'}
+                                fontWeight={400}
+                                size={16}
+                                variant={'button1'}>
+                                Continue with Google
+                            </Typography>
+                        </Row>
+                    </Button>
                 </Col>
         </>
     )
