@@ -22,14 +22,14 @@ import style from "./Home.module.scss";
 import {AnimatePresence} from "framer-motion";
 import ShiftSheet from "../../components/BottomSheets/ShiftSheet.jsx";
 import RolesSheet from "../../components/BottomSheets/RolesSheet.jsx";
-
+import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd';
 
 const shiftsTemplates = [
-    {time: '9:00 - 11:00', position: 'Chef', shift: 'Morning'},
-    {time: '9:00 - 15:00', position: 'Host', shift: 'Morning'},
-    {time: '9:00 - 16:00', position: 'Waiter', shift: 'Morning'},
-    {time: '16:00 - 21:00', position: 'Bartender', shift: 'Evening'},
-    {time: '9:00 - 13:00', position: 'Manager', shift: 'Morning'},
+    { id: '1', time: '9:00 - 11:00', position: 'Chef', shift: 'Morning' },
+    { id: '2', time: '9:00 - 15:00', position: 'Host', shift: 'Morning' },
+    { id: '3', time: '9:00 - 16:00', position: 'Waiter', shift: 'Morning' },
+    { id: '4', time: '16:00 - 21:00', position: 'Bartender', shift: 'Evening' },
+    { id: '5', time: '9:00 - 13:00', position: 'Manager', shift: 'Morning' },
 ]
 
 const yearsList = [
@@ -60,15 +60,15 @@ const Home = () => {
     const [isDrawerOpen, setIsDrawerOpen]                       = useState(false)
     const [isRolesSheetOpen, setIsRolesSheetOpen]               = useState(false)
     const [isShiftEditingSheetOpen, setIsShiftEditingSheetOpen] = useState(false)
-    const [isLoading, setIsLoading]                             = useState(true)
-    const [rolesList, setRolesList]                             = useState([])
-    const {employees, addShift, deleteShift, publishShifts}                  = useEmployeesContext()
-    const [filteredEmployees, setFilteredEmployees]             = useState(employees)
-    const [search, setSearch]                                   = useState('')
-    const [startDate, setStartDate]                             = useState(new Date().toISOString())
-    const [selectedShiftTemplate, setSelectedShiftTemplate]     = useState()
-    const [isPublish, setIsPublish]                             = useState(true)
-    const [shiftToEditPayload, setShiftToEditPayload]           = useState()
+    const [isLoading, setIsLoading] = useState(true)
+    const [rolesList, setRolesList] = useState([])
+    const { employees, addShift, deleteShift, publishShifts } = useEmployeesContext()
+    const [filteredEmployees, setFilteredEmployees] = useState(employees)
+    const [search, setSearch] = useState('')
+    const [startDate, setStartDate] = useState(new Date().toISOString())
+    const [isPublishable, setIsPublishable] = useState(false)
+    const [shiftToEditPayload, setShiftToEditPayload] = useState()
+    const [isDragging, setIsDragging] = useState(false)
 
 
     const handleSearchEmployees = (searchValue) => {
@@ -81,20 +81,7 @@ const Home = () => {
 
     const handlePublish = () => {
         publishShifts()
-        setIsPublish(true)
-    }
-
-    const handleSelectShiftTemplate = (shiftTemplate) => {
-        setSelectedShiftTemplate(shiftTemplate)
-    }
-
-    const handleAddingShift = ({id, position}, date) => {
-        if (selectedShiftTemplate) {
-            const employees = addShift(id, date, selectedShiftTemplate)
-            setFilteredEmployees(employees)
-            setIsPublish(false)
-            setSelectedShiftTemplate(undefined)
-        }
+        setIsPublishable(false)
     }
 
     const handleDeletingShift = ({id, date}) => {
@@ -104,9 +91,34 @@ const Home = () => {
 
     const onSubmit = (employees) => {
         setFilteredEmployees(employees)
-        setIsPublish(false)
-        setSelectedShiftTemplate(undefined)
+        setIsPublishable(true)
     }
+
+    // const handleAddingShift = ({id, position}, date) => {
+    //     if (selectedShiftTemplate) {
+    //         const employees = addShift(id, date, selectedShiftTemplate)
+    //         setFilteredEmployees(employees)
+    //         setIsPublish(false)
+    //         setSelectedShiftTemplate(undefined)
+    //     }
+    // }
+
+    const onDragEnd = (result) => {
+        const { source, destination } = result;
+
+        setIsDragging(false)
+
+        if (!destination) {
+            return;
+        }
+
+        const shiftTemplate = shiftsTemplates[source.index]
+        const [employeeId, date] = destination.droppableId.split('__')
+        const employees = addShift(employeeId, date, shiftTemplate)
+        setFilteredEmployees(employees)
+        if (!isPublishable) setIsPublishable(true)
+    };
+
 
     useEffect(() => {
         (async () => {
@@ -146,20 +158,23 @@ const Home = () => {
                             initialData={shiftToEditPayload?.shift}
                             date={shiftToEditPayload?.date}
                             onSubmit={(employees) => onSubmit(employees)}
-                            isOpen={() => setIsShiftEditingSheetOpen(false)}
-                        />
+                            isOpen={() => setIsShiftEditingSheetOpen(false)}/>
                     </BottomSheet>
                 )}
             </AnimatePresence>
 
 
-            <Drawer
-                labelContent="Shifts Templates"
-                position="right"
-                top={185}
-                height={600}
-                onLabelClick={() => setIsDrawerOpen(!isDrawerOpen)}
-                isOpen={isDrawerOpen}>
+            <DragDropContext onDragStart={() => setIsDragging(true)} onDragEnd={onDragEnd}>
+                <Droppable droppableId="ITEMS" isDropDisabled={true}>
+                    {(provided) => (
+                        <Drawer
+                            innerRef={provided.innerRef}
+                            labelContent="Shifts Templates"
+                            position="right"
+                            top={185}
+                            height={600}
+                            onLabelClick={() => setIsDrawerOpen(!isDrawerOpen)}
+                            isOpen={isDrawerOpen}>
 
                 <Typography className="pl-24 pr-14 pt-14 pb-2"
                             spacing={0.1}
@@ -169,22 +184,43 @@ const Home = () => {
                     to the schedule
                 </Typography>
 
-                {shiftsTemplates.map(({shift, position, time}, index) => (
-                    <Col
-                        className="ml-18 mr-10 mt-22"
-                        style={{height: 56}}
-                        key={index}>
-                        <ShiftCard
-                            className="cursor-pointer"
-                            onClick={() => handleSelectShiftTemplate({position, time, shift})}
-                            shift={shift}
-                            positionColor={rolesList[rolesList.findIndex(role => role.title === position)].color}
-                            employeePosition={position}
-                            time={time}
-                            key={index}/>
-                    </Col>
-                ))}
-            </Drawer>
+                            {shiftsTemplates.map(({ shift, position, time, id }, index) => (
+                                <Draggable
+                                    key={id}
+                                    draggableId={id}
+                                    index={index}>
+                                    {(provided, snapshot) => (
+                                        <Col
+                                            className="ml-18 mr-10 mt-22"
+                                            style={{ height: 56 }}>
+
+                                            <ShiftCard
+                                                innerRef={provided.innerRef}
+                                                {...provided.draggableProps}
+                                                {...provided.dragHandleProps}
+                                                style={
+                                                    provided.draggableProps.style
+                                                }
+                                                className="cursor-pointer"
+                                                shift={shift}
+                                                positionColor={rolesList[rolesList.findIndex(role => role.title === position)].color}
+                                                employeePosition={position}
+                                                time={time} />
+
+                                            {snapshot.isDragging && (
+                                                <ShiftCard
+                                                    shift={shift}
+                                                    positionColor={rolesList[rolesList.findIndex(role => role.title === position)].color}
+                                                    employeePosition={position}
+                                                    time={time} />
+                                            )}
+                                        </Col>
+                                    )}
+                                </Draggable>
+                            ))}
+                        </Drawer>
+                    )}
+                </Droppable>
 
             <Card
                 className="flex-row mt-24 ml-60 mr-80 pl-20 align-center justify-between"
@@ -251,63 +287,67 @@ const Home = () => {
                     </Col>
                 </Row>
 
-                <Button
-                    disabled={isPublish}
-                    onClick={handlePublish}
-                    variant="primary">
-                    <Typography variant={'button1'} color="white">
-                        Publish
-                    </Typography>
-                </Button>
-            </Row>
+                    <Button
+                        disabled={!isPublishable}
+                        onClick={handlePublish}
+                        variant="primary">
+                        <Typography variant={'button1'} color="white">
+                            Publish
+                        </Typography>
+                    </Button>
+                </Row>
 
-            <Row className="ml-60 mr-80 pb-30 overflow-y-hidden">
-                <Scheduler
-                    startDate={startDate}
-                    data={filteredEmployees}
-                    tdContentComp={({date, userData, shift, status, time, position}) => time && position ? (
-                        <Col className="px-12 py-11 h-full w-full">
-                            <ShiftCard
-                                employee={userData}
-                                shift={shift}
-                                status={status}
-                                positionColor={rolesList[rolesList.findIndex(role => role.title === position)].color}
-                                time={time}
-                                date={date}
-                                employeePosition={position}
-                                isOpen={() => setIsShiftEditingSheetOpen(true)}
-                                shiftToEdit={(shiftPayload) => setShiftToEditPayload(shiftPayload)}
-                                shiftToDelete={(shift) => handleDeletingShift(shift)}/>
-                        </Col>
-                    ) : (
-                        <Col
-                            className={`cursor-pointer h-full w-full`}
-                            onClick={() => {
-                                handleAddingShift(userData, date)
-                            }}>
-                            {!selectedShiftTemplate && (
-                                <Icon
-                                    onClick={() => {
-                                        setShiftToEditPayload({
-                                            employee: userData, date,
-                                        })
-                                        setIsShiftEditingSheetOpen(true)
-                                    }}
-                                    className={`cursor align-center justify-center flex-row ${style.addShiftIcon}`}
-                                    width="100%" height="100%" size={20} color="#515151">
-                                    <IconRiAddCircleLine/>
-                                </Icon>
-                            )}
-                        </Col>
-                    )}
-                    profileComp={({firstName, lastName, rating, image, position}) => (
-                        <Profile
-                            {...{name: `${firstName} ${lastName}`, rating, image}}
-                            ratingScale={20}
-                            indicatorColor={rolesList[rolesList.findIndex(role => role.title === position)].color}
-                            className="pl-22 pr-6 py-20 overflow-x-hidden"/>
-                    )}/>
-            </Row>
+                <Row className="ml-60 mr-80 pb-30 overflow-y-hidden">
+                    <Scheduler
+                        startDate={startDate}
+                        data={filteredEmployees}
+                        tdContentComp={({ date, userData, shift, status, time, position }) => time && position ? (
+                            <Col className="px-12 py-11 h-full w-full">
+                                <ShiftCard
+                                    employee={userData}
+                                    shift={shift}
+                                    status={status}
+                                    positionColor={rolesList[rolesList.findIndex(role => role.title === position)].color}
+                                    time={time}
+                                    date={date}
+                                    employeePosition={position}
+                                    isOpen={() => setIsShiftEditingSheetOpen(true)}
+                                    shiftToEdit={(shiftPayload) => setShiftToEditPayload(shiftPayload)}
+                                    shiftToDelete={(shift) => handleDeletingShift(shift)} />
+                            </Col>
+                        ) : (
+                            <Droppable key={"2"} droppableId={`${userData.id}__${date}`}>
+                                {(provided) => (
+                                    <Col
+                                        innerRef={provided.innerRef}
+                                        className={`cursor-pointer h-full w-full`}>
+
+                                        {!isDragging && (
+                                            <Icon
+                                                onClick={() => {
+                                                    setShiftToEditPayload({
+                                                        employee: userData, date,
+                                                    })
+                                                    setIsShiftEditingSheetOpen(true)
+                                                }}
+                                                className={`cursor align-center justify-center flex-row ${style.addShiftIcon}`}
+                                                width="100%" height="100%" size={20} color="#515151">
+                                                <IconRiAddCircleLine />
+                                            </Icon>
+                                        )}
+                                    </Col>
+                                )}
+                            </Droppable>
+                        )}
+                        profileComp={({ firstName, lastName, rating, image, position }) => (
+                            <Profile
+                                {...{ name: `${firstName} ${lastName}`, rating, image }}
+                                ratingScale={20}
+                                indicatorColor={rolesList[rolesList.findIndex(role => role.title === position)].color}
+                                className="pl-22 pr-6 py-20 overflow-x-hidden" />
+                        )} />
+                </Row>
+            </DragDropContext>
         </Col>
     )
 }

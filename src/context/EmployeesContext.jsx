@@ -281,7 +281,7 @@ const EmployeesProvider = ({children}) => {
 
             if (dateIndex !== -1) {
                 draft[employeeIndex].dates[dateIndex] = {
-                    ...draft[employeeIndex].dates[dateIndex], ...shift, status: "added"
+                    ...draft[employeeIndex].dates[dateIndex], ...shift, status: "edited"
                 }
             }
         })
