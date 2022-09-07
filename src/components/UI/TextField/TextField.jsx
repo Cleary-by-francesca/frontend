@@ -14,7 +14,7 @@ import {fadeInOutAndDownToTop} from "../Utils/utils.js";
 const TextField = (props) => {
     const {
               style, children, className, beforeIcon, beforeIconSize,
-              beforeIconColor, rounded, height, width, color,
+              beforeIconColor, rounded, height, width, color, lightPlaceholder,
               noBorder, borderColor, borderWidth, label,fontSize,
               fontWeight, letterSpacing, ...restProps
           } = props;
@@ -61,7 +61,7 @@ const TextField = (props) => {
                     </Icon>
                 )}
                 <input
-                    className={`${cssStyle.textFieldInput}  ${!beforeIcon ? 'pl-10' : ''}`}
+                    className={`${cssStyle.textFieldInput} ${lightPlaceholder ? cssStyle.lightPlaceholder : ''} ${!beforeIcon ? 'pl-10' : ''}`}
                     {...restProps}
                     style={{
                         fontSize,
@@ -76,19 +76,20 @@ const TextField = (props) => {
 }
 
 TextField.defaultProps = {
-    className:       '',
-    width:           'auto',
-    height:          40,
-    rounded:         5,
-    noBorder:        false,
-    fontSize:        14,
-    fontWeight:      500,
-    letterSpacing:   0.1,
-    color:           '#515151',
-    borderColor:     '#6F6F6F',
-    beforeIconColor: '#515151',
-    beforeIconSize:  24,
-    borderWidth:     1,
+    className:        '',
+    width:            'auto',
+    height:           40,
+    rounded:          5,
+    lightPlaceholder: false,
+    noBorder:         false,
+    fontSize:         14,
+    fontWeight:       500,
+    letterSpacing:    0.1,
+    color:            '#515151',
+    borderColor:      '#6F6F6F',
+    beforeIconColor:  '#515151',
+    beforeIconSize:   24,
+    borderWidth:      1,
 }
 
 export default TextField

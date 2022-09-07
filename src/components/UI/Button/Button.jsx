@@ -40,7 +40,7 @@ const Button = (props) => {
         if (!outlined) classes.push(disabled ? cssStyle.buttonDisabled : variants[variant])
     }
 
-    if (!icon && !noShadow) classes.push(cssStyle.buttonShadow)
+    if (!icon && !disabled && !noShadow) classes.push(cssStyle.buttonShadow)
 
 
     /** @type {CSSProperties} */

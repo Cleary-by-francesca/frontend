@@ -1,11 +1,11 @@
 import moment from "moment";
-import avatar3 from "../../assets/avatar3.png";
-import avatar2 from "../../assets/avatar2.png";
-import avatar4 from "../../assets/avatar4.png";
-import avatar5 from "../../assets/avatar5.png";
-import avatar9 from "../../assets/avatar9.png";
-import avatar7 from "../../assets/avatar7.png";
-import avatar8 from "../../assets/avatar8.png";
+import avatar3 from "../../assets/images/avatar3.png";
+import avatar2 from "../../assets/images/avatar2.png";
+import avatar4 from "../../assets/images/avatar4.png";
+import avatar5 from "../../assets/images/avatar5.png";
+import avatar9 from "../../assets/images/avatar9.png";
+import avatar7 from "../../assets/images/avatar7.png";
+import avatar8 from "../../assets/images/avatar8.png";
 
 const employeesData = [
     {
@@ -108,3 +108,5 @@ const employeesData = [
 ]
 
 export const getEmployees = async () => employeesData
+
+

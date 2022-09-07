@@ -11,7 +11,7 @@ import {
     Typography
 } from "../components/UI/index.jsx";
 import Logo from "../components/Logo.jsx";
-import avatar from "../assets/avatar1.png";
+import avatar from "../assets/images/avatar1.png";
 
 
 const MainLayout = () => {
@@ -60,9 +60,8 @@ const MainLayout = () => {
             <SideBar>
                 <Navigation
                     navigationOptions={[
-                        {icon: <IconLocalHomeOutlined/>, activeIcon: <IconLocalHomeFilled/>, to: '/'},
-                        {icon: <IconLocalUserOutlined/>, activeIcon: <IconLocalUserFilled/>, to: '/employees'},
-                        {icon: <IconLocalChatOutlined/>, activeIcon: <IconLocalChatFilled/>, to: '/chat'},
+                        {icon: <IconLocalHomeOutlined/>, activeIcon: <IconLocalHomeFilled/>, to: '/app'},
+                        {icon: <IconLocalUsersOutlined/>, activeIcon: <IconLocalUsersFilled/>, to: '/app/employees'}
                     ]}
                     navigationItem={(activeIndex, setActiveIndex, {icon, activeIcon, to}, index) => (
                         <NavigationLink

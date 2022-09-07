@@ -48,7 +48,7 @@ const RolesSheet = () => {
     }
 
     const handleRoleChange = (employee) => {
-        setEmployeesRolesToChange(produce(employeesRolesToChange, draft => {
+        setEmployeesRolesToChange(prevState => produce(prevState, draft => {
             const _employee = employeesRolesToChange.find(({id}) => id === employee.id)
 
             if (_employee && _employee.role === "NoRole")

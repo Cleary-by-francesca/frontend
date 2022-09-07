@@ -1,0 +1,110 @@
+.landingPage {
+    width: 100%;
+    height: 100%;
+    background-repeat: no-repeat;
+    background-size: auto;
+    background-position: center;
+}
+
+.landingPageContent {
+    z-index: 100;
+}
+
+.topRightRadialBackground {
+    position: absolute;
+    top: 0;
+    right: 0;
+    max-height: 100%;
+}
+
+.bottomLeftRadialBackground {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    max-height: 100%;
+}
+
+.appName {
+    position: absolute;
+    top: -60px;
+    text-shadow: 0px 30.8667px 30.8667px rgba(208, 208, 208, 0.25);
+}
+
+.logoWrapper {
+    position: absolute;
+    top: 10%;
+    left: 35%;
+}
+
+.chefHat {
+    position: absolute;
+    top: 0;
+    left: -200px;
+    width: fit-content;
+    height: fit-content;
+    transform: scale(0.9);
+}
+
+.landingPageSchedulerIcon {
+    position: absolute;
+    top: 180px;
+    left: 88px;
+    scale: 0.85;
+}
+
+.landingPageSchedulerText {
+    position: absolute;
+    top: 135px;
+    left: -200px;
+    scale: 0.85;
+}
+
+.landingPageSchedulerVector {
+    position: absolute;
+    top: 148px;
+    left: -28px;
+}
+
+.landingPageUsersIcon {
+    position: absolute;
+    top: 315px;
+    left: 120px;
+    scale: 0.85;
+}
+
+.landingPageUsersVector {
+    position: absolute;
+    top: 310px;
+    left: 0;
+    scale: 0.85;
+}
+
+.landingPageUsersText {
+    position: absolute;
+    width: 190px;
+    top: 330px;
+    left: -170px;
+    scale: 0.85;
+}
+
+.landingPageTasksIcon {
+    position: absolute;
+    top: 255px;
+    left: 540px;
+    scale: 0.85;
+}
+
+.landingPageTasksVector {
+    position: absolute;
+    top: 215px;
+    left: 560px;
+    scale: 0.85;
+}
+
+.landingPageTasksText {
+    position: absolute;
+    width: 200px;
+    top: 213px;
+    left: 670px;
+    scale: 0.85;
+}

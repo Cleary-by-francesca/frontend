@@ -27,7 +27,7 @@ export const generateDates = (startDate) => {
 
 export const filterDate = (dates, startDate, index) => {
     const _index = dates.findIndex(({date}) => moment(date).isSame(moment(startDate).add(index, 'days'), 'days'))
-    return _index > 0 ? dates[_index] : {}
+    return _index > -1 ? dates[_index] : {date: moment(startDate).add(index, 'days').toISOString()}
 }
 
 export const isSameDate = (date1, date2) => {

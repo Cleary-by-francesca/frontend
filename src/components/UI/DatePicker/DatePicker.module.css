@@ -4,10 +4,6 @@
     cursor: pointer;
 }
 
-.datePickerInput svg {
-    transform: scaleX(1.08);
-}
-
 
 .datePicker {
     top: 0;

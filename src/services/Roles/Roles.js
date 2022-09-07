@@ -1,5 +1,5 @@
 const rolesList = [
-    {id: '0', title: 'NoRole', color: '#515151', notVisible: true},
+    {id: '0', title: 'NoRole', color: '#A0A0A0', notVisible: true},
     {id: '1', title: 'Chef', color: '#EEF33D',},
     {id: '2', title: 'Waiter', color: '#1CB2B2',},
     {id: '3', title: 'Bartender', color: '#FFC6FF',},

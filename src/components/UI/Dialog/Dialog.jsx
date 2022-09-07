@@ -14,7 +14,7 @@ import {motion} from "framer-motion";
 const Dialog = (props) => {
     const {
               children, showAppBar, noBackdrop,
-              className, animationDirection,
+              className, animation,
               animationDuration, centered,
               height, width, onBackdropClick,
               fullScreen,
@@ -24,21 +24,37 @@ const Dialog = (props) => {
     return (
         <Portal>
             <motion.div
-                initial={{
-                    translateY: animationDirection === 'up' ? '100%' : animationDirection === 'down' ? '-100%' : '0',
-                    translateX: animationDirection === 'left' ? '-100%' : animationDirection === 'right' ? '100%' : '0',
-                }}
-                transition={{
-                    duration: animationDuration,
-                }}
-                animate={{
-                    translateY: '0%',
-                    translateX: '0%',
-                }}
-                exit={{
-                    translateY: animationDirection === 'up' ? '100%' : animationDirection === 'down' ? '-100%' : '0',
-                    translateX: animationDirection === 'left' ? '-100%' : animationDirection === 'right' ? '100%' : '0',
-                }}
+                initial={animation === "none" ? {} :
+                    animation === "fade" ?
+                        {
+                            opacity: 0
+                        } : {
+                            translateY: animation === 'up' ? '100%' : animation === 'down' ? '-100%' : '0',
+                            translateX: animation === 'left' ? '-100%' : animation === 'right' ? '100%' : '0',
+                        }
+                }
+                transition={animation === "none" ? {} :
+                    {
+                        duration: animationDuration,
+                    }
+                }
+                animate={animation === "none" ? {} :
+                    animation === "fade" ?
+                        {
+                            opacity: 1
+                        } : {
+                            translateY: '0%',
+                            translateX: '0%',
+                        }}
+                exit={animation === "none" ? {} :
+                    animation === "fade" ? {
+                            opacity: 0
+                        }
+                        :
+                        {
+                            translateY: animation === 'up' ? '100%' : animation === 'down' ? '-100%' : '0',
+                            translateX: animation === 'left' ? '-100%' : animation === 'right' ? '100%' : '0',
+                        }}
                 style={{zIndex: 1300}}
                 className={`${centered ? ' flex-col justify-center items-center' : ''} h-full w-full fixed relative ${className} ${showAppBar ? style.showAppBar : ''}`}>
                 {!noBackdrop && (
@@ -65,16 +81,16 @@ const Dialog = (props) => {
 }
 
 Dialog.defaultProps = {
-    className:          '',
-    height:             "400px",
-    width:              "400px",
-    showAppBar:         false,
-    animationDirection: 'up',
-    fullScreen:         false,
-    onBackdropClick:    () => {
+    className:         '',
+    height:            "400px",
+    width:             "400px",
+    showAppBar:        false,
+    fullScreen:        false,
+    animation:         'up',
+    onBackdropClick:   () => {
     },
-    centered:           false,
-    animationDuration:  0.3
+    centered:          false,
+    animationDuration: 0.3
 }
 
 export default Dialog

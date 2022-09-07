@@ -103,10 +103,12 @@ const employeesShifts = [
     },
     {
         id:    '7',
-        dates: [
+        shifts: [
             {date: moment(Date.now()).add(0, 'days').toISOString()},
             {
-                date:     moment(Date.now()).add(1, 'days').toISOString(), status: 'published', time: '9:00 - 16:00',
+                date:     moment(Date.now()).add(1, 'days').toISOString(),
+                status: 'published',
+                time: '9:00 - 16:00',
                 shift:    'Morning',
                 position: 'Waiter'
             },
