@@ -3,7 +3,7 @@ import cssStyle from './Icon.module.css';
 
 /**
  *
- * @param props {IconProps}
+ * @param props {import("../UI").IconProps}
  * @returns {JSX.Element}
  * @constructor
  */

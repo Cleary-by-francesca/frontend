@@ -148,7 +148,7 @@ export interface SchedulerProps {
 interface DialogProps extends HTMLMotionProps<"div"> {
 	height?: CSSProperties['height']
 	width?: CSSProperties['width']
-	animationDirection?: 'left' | 'right' | 'up' | 'down'
+	animation?: 'left' | 'right' | 'up' | 'down' | 'none' | 'fade'
 	fullScreen?: boolean
 	showAppBar?: boolean
 	noBackdrop?: boolean

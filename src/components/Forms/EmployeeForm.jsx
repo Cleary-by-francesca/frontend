@@ -27,7 +27,8 @@ const EmployeeForm = (props) => {
     const [mobileNumber, setMobileNumber] = useState(initialData.mobileNumber || '')
     const [email, setEmail]               = useState(initialData.email || '')
 
-    const submitForm = () => {
+    const handleSubmit = (event) => {
+        event.preventDefault()
         if (employeeId) {
             updateEmployee(employeeId, {
                 firstName,
@@ -63,7 +64,7 @@ const EmployeeForm = (props) => {
 
     return (
         isLoading ? <div>Loading...</div> : (
-            <form>
+            <form onSubmit={handleSubmit}>
                 <Row className="pt-90">
                     <Col>
                         <Card
@@ -166,17 +167,14 @@ const EmployeeForm = (props) => {
 
                     <Button
                         className="pl-20"
-                        onClick={(e) => {
-                            e.preventDefault()
-                            submitForm()
-                        }}
+                        type="submit"
                         width={162}>
                         <Typography
                             size={13}
                             fontWeight={400}
                             color={'white'}
                             variant={'button1'}>
-                            Add Employee
+                            {employeeId ? 'Update Employee' : 'Add Employee'}
                         </Typography>
                     </Button>
                 </Row>

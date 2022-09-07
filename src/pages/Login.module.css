@@ -1,0 +1,23 @@
+.loginContainer {
+    align-items: center;
+    height: 100%;
+    width: 100%;
+    padding-top: 140px;
+}
+
+.formContainer {
+    padding-top: 82px;
+    width: 336px;
+}
+
+.topRightRadialBackground {
+    position: absolute;
+    top: 0;
+    right: 0;
+}
+
+.bottomLeftRadialBackground {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+}

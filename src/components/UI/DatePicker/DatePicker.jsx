@@ -179,7 +179,7 @@ const DatePicker = (props) => {
 
                         {hasBeforeIcon && (
                             <Icon
-                                className={`mx-10 align-center flex-row`}
+                                className={`mx-12 align-center flex-row`}
                                 color={beforeIconColor}
                                 height={height - (borderWidth * 2)}
                                 width={beforeIconSize}
@@ -258,8 +258,8 @@ DatePicker.defaultProps = {
     borderWidth:            1,
     hasBeforeIcon:          true,
     hasAfterIcon:           false,
-    beforeIcon:             <IconOcticonCalendar16/>,
-    afterIcon:              <IconOcticonCalendar16/>,
+    beforeIcon:             <IconLocalSchedulerOutlined/>,
+    afterIcon:              <IconLocalSchedulerOutlined/>,
     beforeIconColor:        '#515151',
     afterIconColor:         '#515151',
     beforeIconSize:         20,

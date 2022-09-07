@@ -13,7 +13,7 @@ import {
     Typography
 } from "../../components/UI/index.jsx";
 import {useEmployeesContext} from "../../context/EmployeesContext.jsx";
-import {useCallback, useEffect, useMemo, useState} from "react";
+import {useEffect, useState} from "react";
 import {fadeInOutAnimation} from "../../components/UI/Utils/utils.js";
 import moment from "moment";
 import {AnimatePresence} from "framer-motion";
@@ -116,8 +116,8 @@ const Employees = () => {
                     <Dialog
                         noBackdrop
                         showAppBar
-                        animationDirection="right"
-                        animationDuration={0.4}
+                        animation="fade"
+                        animationDuration={0.25}
                         fullScreen
                         onBackdropClick={() => setIsAddEmployeeDialogOpen(false)}>
                         <EmployeeDialog
@@ -177,7 +177,7 @@ const Employees = () => {
                                         label:  'Move to archive',
                                         value:  'archive',
                                         action: () => {
-                                            archiveEmployeeHandler(item)
+                                            if (item.status !== 'Archived') archiveEmployeeHandler(item)
                                         },
                                         icon:   <IconBytesizeArchive/>,
                                     },

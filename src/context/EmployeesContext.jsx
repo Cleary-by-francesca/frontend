@@ -1,13 +1,13 @@
 import {createContext, useContext, useState} from "react";
 import moment from "moment"
 import produce from "immer"
-import avatar2 from "../assets/avatar2.png";
-import avatar3 from "../assets/avatar3.png";
-import avatar4 from "../assets/avatar4.png";
-import avatar5 from "../assets/avatar5.png";
-import avatar9 from "../assets/avatar9.png";
-import avatar7 from "../assets/avatar7.png";
-import avatar8 from "../assets/avatar8.png";
+import avatar2 from "../assets/images/avatar2.png";
+import avatar3 from "../assets/images/avatar3.png";
+import avatar4 from "../assets/images/avatar4.png";
+import avatar5 from "../assets/images/avatar5.png";
+import avatar9 from "../assets/images/avatar9.png";
+import avatar7 from "../assets/images/avatar7.png";
+import avatar8 from "../assets/images/avatar8.png";
 
 
 const employeesData = [
@@ -271,8 +271,18 @@ const EmployeesProvider = ({children}) => {
         const dateIndex     = employees[employeeIndex].dates.findIndex(date => date.date === shiftDate)
 
         const _employees = produce(employees, (draft) => {
-            draft[employeeIndex].dates[dateIndex] = {
-                ...draft[employeeIndex].dates[dateIndex], ...shift, status: "added"
+            if (dateIndex === -1) {
+                draft[employeeIndex].dates.push({
+                    date:   shiftDate,
+                    status: 'added',
+                    ...shift
+                })
+            }
+
+            if (dateIndex !== -1) {
+                draft[employeeIndex].dates[dateIndex] = {
+                    ...draft[employeeIndex].dates[dateIndex], ...shift, status: "added"
+                }
             }
         })
 
@@ -301,7 +311,7 @@ const EmployeesProvider = ({children}) => {
     const updateEmployeeRole = (employeeId, role) => {
         const employeeIndex = employees.findIndex(employee => employee.id === employeeId)
 
-        setEmployees(produce(employees, draft => {
+        setEmployees(prevState => produce(prevState, draft => {
             draft[employeeIndex].position = role
         }))
     }
